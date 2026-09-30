@@ -6,8 +6,6 @@ type AuthButtonsProps = {
   variant: 'loginButton' | 'registerButton';
 }
 
-
-
 export function AuthButtons({ text, onClick, variant }: AuthButtonsProps) {
   return (
     <button
