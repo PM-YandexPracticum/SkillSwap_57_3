@@ -80,3 +80,18 @@ button {
   background: none;
   font: inherit;
 }
+
+/* ─── Fonts ──────────────────────────────────────────────── */
+.jost-600 {
+  font-family: 'Jost', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.jost-500 {
+  font-family: 'Jost', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
