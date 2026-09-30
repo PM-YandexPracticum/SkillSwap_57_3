@@ -1,4 +1,4 @@
-import styles from './Auth-Buttons.module.css';
+import styles from './AuthButtons.module.css';
 
 type AuthButtonsProps = {
   text: string;
