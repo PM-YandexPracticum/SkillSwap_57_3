@@ -1,0 +1,19 @@
+.button {
+  cursor: pointer;
+  height: 48px;
+  border-radius: 12px;
+}
+
+.loginButton {
+  background-color: #FFFFFF;
+  width: 92px;
+  border: 2px solid #ABD27A;
+  color: #253017;
+}
+
+.registerButton {
+  color:#253017 ;
+  background-color: #ABD27A;
+  width: 208px;
+}
+
