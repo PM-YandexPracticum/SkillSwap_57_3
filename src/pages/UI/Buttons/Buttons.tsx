@@ -1,13 +1,5 @@
 import styles from './Buttons.module.css';
-
-type ButtonsProps = {
-  text: string;
-  onClick: () => void;
-  variant: 'whiteButton' | 'greenButton';
-  size: 'small' | 'medium' | 'large'
-
-
-}
+import {ButtonsProps} from './types'
 
 export function Buttons({ text, onClick, variant, size }: ButtonsProps) {
   return (
