@@ -1,5 +1,4 @@
 import likeDefault from '../../assets/icon/LikeDefault.svg'
-import likeActive from '../../assets/icon/LikeActive.svg'
 import notificationDefault from '../../assets/icon/NotificationDefault.svg'
 import notificationNew from '../../assets/icon/NotificationNew.svg'
 import moon from '../../assets/icon/Moon.svg'
