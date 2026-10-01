@@ -1,0 +1,25 @@
+.buttonAbout,
+.buttonSkills {
+  font-family: Roboto, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 2%;
+  vertical-align: middle;
+  color: #253017;
+}
+
+.buttonSkills {
+  display: flex;
+  gap: 4px;
+}
+
+.buttonSkillsArrow {
+  width: 16;
+  height: 7.935389518737793;
+  color: #253017;
+}
+
+.buttonSkillsArrowOpen {
+  transform: rotate(-90deg);
+}
