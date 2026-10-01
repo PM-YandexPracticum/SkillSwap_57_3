@@ -6,20 +6,15 @@ import { TextArea } from '@/shared/ui/TextArea';
 export default function CreateSkillPage() {
   const [description, setDescription] = useState('');
 
-  return (
+   return (
     <main>
       <h1>CreateSkillPage</h1>
       <p>Страница в разработке</p>
 
       <TextArea
-        id="description"
-        name="description"
-        label="Описание"
-        placeholder="Коротко опишите, чему можете научить"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        maxLength={500}
+        labelName="Описание"
+        onChange={setDescription}
       />
     </main>
-  )
+  );
 }
