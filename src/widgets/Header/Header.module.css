@@ -12,12 +12,14 @@
 .buttonSkills {
   display: flex;
   gap: 4px;
+  align-items: center;
 }
 
 .buttonSkillsArrow {
-  width: 16;
-  height: 7.935389518737793;
+  width: 16px;
+  height: 8px;
   color: #253017;
+
 }
 
 .buttonSkillsArrowOpen {
