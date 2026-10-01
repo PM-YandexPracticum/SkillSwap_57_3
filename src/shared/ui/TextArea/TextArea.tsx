@@ -1,32 +1,15 @@
-import { forwardRef } from 'react';
-import clsx from 'clsx';
-
-import type { TextAreaProps } from './types';
-
 import styles from './TextArea.module.css';
+import { TextAreaProps } from './types';
 
-export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  ({ label, error, className, id, ...props }, ref) => (
-    <div className={clsx(styles.wrapper, className)}>
-      {label && (
-        <label className={styles.label} htmlFor={id}>
-          {label}
-        </label>
-      )}
+export function TextArea({ labelName, onChange }: TextAreaProps) {
+  return (
+    <label className={styles.label}>
+      {labelName}
       <textarea
-        ref={ref}
-        id={id}
-        aria-invalid={Boolean(error)}
-        className={clsx(styles.textarea, error && styles.error)}
-        {...props}
+        className={styles.textarea}
+        placeholder="Коротко опишите, чему можете научить"
+        onChange={(e) => onChange(e.target.value)}
       />
-      {error && (
-        <span className={styles.errorText} role="alert">
-          {error}
-        </span>
-      )}
-    </div>
-  ),
-);
-
-TextArea.displayName = 'TextArea';
+    </label>
+  );
+}
