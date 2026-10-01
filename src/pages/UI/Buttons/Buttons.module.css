@@ -1,4 +1,7 @@
 .button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
   height: 48px;
   border-radius: 12px;
@@ -29,5 +32,13 @@
 
 .large {
   width: 284px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.extra-large {
+  width: 436px;
 }
 
