@@ -17,9 +17,12 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "baseUrl": ".",
+    "baseUrl": "src",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["*"],
+      "@ui/*": ["shared/ui/*"],
+      "@widgets/*": ["widgets/*"],
+      "@assets/*": ["assets/*"]
     }
   },
   "include": ["src"]
