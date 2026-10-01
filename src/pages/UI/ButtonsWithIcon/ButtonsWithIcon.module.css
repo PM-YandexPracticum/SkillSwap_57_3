@@ -1,0 +1,44 @@
+.button {
+  font-size: 16px;
+  cursor: pointer;
+  line-height: 24px;
+  height: 48px;
+  color: #253017;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  border: 2px solid #253017;
+  background-color: inherit;
+  font-family: Roboto, sans-serif;
+}
+
+.icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+ /* ширина кнопки */
+.small {
+  width: 187px;
+}
+
+.medium {
+  width: 200px;
+}
+
+.large {
+  width: 436px;
+}
+ /* gap */
+.gapSmall {
+  gap: 8px;
+}
+
+.gapLarge {
+  gap: 12px
+}
+ /* для svg в правой стороне */
+.right {
+  flex-direction: row-reverse;
+}
