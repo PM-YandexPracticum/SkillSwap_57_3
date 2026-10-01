@@ -1,9 +1,9 @@
-import likeDefault from '../../assets/icon/LikeDefault.svg'
-import notificationDefault from '../../assets/icon/NotificationDefault.svg'
-import notificationNew from '../../assets/icon/NotificationNew.svg'
-import moon from '../../assets/icon/Moon.svg'
+import likeDefault from '@assets/icon/LikeDefault.svg'
+import notificationDefault from '@assets/icon/NotificationDefault.svg'
+import notificationNew from '@assets/icon/NotificationNew.svg'
+import moon from '@assets/icon/Moon.svg'
 
-import { IconButton } from '../../pages/UI/IconButton/Icon-Button'
+import { IconButton } from '@ui/IconButton/Icon-Button'
 
 export function Header() {
   return (
