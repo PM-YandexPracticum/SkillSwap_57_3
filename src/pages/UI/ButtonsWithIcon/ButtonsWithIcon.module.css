@@ -18,7 +18,9 @@
   width: 24px;
   height: 24px;
 }
- /* ширина кнопки */
+
+/* ширина кнопки */
+
 .small {
   width: 187px;
 }
@@ -38,7 +40,9 @@
 .gapLarge {
   gap: 12px
 }
- /* для svg в правой стороне */
+
+/* для svg в правой стороне */
+
 .right {
   flex-direction: row-reverse;
 }
