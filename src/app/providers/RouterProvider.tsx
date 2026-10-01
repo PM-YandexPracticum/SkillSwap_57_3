@@ -16,7 +16,8 @@ const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'))
 export function AppRouter() {
   return (
     <>
-    <Header />
+      <Header />
+
       <BrowserRouter>
         <Suspense fallback={<div>Загрузка...</div>}>
           <Routes>
