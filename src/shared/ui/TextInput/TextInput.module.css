@@ -1,0 +1,18 @@
+.label {
+  display: flex;
+  flex-direction: column;
+  width: 435px;
+  gap: 5px;
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.input {
+  padding: 12px 20px;
+  border-radius: 15px;
+  border: 1px solid rgba(105 115 93);
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+}
