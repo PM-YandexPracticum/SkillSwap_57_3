@@ -1,5 +1,5 @@
 import ErrorSrc from '@assets/error500.svg';
-import {Buttons} from '../UI/Buttons/Buttons'
+import {Buttons} from '@ui/Buttons/Buttons'
 import styles from './NotServerPage.module.css'
 import { useNavigate } from 'react-router-dom';
 
