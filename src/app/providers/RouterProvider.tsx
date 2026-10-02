@@ -12,7 +12,7 @@ const FavoritesPage = lazy(() => import('@/pages/FavoritesPage'))
 const CreateSkillPage = lazy(() => import('@/pages/CreateSkillPage'))
 const LoginPage = lazy(() => import('@/pages/LoginPage'))
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'))
-const NotServerPage = lazy(() => import('@/pages/NotServerPage'))
+const NotServerPage = lazy(() => import('@/pages/NotServerPage').then((module) => ({ default: module.NotServerPage })))
 
 export function AppRouter() {
   return (
