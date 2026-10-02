@@ -1,0 +1,32 @@
+.container {
+  background-color: rgba(249 250 247);
+  padding: 32px 36px 60px;
+  display: flex;
+  gap: 25px;
+}
+
+.spotlight {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 1020px;
+  flex: 1;
+}
+
+.section_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.user_cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.categories {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}

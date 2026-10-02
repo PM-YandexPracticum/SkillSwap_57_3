@@ -1,15 +1,22 @@
-import { ButtonsWithIconProps } from "./types";
+import { ButtonsWithIconProps } from './types'
 import styles from './ButtonsWithIcon.module.css'
 
-export function ButtonsWithIcon({text,iconSrc,size,onClick,gap,position}: ButtonsWithIconProps) {
+export function ButtonsWithIcon({
+  text,
+  iconSrc,
+  size,
+  onClick,
+  gap,
+  position,
+  border = false,
+}: ButtonsWithIconProps) {
   return (
     <button
-    className={`${styles.button} ${styles[size]} ${styles[gap]} ${position === 'right'? styles.right : ''}`}
-    onClick={onClick}
+      className={`${styles.button} ${styles[size]} ${styles[gap]} ${position === 'right' ? styles.right : ''} ${border && styles.border}`}
+      onClick={onClick}
     >
-      <img src={iconSrc} alt="" className={styles.icon}/>
+      <img src={iconSrc} alt="" className={styles.icon} />
       <span>{text}</span>
     </button>
   )
 }
-

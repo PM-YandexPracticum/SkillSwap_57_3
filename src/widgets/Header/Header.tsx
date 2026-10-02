@@ -13,7 +13,7 @@ export function Header() {
   const [isSkillsOpen, setIsSkillsOpen] = useState(false)
 
   return (
-    <header>
+    <header className={styles.header}>
       {/* В коллбеках кнопок пока просто заглушка */}
       <IconButton icon={moon} onClick={() => {}} ariaLabel="Изменить тему" />
       <IconButton

@@ -1,3 +1,7 @@
+.header {
+  background-color: rgba(249 250 247);
+}
+
 .buttonAbout,
 .buttonSkills {
   font-family: Roboto, sans-serif;
@@ -19,7 +23,6 @@
   width: 16px;
   height: 8px;
   color: #253017;
-
 }
 
 .buttonSkillsArrowOpen {
