@@ -1,0 +1,1 @@
+export { NotServerPage } from "./NotServer"
