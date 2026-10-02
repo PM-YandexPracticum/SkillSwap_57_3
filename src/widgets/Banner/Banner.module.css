@@ -5,6 +5,8 @@
   align-items: center;
   justify-content: center;
   height: 692px;
+  background-color: rgb(255 255 255);
+  border-radius: 12px;
 }
 
 .banner img {
