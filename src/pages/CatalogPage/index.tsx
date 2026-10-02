@@ -1,6 +1,6 @@
 import { UserCard } from '@widgets/UserCard/index'
 import styles from './styles.module.css'
-import { ButtonsWithIcon } from '@/shared/ui/ButtonsWithIcon'
+import { ButtonsWithIcon } from '@ui/ButtonsWithIcon'
 
 export default function CatalogPage() {
   return (
