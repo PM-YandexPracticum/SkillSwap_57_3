@@ -19,6 +19,9 @@
 }
 
 /* ширина кнопки */
+.extra-small {
+  width: 147px;
+}
 
 .small {
   width: 187px;
