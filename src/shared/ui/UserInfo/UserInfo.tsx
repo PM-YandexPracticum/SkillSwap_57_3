@@ -1,9 +1,5 @@
+import type { UserInfoProps } from './types'
 import styles from './UserInfo.module.css'
-
-type UserInfoProps = {
-  name: string
-  avatarUrl?: string
-}
 
 export function UserInfo({ name }: UserInfoProps) {
   return (
