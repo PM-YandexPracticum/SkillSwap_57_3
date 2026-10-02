@@ -3,8 +3,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 12px 24px;
-  background-color: rgba(249, 250, 247, 1);
-  border-bottom: 1px solid rgba(224, 224, 224, 1);
+  background-color: rgb(249 250 247 / 100%);
+  border-bottom: 1px solid rgb(224 224 224 / 100%);
 }
 
 .left {
@@ -38,7 +38,7 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  color: rgba(37, 48, 23, 1); 
+  color: rgb(37 48 23 / 100%); 
   background: none;
   border: none;
   cursor: pointer;
@@ -64,16 +64,16 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  color: rgba(37, 48, 23, 1);
+  color: rgb(37 48 23 / 100%);
   background: transparent;
-  border: 1px solid rgba(37, 48, 23, 0.7);
+  border: 1px solid rgb(37 48 23 / 70%);
   padding: 8px 16px;
   border-radius: 8px;
   cursor: pointer;
 }
 
 .buttonLogin:hover {
-  border-color: rgba(37, 48, 23, 1);
+  border-color: rgb(37 48 23 / 100%);
 }
 
 
@@ -82,8 +82,8 @@
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
-  color: rgba(255, 255, 255, 1);
-  background-color: rgba(171, 210, 122, 1); 
+  color: rgb(255 255 255 / 100%);
+  background-color: rgb(171 210 122 / 100%); 
   border: none;
   padding: 8px 16px;
   border-radius: 8px;
@@ -91,5 +91,5 @@
 }
 
 .buttonRegister:hover {
-  background-color: rgba(141, 180, 92, 1);
+  background-color: rgb(141 180 92 / 100%);
 }
