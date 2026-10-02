@@ -27,3 +27,13 @@
   font-style: normal;
   font-display: swap;
 }
+
+@font-face {
+  font-family: Open-sans;
+  src:
+    url('../../assets/fonts/OpenSans/OpenSans-SemiBold.woff2') format('woff2'),
+    url('../../assets/fonts/OpenSans/OpenSans-SemiBold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}

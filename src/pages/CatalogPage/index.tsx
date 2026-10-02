@@ -1,10 +1,11 @@
 // TODO: реализовать страницу CatalogPage
 
+import { UserCard } from '@widgets/UserCard/index'
+
 export default function CatalogPage() {
   return (
     <main>
-      <h1>CatalogPage</h1>
-      <p>Страница в разработке</p>
+      <UserCard />
     </main>
   )
 }

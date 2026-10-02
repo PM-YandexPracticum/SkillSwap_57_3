@@ -1,0 +1,33 @@
+.general {
+  padding: 8px 12px;
+  font-family: Roboto, sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 2%;
+  width: fit-content;
+  border-radius: 20px;
+}
+
+.light_lavender {
+  background-color: rgb(238 231 247);
+}
+
+.light_beige {
+  background-color: rgb(235 229 197);
+}
+
+.light_peach {
+  background-color: rgb(247 235 229);
+}
+
+.light_pink {
+  background-color: rgb(247 231 242);
+}
+
+.pale_blue {
+  background-color: rgb(231 242 246);
+}
+
+.pale_green {
+  background-color: rgb(233 247 231);
+}
