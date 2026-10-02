@@ -5,7 +5,7 @@ import notificationNew from '@assets/icon/NotificationNew.svg'
 import moon from '@assets/icon/Moon.svg'
 import buttonSkillsArrow from '@assets/ButtonSvg/buttonSkillsArrow.svg'
 
-import { IconButton } from '@ui/IconButton/Icon-Button'
+import { IconButton } from '@ui/IconButton/index'
 
 import { useState } from 'react'
 
