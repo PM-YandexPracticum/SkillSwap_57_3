@@ -22,7 +22,8 @@
       "@/*": ["*"],
       "@ui/*": ["shared/ui/*"],
       "@widgets/*": ["widgets/*"],
-      "@assets/*": ["assets/*"]
+      "@assets/*": ["assets/*"],
+      "@hooks/*": ["shared/hooks/*"],
     }
   },
   "include": ["src"]
