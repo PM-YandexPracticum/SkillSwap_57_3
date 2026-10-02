@@ -1,0 +1,67 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 12px;
+  background-color: rgb(255 255 255);
+  width: 325px;
+}
+
+.card_spotlight {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 100px;
+  object-fit: cover;
+  object-position: center;
+  margin-right: 12px;
+}
+
+.user_info {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-family: Open-sans, sans-serif;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -1.1%;
+}
+
+.additional_info {
+  font-family: Roboto, sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 2%;
+}
+
+.like {
+  place-self: start;
+}
+
+.skills {
+  display: flex;
+  flex-direction: column;
+}
+
+.skills:not(:last-of-type) {
+  margin-bottom: 12px;
+}
+
+.skills:last-of-type {
+  margin-bottom: 20px;
+}
+
+.skills h4 {
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 2%;
+}
