@@ -1,11 +1,10 @@
 import styles from './Header.module.css'
-import likeDefault from '@assets/icon/LikeDefault.svg'
-import notificationDefault from '@assets/icon/NotificationDefault.svg'
-import notificationNew from '@assets/icon/NotificationNew.svg'
 import moon from '@assets/icon/Moon.svg'
 import buttonSkillsArrow from '@assets/ButtonSvg/buttonSkillsArrow.svg'
 
 import { IconButton } from '@ui/IconButton/index'
+import { HeaderSearch } from '@/shared/ui/HeaderSearch'
+import Logo from '@/shared/ui/Logo/Logo'
 
 import { useState } from 'react'
 
@@ -14,35 +13,45 @@ export function Header() {
 
   return (
     <header className={styles.header}>
-      {/* В коллбеках кнопок пока просто заглушка */}
-      <IconButton icon={moon} onClick={() => {}} ariaLabel="Изменить тему" />
-      <IconButton
-        icon={notificationDefault}
-        onClick={() => {}}
-        activeIcon={notificationNew}
-        ariaLabel="Уведомления"
-        isActive={false}
-      />
-      <IconButton icon={likeDefault} onClick={() => {}} ariaLabel="Избранное" />
+      <div className={styles.left}>
+        <Logo />
+        <nav className={styles.nav}>
+          <button type="button" className={styles.buttonAbout}>
+            О проекте
+          </button>
 
-      <button type="button" className={styles.buttonAbout}>
-        О проекте
-      </button>
+          <button
+            type="button"
+            className={styles.buttonSkills}
+            onClick={() => setIsSkillsOpen(!isSkillsOpen)}
+          >
+            Все навыки
+            <img
+              src={buttonSkillsArrow}
+              alt="стрелочка"
+              className={`${styles.buttonSkillsArrow} ${
+                isSkillsOpen ? styles.buttonSkillsArrowOpen : ''
+              }`}
+            />
+          </button>
+        </nav>
+      </div>
 
-      <button
-        type="button"
-        className={styles.buttonSkills}
-        onClick={() => setIsSkillsOpen(!isSkillsOpen)}
-      >
-        Все навыки
-        <img
-          src={buttonSkillsArrow}
-          alt="стрелочка"
-          className={`${styles.buttonSkillsArrow} ${
-            isSkillsOpen ? styles.buttonSkillsArrowOpen : ''
-          }`}
-        />
-      </button>
+      <div className={styles.center}>
+        <HeaderSearch />
+      </div>
+
+      <div className={styles.right}>
+        <IconButton icon={moon} onClick={() => {}} ariaLabel="Изменить тему" />
+        
+        <button type="button" className={styles.buttonLogin}>
+          Войти
+        </button>
+        
+        <button type="button" className={styles.buttonRegister}>
+          Зарегистрироваться
+        </button>
+      </div>
     </header>
   )
 }

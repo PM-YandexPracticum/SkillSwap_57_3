@@ -1,5 +1,35 @@
 .header {
-  background-color: rgba(249 250 247);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background-color: rgba(249, 250, 247, 1);
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  max-width: 400px;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .buttonAbout,
@@ -8,9 +38,10 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  letter-spacing: 2%;
-  vertical-align: middle;
-  color: #253017;
+  color: rgba(37, 48, 23, 1); 
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .buttonSkills {
@@ -22,9 +53,43 @@
 .buttonSkillsArrow {
   width: 16px;
   height: 8px;
-  color: #253017;
 }
 
 .buttonSkillsArrowOpen {
   transform: rotate(-90deg);
+}
+
+.buttonLogin {
+  font-family: Roboto, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: rgba(37, 48, 23, 1);
+  background: transparent;
+  border: 1px solid rgba(37, 48, 23, 0.7);
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.buttonLogin:hover {
+  border-color: rgba(37, 48, 23, 1);
+}
+
+
+.buttonRegister {
+  font-family: Roboto, sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: rgba(255, 255, 255, 1);
+  background-color: rgba(171, 210, 122, 1); 
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.buttonRegister:hover {
+  background-color: rgba(141, 180, 92, 1);
 }
