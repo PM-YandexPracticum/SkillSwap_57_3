@@ -1,0 +1,32 @@
+.label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 436px;
+  height: 96px;
+  border: 1px dashed #69735d;
+  font-size: 16px;
+  line-height: 24px;
+  border-radius: 15px;
+  font-weight: 400;
+  letter-spacing: 2%;
+  gap: 8px;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.secondLine {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  color: #508826;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+}
+
+.input {
+  display: none;
+}
