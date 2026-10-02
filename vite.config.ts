@@ -12,6 +12,7 @@ export default defineConfig({
       '@ui': resolve(__dirname, './src/shared/ui'),
       '@widgets': resolve(__dirname, './src/widgets'),
       '@assets': resolve(__dirname, './src/assets'),
+      '@hooks': resolve(__dirname, './src/shared/hooks'),
     },
   },
 })
