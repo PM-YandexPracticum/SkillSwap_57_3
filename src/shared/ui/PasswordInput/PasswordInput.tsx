@@ -1,16 +1,16 @@
+import { useState } from 'react'
 import styles from './PasswordInput.module.css'
 import { PasswordInputProps } from './types'
 import eyeInvisible from '@assets/icon/eyeInvisible.svg'
 import eyeVisible from '@assets/icon/eyeVisible.svg'
 
-export const PasswordInput = ({
-  labelName,
-  placeholder,
-  value,
-  onChange,
-  isPasswordVisible,
-  toggleVisibility,
-}: PasswordInputProps) => {
+export const PasswordInput = ({ labelName, placeholder, value, onChange }: PasswordInputProps) => {
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
+
+  const toggleVisibility = () => {
+    setIsPasswordVisible((prev) => !prev)
+  }
+
   return (
     <label className={styles.label}>
       {labelName}
