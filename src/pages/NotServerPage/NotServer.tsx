@@ -1,18 +1,18 @@
-import ErrorSrc from '@assets/error500.svg';
-import {Buttons} from '@ui/Buttons/Buttons'
+import ErrorSrc from '@assets/Errors/error500.svg'
+import { Buttons } from '@ui/Buttons/Buttons'
 import styles from './NotServerPage.module.css'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
 export function NotServerPage() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleGoHome = () => {
-    navigate("/")
+    navigate('/')
   }
 
   const handleReportError = () => {
-    console.log('Сообщение об ошибке отправлено');
-  };
+    console.log('Сообщение об ошибке отправлено')
+  }
 
   return (
     <main className={styles.main}>
@@ -23,18 +23,13 @@ export function NotServerPage() {
           <p>Попробуйте позже или вернитесь на главную страницу</p>
         </div>
         <div className={styles.buttons}>
-          <Buttons 
-            text='Сообщить об ошибке' 
+          <Buttons
+            text="Сообщить об ошибке"
             onClick={handleReportError}
-            variant='whiteButton'
-            size='large'
+            variant="whiteButton"
+            size="large"
           />
-          <Buttons 
-            text='На главную' 
-            onClick={handleGoHome}
-            variant='greenButton'
-            size='large'
-          />
+          <Buttons text="На главную" onClick={handleGoHome} variant="greenButton" size="large" />
         </div>
       </div>
     </main>
