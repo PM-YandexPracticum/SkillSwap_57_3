@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { Buttons } from '@ui/Buttons/Buttons'
-import error404 from '@assets/error-404.svg'
+import error404 from '@assets/Errors/error-404.svg'
 import styles from './NotFoundPage.module.css'
 
 export default function NotFoundPage() {
