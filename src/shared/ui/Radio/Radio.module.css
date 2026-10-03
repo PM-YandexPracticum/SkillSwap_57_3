@@ -1,0 +1,64 @@
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 2%;
+  color: rgb(37 48 23);
+}
+
+.input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.circle {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgb(0 0 0);
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: border-color 0.15s ease;
+}
+
+.circle::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgb(80 136 38);
+  opacity: 0;
+  inset: 0;
+  margin: auto;
+  transform: scale(0.5);
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+}
+
+.input:checked + .circle {
+  border-color: rgb(80 136 38);
+}
+
+.input:checked + .circle::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.label {
+  user-select: none;
+}
