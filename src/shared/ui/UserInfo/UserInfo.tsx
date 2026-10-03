@@ -5,7 +5,7 @@ export function UserInfo({ name }: UserInfoProps) {
   return (
     <div className={styles.user}>
       <div className={styles.avatar} />
-      <span>{name}</span>
+      <span className={styles.name}>{name}</span>
     </div>
   )
 }
