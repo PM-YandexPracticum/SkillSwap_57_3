@@ -1,17 +1,17 @@
 .page {
   padding: 40px 0 40px 42px;
-  background-color: #ffffff;
+  background-color: rgb(255 255 255);
   min-height: calc(100vh - 80px);
 }
 
 .title {
-  font-family: 'Jost', sans-serif;
+  font-family: Jost, sans-serif;
   font-size: 32px;
   font-weight: 500;
   line-height: 40px;
   letter-spacing: -0.011em;
-  color: #1a1a1a;
-  margin: 0 0 24px 0;
+  color: rgb(26 26 26);                    
+  margin: 0 0 24px;
 }
 
 .grid {
@@ -22,7 +22,7 @@
   align-items: start;
 }
 
-@media (max-width: 1280px) {
+@media (width <= 1280px) {
   .page {
     padding: 40px 20px;
   }
@@ -33,7 +33,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .page {
     padding: 24px 16px;
   }
