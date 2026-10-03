@@ -14,6 +14,7 @@ const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'))
 const NotServerPage = lazy(() =>
   import('@/pages/NotServerPage').then((module) => ({ default: module.NotServerPage })),
 )
+const AboutPage = lazy(() => import('@/pages/aboutPage'))
 
 export function AppRouter() {
   return (
@@ -25,6 +26,7 @@ export function AppRouter() {
               <Route path={ROUTES.HOME} element={<CatalogPage />} />
               <Route path={ROUTES.SKILL} element={<SkillPage />} />
               <Route path={ROUTES.FAVORITES} element={<FavoritesPage />} />
+              <Route path={ROUTES.ABOUT} element={<AboutPage />} />
 
               {/* Защищённые маршруты — добавь PrivateRoute обёртку */}
               <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
