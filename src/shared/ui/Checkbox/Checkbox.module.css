@@ -1,0 +1,44 @@
+.visuallyHidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  font-family: Roboto, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  cursor: pointer;
+}
+
+.checkbox {
+  display: inline-block;
+  margin-right: 8px;
+  inline-size: 20px;
+  block-size: 20px;
+  border: 1px solid rgba(0 0 0);
+  border-radius: 6px;
+}
+
+input[type='checkbox']:checked + .checkbox[data-variant='category'] {
+  background-image: url('../../../assets/icon/Category.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+}
+
+input[type='checkbox']:checked + .checkbox[data-variant='subcategory'] {
+  background-image: url('../../../assets/icon/Subcategory.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+}
