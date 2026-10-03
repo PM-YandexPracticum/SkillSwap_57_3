@@ -1,0 +1,113 @@
+.datePicker {
+  position: relative;
+  width: 208px;
+}
+
+.inputWrapper {
+  position: relative;
+  width: 208px;
+}
+
+.input {
+  width: 208px;
+  height: 48px;
+  box-sizing: border-box;
+  padding: 0 48px 0 16px;
+  border: 1px solid rgb(105 115 93);
+  border-radius: 12px;
+  font-size: 16px;
+  color: rgb(38 53 28);
+  outline: none;
+}
+
+.calendarButton {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.calendarIcon {
+  width: 24px;
+  height: 24px;
+}
+
+/* Вся карточка календаря */
+
+.calendarPopup {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 100;
+  width: 320px;
+  box-sizing: border-box;
+  padding: 30px 26px 20px;
+  border: 1px solid rgb(105 115 93);
+  border-radius: 18px;
+  background: rgb(255 255 255);
+}
+
+/* Месяц + год */
+
+.calendarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 18px;
+}
+
+.selectWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.calendarSelect {
+  appearance: none;
+  min-width: 90px;
+  padding: 0 24px 0 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 20px;
+  font-family: inherit;
+  color: rgb(38 53 28);
+  cursor: pointer;
+}
+
+.selectWrapper::after {
+  content: "";
+  position: absolute;
+  top: 45%;
+  right: 2px;
+  width: 9px;
+  height: 9px;
+  border-right: 2px solid rgb(38 53 28);
+  border-bottom: 2px solid rgb(38 53 28);
+  transform: translateY(-50%) rotate(45deg);
+  pointer-events: none;
+}
+
+/* Кнопки снизу */
+
+.calendarButtons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.calendarButtons > button {
+  flex: 1;
+  min-width: 0;
+}

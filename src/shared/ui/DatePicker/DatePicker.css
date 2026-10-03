@@ -1,0 +1,105 @@
+/* DatePicker.css нужен для стилизации внутренних классов самой библиотеки react-datepicker */
+.customCalendar {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+}
+
+.customCalendar .react-datepicker__month-container {
+  width: 100%;
+  float: none;
+}
+
+.customCalendar .react-datepicker__header {
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.customCalendar .react-datepicker__current-month {
+  display: none;
+}
+
+/* Пн Вт Ср Чт Пт Сб Вс */
+
+.customCalendar .react-datepicker__day-names {
+  display: grid;
+  grid-template-columns: repeat(7, 36px);
+  justify-content: center;
+  margin: 0 0 6px;
+}
+
+.customCalendar .react-datepicker__day-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  font-size: 16px;
+  line-height: 1;
+  color: rgb(77 141 42);
+}
+
+/* Месяц */
+
+.customCalendar .react-datepicker__month {
+  margin: 0;
+}
+
+/* Неделя */
+
+.customCalendar .react-datepicker__week {
+  display: grid;
+  grid-template-columns: repeat(7, 36px);
+  justify-content: center;
+  margin-bottom: 6px;
+}
+
+/* День */
+
+.customCalendar .react-datepicker__day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  border-radius: 50%;
+  font-size: 16px;
+  line-height: 1;
+  color: rgb(38 53 28);
+}
+
+/* Выбранный день */
+
+.customCalendar .react-datepicker__day--selected {
+  background: rgb(166 214 108);
+  color: rgb(38 53 28);
+}
+
+/* Дни соседнего месяца */
+
+.customCalendar .react-datepicker__day--outside-month {
+  color: rgb(163 168 159);
+}
+
+/* Hover */
+
+.customCalendar .react-datepicker__day:hover {
+  border-radius: 50%;
+  background: rgb(227 239 211);
+}
+
+/* Убираем синюю подсветку библиотеки */
+
+.customCalendar .react-datepicker__day--keyboard-selected {
+  background: transparent;
+}
+
+/* Недоступные даты */
+
+.customCalendar .react-datepicker__day--disabled {
+  color: rgb(199 199 199);
+}
