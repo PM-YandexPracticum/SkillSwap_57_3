@@ -1,0 +1,1 @@
+export { DevInfoCard } from './devInfoCard';
