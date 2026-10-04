@@ -1,0 +1,16 @@
+.page {
+  display: flex;
+  gap: 24px;
+  padding: 40px 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.sidebar {
+  flex-shrink: 0;
+  width: 244px;
+}
+
+.content {
+  flex: 1;
+}
