@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { TextInput } from '@ui/TextInput';
+import { Select } from '@ui/Select';
 import { TextArea } from '@ui/TextArea';
 import { FileInput } from '@ui/FileInput';
 import { Buttons } from '@ui/Buttons';
@@ -41,52 +43,30 @@ export function ShareForm({ onSubmit, onBack }: ShareFormProps) {
 
   return (
     <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
-      <label className={styles.label}>
-        Название навыка
-        <input
-          className={styles.input}
-          type="text"
-          placeholder="Введите название вашего навыка"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      </label>
+      <TextInput
+        labelName="Название навыка"
+        placeholder="Введите название вашего навыка"
+        value={name}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setName(e.target.value)
+        }
+      />
 
-      <label className={styles.label}>
-        Категория навыка
-        <select
-          className={styles.select}
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        >
-          <option value="" disabled>
-            Выберите категорию навыка
-          </option>
-          {CATEGORY_OPTIONS.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </label>
+      <Select
+        labelName="Категория навыка"
+        placeholder="Выберите категорию навыка"
+        options={CATEGORY_OPTIONS}
+        value={category}
+        onChange={(value: string) => setCategory(value)}
+      />
 
-      <label className={styles.label}>
-        Подкатегория навыка
-        <select
-          className={styles.select}
-          value={subcategory}
-          onChange={(e) => setSubcategory(e.target.value)}
-        >
-          <option value="" disabled>
-            Выберите подкатегорию навыка
-          </option>
-          {SUBCATEGORY_OPTIONS.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </label>
+      <Select
+        labelName="Подкатегория навыка"
+        placeholder="Выберите подкатегорию навыка"
+        options={SUBCATEGORY_OPTIONS}
+        value={subcategory}
+        onChange={(value: string) => setSubcategory(value)}
+      />
 
       <TextArea
         labelName="Описание"

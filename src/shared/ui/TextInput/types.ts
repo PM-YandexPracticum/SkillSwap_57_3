@@ -1,5 +1,6 @@
 export type TextInputProps = {
   labelName: string
   placeholder: string
-  onChange: () => string
+  value: string
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }

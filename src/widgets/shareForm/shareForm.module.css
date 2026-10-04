@@ -9,54 +9,6 @@
   border-radius: 12px;
 }
 
-.label {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;                            
-  font-family: Roboto, sans-serif;
-  font-weight: 400;                    
-  font-size: 16px;                     
-  line-height: 24px;                   
-  letter-spacing: 0.02em;              
-  color: rgb(37 48 23);
-}
-
-.input,
-.select {
-  padding: 12px 20px;
-  border-radius: 15px;
-  border: 1px solid rgb(105 115 93);
-  font-family: Roboto, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  background-color: transparent;
-  color: rgb(37 48 23);
-  width: 100%;
-  outline: none;
-}
-
-.input::placeholder {
-  color: rgb(105 115 93);
-}
-
-.select {
-  padding: 12px 44px 12px 20px;
-  border-radius: 15px;
-  border: 1px solid rgb(105 115 93);
-  font-family: Roboto, sans-serif;
-  font-size: 16px;
-  background-color: transparent;
-  color: rgb(37 48 23);
-  width: 100%;
-  outline: none;
-  cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='17' height='9' viewBox='0 0 17 9' fill='none'%3e%3cpath d='M1 1L8.5 8L16 1' stroke='%2369735D' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 20px center;
-  background-size: 17px 9px;
-}
-
 .buttons {
   display: flex;
   gap: 16px;
