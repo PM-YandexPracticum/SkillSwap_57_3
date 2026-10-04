@@ -31,6 +31,10 @@
   width: 200px;
 }
 
+.semi-medium {
+  width: 204px;
+}
+
 .large {
   width: 436px;
 }
@@ -53,4 +57,8 @@
 
 .border {
   border: 2px solid #253017;
+}
+
+.greenBorder {
+  border: 1px solid #ABD27A;
 }
