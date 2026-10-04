@@ -30,3 +30,8 @@
   flex-direction: column;
   gap: 40px;
 }
+
+.sidebar {
+  width: 324px;
+  flex-shrink: 0;
+}

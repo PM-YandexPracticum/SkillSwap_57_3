@@ -1,0 +1,23 @@
+.page {
+  padding: 40px 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.section {
+  margin-bottom: 40px;
+}
+
+.section h2 {
+  font-family: Jost, sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  color: rgb(37 48 23);
+}
+
+.similar {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
