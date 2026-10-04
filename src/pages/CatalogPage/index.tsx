@@ -1,11 +1,15 @@
-import { UserCard } from '@widgets/UserCard/index'
+import { UserCard } from '@widgets/UserCard'
 import styles from './styles.module.css'
 import { ButtonsWithIcon } from '@ui/ButtonsWithIcon'
+import { Filters } from '@widgets/Filters'
 
 export default function CatalogPage() {
   return (
     <main className={styles.container}>
-      <aside style={{ width: '324px', flexShrink: 0 }}>123</aside>
+      <aside style={{ width: '324px', flexShrink: 0 }}>
+        <Filters />
+      </aside>
+
       <div className={styles.categories}>
         <section className={styles.spotlight}>
           <div className={styles.section_header}>
@@ -25,6 +29,7 @@ export default function CatalogPage() {
             <UserCard />
           </div>
         </section>
+
         <section className={styles.spotlight}>
           <div className={styles.section_header}>
             <h2>Новое</h2>
@@ -43,6 +48,7 @@ export default function CatalogPage() {
             <UserCard />
           </div>
         </section>
+
         <section className={styles.spotlight}>
           <div className={styles.section_header}>
             <h2>Рекомендуем</h2>

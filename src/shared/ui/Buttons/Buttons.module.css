@@ -11,14 +11,14 @@
 }
 
 .whiteButton {
-  background-color: #FFF;
-  border: 2px solid #ABD27A;
+  background-color: #fff;
+  border: 2px solid #abd27a;
   color: #253017;
 }
 
 .greenButton {
-  color:#253017 ;
-  background-color: #ABD27A;
+  color: #253017;
+  background-color: #abd27a;
 }
 
 /* размеры кнопки */
@@ -41,4 +41,3 @@
 .extra-large {
   width: 436px;
 }
-

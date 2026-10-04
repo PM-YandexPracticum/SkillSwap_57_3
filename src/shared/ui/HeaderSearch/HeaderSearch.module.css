@@ -20,9 +20,9 @@
 }
 
 .icon {
-display: block;
-block-size: 22px;
-inline-size: 22px;
+  display: block;
+  block-size: 22px;
+  inline-size: 22px;
 }
 
 .input {
@@ -33,7 +33,6 @@ inline-size: 22px;
   font-family: Roboto, sans-serif;
   font-size: 16px;
   letter-spacing: 2%;
-
 }
 
 .input:focus {
