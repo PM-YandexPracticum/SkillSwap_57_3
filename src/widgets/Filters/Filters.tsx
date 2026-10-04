@@ -68,12 +68,14 @@ export const Filters = () => {
             <div key={cat}>
               <div
                 className={`${styles.categoryHeader} ${isOpen ? styles.isOpen : ''}`}
-                onClick={() => isSelected && toggleCategory(cat)}
+                onClick={() => {
+                  if (isSelected) toggleCategory(cat)
+                }}
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    isSelected && toggleCategory(cat)
+                  if ((e.key === 'Enter' || e.key === ' ') && isSelected) {
+                    toggleCategory(cat)
                   }
                 }}
                 style={{ cursor: isSelected ? 'pointer' : 'default' }}
@@ -81,6 +83,7 @@ export const Filters = () => {
                 <Checkbox
                   name={cat}
                   labelName={cat}
+                  value={cat}
                   variant="category"
                   checked={isSelected}
                   onChange={handleSkillChange(cat)}
@@ -99,6 +102,7 @@ export const Filters = () => {
                       key={skill}
                       name={skill}
                       labelName={skill}
+                      value={skill}
                       variant="subcategory"
                       checked={!!selectedSkills[skill]}
                       onChange={handleSkillChange(skill)}
@@ -140,6 +144,7 @@ export const Filters = () => {
               key={city}
               name={city}
               labelName={city}
+              value={city}
               variant="category"
               checked={!!selectedCities[city]}
               onChange={handleCityChange(city)}
