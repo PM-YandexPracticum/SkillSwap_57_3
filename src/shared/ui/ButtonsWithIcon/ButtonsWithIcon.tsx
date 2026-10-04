@@ -9,10 +9,11 @@ export function ButtonsWithIcon({
   gap,
   position,
   border = false,
+  greenBorder = false,
 }: ButtonsWithIconProps) {
   return (
     <button
-      className={`${styles.button} ${styles[size]} ${styles[gap]} ${position === 'right' ? styles.right : ''} ${border && styles.border}`}
+      className={`${styles.button} ${styles[size]} ${styles[gap]} ${position === 'right' ? styles.right : ''} ${border && styles.border} ${greenBorder && styles.greenBorder}`}
       onClick={onClick}
     >
       <img src={iconSrc} alt="" className={styles.icon} />

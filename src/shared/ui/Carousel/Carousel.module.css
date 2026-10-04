@@ -1,0 +1,103 @@
+.carousel {
+  display: flex;
+  position: relative;
+  inline-size: 440px;
+  block-size: 324px;
+  gap: 24px;
+}
+
+.viewport {
+  inline-size: 324px;
+  block-size: 100%;
+  overflow: hidden;
+}
+
+.singleViewport {
+  inline-size: 100%;
+}
+
+.container {
+  display: flex;
+  block-size: 100%;
+  touch-action: pan-y pinch-zoom;
+}
+
+.slide {
+  flex: 0 0 324px;
+  min-inline-size: 0;
+}
+
+.singleSlide {
+  flex: 0 0 100%;
+}
+
+.slide img {
+  inline-size: 100%;
+  block-size: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  inline-size: 92px;
+  gap: 24px;
+}
+
+.previewSlide {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.previewSlide img {
+  inline-size: 100%;
+  block-size: 92px;
+  border-radius: 10px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.countSlide {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  font-family: Roboto, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #253017;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  background-color: rgb(255 255 255 / 50%);
+}
+
+.button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.buttonPrev {
+  left: 16px;
+}
+
+.buttonNext {
+  right: 132px;
+}
+
+.imgButton {
+  inline-size: 32px;
+  block-size: 32px;
+}
+
+.prevImg {
+  transform: rotate(180deg);
+}
