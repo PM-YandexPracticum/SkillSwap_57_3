@@ -1,0 +1,70 @@
+.container {
+block-size: 692px;
+inline-size: 556px;
+padding: 0 60px;
+background-color: white;
+display:flex;
+flex-direction: column;
+justify-content: center;
+gap: 24px;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.enterButton {
+  display: block;
+  margin: 12px auto 0;
+  font-size: 16px;
+  font-family: Roboto, sans-serif;
+  letter-spacing: 2%;
+  color:#508826;
+  transition: color .4s ease;
+}
+
+.password {
+  position: relative;
+  margin-top: 12px;
+  margin-bottom: 42px;
+  border: none;
+  padding-bottom: 4px;
+}
+
+.divider {
+  position: relative;
+  font-size: 16px;
+  font-family: Roboto, sans-serif;
+  text-align: center;
+  inline-size: min-content;
+  margin: 0 auto;
+  padding:0 4px;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  inline-size: 200px;
+  height: 1px;
+  background: #e4e8df;
+}
+
+.divider::before { right: 100%; }
+.divider::after  { left: 100%;  }
+
+.inscription {
+  position:absolute;
+  top: 96%;
+  font-size: 12px;
+  font-family: Roboto, sans-serif;
+  letter-spacing: 2%;
+
+}
+
+.enterButton:hover {
+  color: #abd27a
+}
