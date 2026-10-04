@@ -12,6 +12,7 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
+  gap: 12px;
 }
 
 .photo {
@@ -20,38 +21,50 @@
   border-radius: 100px;
   object-fit: cover;
   object-position: center;
-  margin-right: 12px;
+  flex-shrink: 0;
 }
 
 .user_info {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 }
 
 .name {
   font-family: Open-sans, sans-serif;
   font-size: 20px;
   line-height: 24px;
-  letter-spacing: -1.1%;
+  letter-spacing: -0.011em;
+  margin: 0;
+  color: rgb(37 48 23);
 }
 
 .additional_info {
   font-family: Roboto, sans-serif;
   font-size: 12px;
   line-height: 16px;
-  letter-spacing: 2%;
+  letter-spacing: 0.02em;
+  margin: 0;
+  color: rgb(105 115 93);
 }
 
 .like {
   place-self: start;
 }
 
+.about {
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.02em;
+  color: rgb(37 48 23);
+  margin: 0 0 8px;
+}
+
 .skills {
   display: flex;
   flex-direction: column;
-}
-
-.skills:not(:last-of-type) {
   margin-bottom: 12px;
 }
 
@@ -64,4 +77,10 @@
   font-size: 16px;
   line-height: 24px;
   letter-spacing: 2%;
+}
+
+.skillsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
