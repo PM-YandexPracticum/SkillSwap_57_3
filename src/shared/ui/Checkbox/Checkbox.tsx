@@ -7,7 +7,7 @@ export const Checkbox = ({
   onChange,
   labelName,
   name,
-  value,
+  value
 }: CheckboxProps) => {
   return (
     <label className={styles.label}>

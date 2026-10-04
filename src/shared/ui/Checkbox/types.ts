@@ -6,5 +6,5 @@ export type CheckboxProps = {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
   labelName: string
   name: string
-  value?: string
+  value: string
 }
