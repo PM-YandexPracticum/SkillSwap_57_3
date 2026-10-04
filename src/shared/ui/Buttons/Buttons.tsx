@@ -1,5 +1,5 @@
-import styles from './Buttons.module.css';
-import {ButtonsProps} from './types'
+import styles from './Buttons.module.css'
+import { ButtonsProps } from './types'
 
 export function Buttons({ text, onClick, variant, size }: ButtonsProps) {
   return (
@@ -10,5 +10,5 @@ export function Buttons({ text, onClick, variant, size }: ButtonsProps) {
     >
       {text}
     </button>
-  );
+  )
 }

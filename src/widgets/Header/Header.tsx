@@ -43,11 +43,11 @@ export function Header() {
 
       <div className={styles.right}>
         <IconButton icon={moon} onClick={() => {}} ariaLabel="Изменить тему" />
-        
+
         <button type="button" className={styles.buttonLogin}>
           Войти
         </button>
-        
+
         <button type="button" className={styles.buttonRegister}>
           Зарегистрироваться
         </button>
