@@ -1,19 +1,10 @@
-import { useState } from 'react';
-import { TextArea } from '@/shared/ui/TextArea';
+import { ShareForm } from '@widgets/shareForm';
 
 export default function CreateSkillPage() {
-  const [description, setDescription] = useState('');
-
   return (
     <main>
-      <h1>CreateSkillPage</h1>
-      <p>Страница в разработке</p>
-
-      <TextArea
-        labelName="Описание"
-        value={description}
-        onChange={setDescription}
-      />
+      <h1>Создание навыка</h1>
+      <ShareForm />
     </main>
   );
 }

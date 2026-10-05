@@ -1,0 +1,16 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 500px;
+  padding: 32px;
+  background-color: rgb(255 255 255);
+  border-radius: 12px;
+}
+
+.buttons {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
