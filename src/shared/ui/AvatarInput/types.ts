@@ -1,3 +1,3 @@
 export type AvatarInputProps = {
-  onChange: (value: string) => void
+  onChange: (file: File) => void
 }

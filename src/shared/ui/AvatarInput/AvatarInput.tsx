@@ -1,10 +1,18 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useState, useEffect } from 'react'
 import { AvatarInputProps } from './types'
 import styles from './AvatarInput.module.css'
 import avatarUpload from './Icon+Add.svg'
 
 export const AvatarInput = ({ onChange }: AvatarInputProps) => {
   const [previewUrl, setPreviewUrl] = useState('')
+
+  useEffect(() => {
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl)
+      }
+    }
+  }, [previewUrl])
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -14,7 +22,7 @@ export const AvatarInput = ({ onChange }: AvatarInputProps) => {
     }
 
     setPreviewUrl(URL.createObjectURL(file))
-    onChange(file.name)
+    onChange(file)
     localStorage.setItem('avatar', file.name)
   }
 
