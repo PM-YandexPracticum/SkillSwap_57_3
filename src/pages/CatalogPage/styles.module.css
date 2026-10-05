@@ -5,6 +5,11 @@
   gap: 25px;
 }
 
+.sidebar {
+  width: 324px;
+  flex-shrink: 0;
+}
+
 .spotlight {
   display: flex;
   flex-direction: column;

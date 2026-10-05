@@ -11,14 +11,14 @@
 }
 
 .whiteButton {
-  background-color: #fff;
-  border: 2px solid #abd27a;
-  color: #253017;
+  background-color: rgb(255, 255, 255);
+  border: 2px solid rgb(171, 210, 122);
+  color: rgb(37, 48, 23);
 }
 
 .greenButton {
-  color: #253017;
-  background-color: #abd27a;
+  color: rgb(37, 48, 23);
+  background-color: rgb(171, 210, 122);
 }
 
 /* размеры кнопки */

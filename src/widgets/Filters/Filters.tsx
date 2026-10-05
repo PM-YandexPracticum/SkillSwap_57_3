@@ -1,12 +1,4 @@
-import { useState } from 'react'
 import styles from './Filters.module.css'
-import {
-  interactionModes,
-  genderOptions,
-  citiesList,
-  skillCategories,
-  skillsData,
-} from './filterData'
 import { Radio } from '@/shared/ui/Radio'
 import { Checkbox } from '@/shared/ui/Checkbox'
 
@@ -22,29 +14,49 @@ const ArrowIcon = ({ isOpen }: { isOpen: boolean }) => (
   </svg>
 )
 
-export const Filters = () => {
-  const [gender, setGender] = useState<'any' | 'male' | 'female'>('any')
-  const [mode, setMode] = useState<'all' | 'learn' | 'teach'>('all')
-  const [selectedCities, setSelectedCities] = useState<Record<string, boolean>>({})
-  const [selectedSkills, setSelectedSkills] = useState<Record<string, boolean>>({})
-  const [openCategories, setOpenCategories] = useState<string[]>([])
-  const [isCitiesOpen, setIsCitiesOpen] = useState(false)
-  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false)
+interface FiltersProps {
+  gender: 'any' | 'male' | 'female'
+  setGender: (v: 'any' | 'male' | 'female') => void
+  mode: 'all' | 'learn' | 'teach'
+  setMode: (v: 'all' | 'learn' | 'teach') => void
+  selectedCities: Record<string, boolean>
+  selectedSkills: Record<string, boolean>
+  openCategories: string[]
+  isCitiesOpen: boolean
+  setIsCitiesOpen: (v: boolean) => void
+  isCategoriesOpen: boolean
+  setIsCategoriesOpen: (v: boolean) => void
+  handleCityChange: (city: string) => (e: React.ChangeEvent<HTMLInputElement>) => void
+  handleSkillChange: (skill: string) => (e: React.ChangeEvent<HTMLInputElement>) => void
+  toggleCategory: (cat: string) => void
+  interactionModes: readonly { id: string; label: string }[]
+  genderOptions: readonly { value: string; label: string }[]
+  citiesList: readonly string[]
+  skillCategories: readonly string[]
+  skillsData: Record<string, string[]>
+}
 
-  const handleCityChange = (city: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedCities((prev) => ({ ...prev, [city]: e.target.checked }))
-  }
-
-  const handleSkillChange = (skill: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedSkills((prev) => ({ ...prev, [skill]: e.target.checked }))
-  }
-
-  const toggleCategory = (cat: string) => {
-    setOpenCategories((prev) =>
-      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat],
-    )
-  }
-
+export const Filters = ({
+  gender,
+  setGender,
+  mode,
+  setMode,
+  selectedCities,
+  selectedSkills,
+  openCategories,
+  isCitiesOpen,
+  setIsCitiesOpen,
+  isCategoriesOpen,
+  setIsCategoriesOpen,
+  handleCityChange,
+  handleSkillChange,
+  toggleCategory,
+  interactionModes,
+  genderOptions,
+  citiesList,
+  skillCategories,
+  skillsData,
+}: FiltersProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.section}>

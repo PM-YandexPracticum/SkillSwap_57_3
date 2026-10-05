@@ -11,7 +11,7 @@
 .textarea {
   padding: 12px 20px;
   border-radius: 15px;
-  border: 1px solid rgba(105 115 93);
+  border: 1px solid rgb(105, 115, 93);
   font-family: Roboto, sans-serif;
   font-size: 16px;
   line-height: 24px;
@@ -19,9 +19,9 @@
   min-height: 120px;
   resize: none;
   box-sizing: border-box;
-  color: #000;
+  color: rgb(0, 0, 0);
 }
 
 .textarea::placeholder {
-  color: #888;
+  color: rgb(136, 136, 136);
 }
