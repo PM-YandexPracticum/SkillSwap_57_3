@@ -5,6 +5,7 @@ import buttonSkillsArrow from '@assets/ButtonSvg/buttonSkillsArrow.svg'
 import { IconButton } from '@ui/IconButton/index'
 import { HeaderSearch } from '@/shared/ui/HeaderSearch'
 import Logo from '@/shared/ui/Logo/Logo'
+import { ModalSkills } from '../ModalSkills'
 
 import { useState } from 'react'
 
@@ -20,20 +21,24 @@ export function Header() {
             О проекте
           </button>
 
-          <button
-            type="button"
-            className={styles.buttonSkills}
-            onClick={() => setIsSkillsOpen(!isSkillsOpen)}
-          >
-            Все навыки
-            <img
-              src={buttonSkillsArrow}
-              alt="стрелочка"
-              className={`${styles.buttonSkillsArrow} ${
-                isSkillsOpen ? styles.buttonSkillsArrowOpen : ''
-              }`}
-            />
-          </button>
+          <div className={styles.skillsWrap}>
+            <button
+              type="button"
+              className={styles.buttonSkills}
+              onClick={() => setIsSkillsOpen(!isSkillsOpen)}
+            >
+              Все навыки
+              <img
+                src={buttonSkillsArrow}
+                alt="стрелочка"
+                className={`${styles.buttonSkillsArrow} ${
+                  isSkillsOpen ? styles.buttonSkillsArrowOpen : ''
+                }`}
+              />
+            </button>
+
+            {isSkillsOpen && <ModalSkills />}
+          </div>
         </nav>
       </div>
 
@@ -43,11 +48,11 @@ export function Header() {
 
       <div className={styles.right}>
         <IconButton icon={moon} onClick={() => {}} ariaLabel="Изменить тему" />
-        
+
         <button type="button" className={styles.buttonLogin}>
           Войти
         </button>
-        
+
         <button type="button" className={styles.buttonRegister}>
           Зарегистрироваться
         </button>
