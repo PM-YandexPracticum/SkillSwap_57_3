@@ -1,6 +1,8 @@
-import { UserCard } from '@widgets/UserCard/index';
-import styles from './styles.module.css';
-import { ButtonsWithIcon } from '@ui/ButtonsWithIcon';
+import { UserCard } from '@widgets/UserCard/index'
+import styles from './styles.module.css'
+import { ButtonsWithIcon } from '@ui/ButtonsWithIcon'
+import { useEffect, useState } from 'react'
+import { CatalogUserResponse } from '@/shared/types/apiTypes'
 
 const MOCK_USERS = [
   {
@@ -45,9 +47,25 @@ const MOCK_USERS = [
     canTeach: ['Английский язык'],
     wantsToLearn: ['Тайм менеджмент', 'Медитация'],
   },
-];
+]
 
 export default function CatalogPage() {
+  const [users, setUsers] = useState<CatalogUserResponse>({
+    byName: [],
+    newest: [],
+    topByLikes: [],
+  })
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetch('http://localhost:5000/api/users/').then((data) => data)
+        setUsers(await data.json())
+      } catch (e) {
+        console.log(e)
+      }
+    }
+    fetchData()
+  }, [])
   return (
     <main className={styles.container}>
       <aside className={styles.sidebar} />
@@ -66,15 +84,15 @@ export default function CatalogPage() {
             />
           </div>
           <div className={styles.user_cards}>
-            {MOCK_USERS.slice(0, 3).map((user, index) => (
+            {users.topByLikes.slice(0, 3).map((user, index) => (
               <UserCard
                 key={index}
                 variant="catalog"
-                avatarUrl={user.avatarUrl}
+                avatarUrl={`http://localhost:5000/images/users/${user.image_path}`}
                 name={user.name}
-                location={user.location}
-                canTeach={user.canTeach}
-                wantsToLearn={user.wantsToLearn}
+                location={user.city.title}
+                canTeach={user.canTeach.map((val) => val.title)}
+                wantsToLearn={user.wantsToLearn.map((val) => val.title)}
                 isLiked={false}
                 onLike={() => {}}
                 onDetails={() => {}}
@@ -96,15 +114,15 @@ export default function CatalogPage() {
             />
           </div>
           <div className={styles.user_cards}>
-            {MOCK_USERS.slice(2, 5).map((user, index) => (
+            {users.newest.slice(0, 3).map((user, index) => (
               <UserCard
                 key={index}
                 variant="catalog"
-                avatarUrl={user.avatarUrl}
+                avatarUrl={`http://localhost:5000/images/users/${user.image_path}`}
                 name={user.name}
-                location={user.location}
-                canTeach={user.canTeach}
-                wantsToLearn={user.wantsToLearn}
+                location={user.city.title}
+                canTeach={user.canTeach.map((val) => val.title)}
+                wantsToLearn={user.wantsToLearn.map((val) => val.title)}
                 isLiked={false}
                 onLike={() => {}}
                 onDetails={() => {}}
@@ -136,5 +154,5 @@ export default function CatalogPage() {
         </section>
       </div>
     </main>
-  );
+  )
 }
