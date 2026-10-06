@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { IconButton } from '@ui/IconButton';
-import { Buttons } from '@ui/Buttons';
-import { SkillItem } from '@ui/SkillItem';
-import likeDefault from '@assets/icon/LikeDefault.svg';
-import likeActive from '@assets/icon/LikeActive.svg';
-import style from './UserCard.module.css';
-import type { UserCardProps } from './types';
+import { useState } from 'react'
+import { IconButton } from '@ui/IconButton'
+import { Buttons } from '@ui/Buttons'
+import { SkillItem } from '@ui/SkillItem'
+import likeDefault from '@assets/icon/LikeDefault.svg'
+import likeActive from '@assets/icon/LikeActive.svg'
+import style from './UserCard.module.css'
+import type { UserCardProps } from './types'
 
 export function UserCard({
   variant = 'catalog',
@@ -19,12 +19,12 @@ export function UserCard({
   onLike,
   onDetails,
 }: UserCardProps) {
-  const [isLiked, setIsLiked] = useState(initialLiked);
+  const [isLiked, setIsLiked] = useState(initialLiked)
 
   const handleLike = () => {
-    setIsLiked((prev) => !prev);
-    onLike?.();
-  };
+    setIsLiked((prev) => !prev)
+    onLike?.()
+  }
 
   return (
     <div className={style.card}>
@@ -45,9 +45,7 @@ export function UserCard({
         )}
       </div>
 
-      {variant === 'author' && about && (
-        <p className={style.about}>{about}</p>
-      )}
+      {variant === 'author' && about && <p className={style.about}>{about}</p>}
 
       <div className={style.skills}>
         <h4>Может научить:</h4>
@@ -56,10 +54,7 @@ export function UserCard({
             <SkillItem key={index} title={skill} color="light_beige" />
           ))}
           {canTeach.length > 2 && (
-            <SkillItem
-              title={`+${canTeach.length - 2}`}
-              color="light_beige"
-            />
+            <SkillItem title={`+${canTeach.length - 2}`} color="light_beige" />
           )}
         </div>
       </div>
@@ -71,10 +66,7 @@ export function UserCard({
             <SkillItem key={index} title={skill} color="light_pink" />
           ))}
           {wantsToLearn.length > 2 && (
-            <SkillItem
-              title={`+${wantsToLearn.length - 2}`}
-              color="light_pink"
-            />
+            <SkillItem title={`+${wantsToLearn.length - 2}`} color="light_pink" />
           )}
         </div>
       </div>
@@ -88,5 +80,5 @@ export function UserCard({
         />
       )}
     </div>
-  );
+  )
 }
