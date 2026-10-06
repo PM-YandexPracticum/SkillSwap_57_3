@@ -1,6 +1,6 @@
-import { DevInfoCard } from '@widgets/devInfoCard';
-import type { DevInfoCardProps } from '@widgets/devInfoCard/types';
-import styles from './aboutPage.module.css';
+import { DevInfoCard } from '@widgets/devInfoCard'
+import type { DevInfoCardProps } from '@widgets/devInfoCard/types'
+import styles from './aboutPage.module.css'
 
 const DEVELOPERS: DevInfoCardProps[] = [
   {
@@ -11,7 +11,15 @@ const DEVELOPERS: DevInfoCardProps[] = [
       'Я прохожу обучение на фронтенд‑разработчика в Яндекс Практикуме. Сейчас я в команде проекта SkillSwap',
     githubUrl: 'https://github.com/viomida',
   },
-];
+  {
+    avatarUrl: 'https://github.com/borisgrr.png',
+    name: 'Громов Борис',
+    role: 'Рядовой разработчик',
+    about:
+      'Изучаю фронтенд-разработку в Яндекс Практикуме. В рамках обучения участвую в командной разработке SkillSwap.',
+    githubUrl: 'https://github.com/borisgrr',
+  },
+]
 
 export function AboutPage() {
   return (
@@ -23,6 +31,5 @@ export function AboutPage() {
         ))}
       </div>
     </main>
-  );
+  )
 }
-
