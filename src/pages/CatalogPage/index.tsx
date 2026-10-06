@@ -114,15 +114,15 @@ export default function CatalogPage() {
             />
           </div>
           <div className={styles.user_cards}>
-            {MOCK_USERS.slice(2, 5).map((user, index) => (
+            {users.newest.slice(0, 3).map((user, index) => (
               <UserCard
                 key={index}
                 variant="catalog"
-                avatarUrl={user.avatarUrl}
+                avatarUrl={`http://localhost:5000/images/users/${user.image_path}`}
                 name={user.name}
-                location={user.location}
-                canTeach={user.canTeach}
-                wantsToLearn={user.wantsToLearn}
+                location={user.city.title}
+                canTeach={user.canTeach.map((val) => val.title)}
+                wantsToLearn={user.wantsToLearn.map((val) => val.title)}
                 isLiked={false}
                 onLike={() => {}}
                 onDetails={() => {}}
