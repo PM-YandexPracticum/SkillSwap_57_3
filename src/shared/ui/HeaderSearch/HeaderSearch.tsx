@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import searchIcon from '@assets/icon/Search.svg'
 import styles from './HeaderSearch.module.css'
 import { useDebounce } from '@hooks/useDebounce'
