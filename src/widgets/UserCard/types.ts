@@ -1,3 +1,14 @@
+export type UserCardSkill = {
+  title: string;
+  color:
+    | 'light_lavender'
+    | 'light_beige'
+    | 'light_peach'
+    | 'light_pink'
+    | 'pale_blue'
+    | 'pale_green';
+};
+
 export type UserCardVariant = 'catalog' | 'author';
 
 export type UserCardProps = {
@@ -6,8 +17,8 @@ export type UserCardProps = {
   name: string;
   location: string;
   about?: string;
-  canTeach: string[];
-  wantsToLearn: string[];
+  canTeach: UserCardSkill[];
+  wantsToLearn: UserCardSkill[];
   isLiked?: boolean;
   onLike?: () => void;
   onDetails?: () => void;

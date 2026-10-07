@@ -4,7 +4,7 @@ import { ButtonsWithIcon } from '@ui/ButtonsWithIcon'
 import { useEffect, useState } from 'react'
 import { CatalogUserResponse } from '@/shared/types/apiTypes'
 
-const MOCK_USERS = [
+{/*const MOCK_USERS = [
   {
     avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200',
     name: 'Максим',
@@ -47,7 +47,7 @@ const MOCK_USERS = [
     canTeach: ['Английский язык'],
     wantsToLearn: ['Тайм менеджмент', 'Медитация'],
   },
-]
+] */}
 
 export default function CatalogPage() {
   const [users, setUsers] = useState<CatalogUserResponse>({
@@ -91,8 +91,14 @@ export default function CatalogPage() {
                 avatarUrl={`http://localhost:5000/images/users/${user.image_path}`}
                 name={user.name}
                 location={user.city.title}
-                canTeach={user.canTeach.map((val) => val.title)}
-                wantsToLearn={user.wantsToLearn.map((val) => val.title)}
+                canTeach={user.canTeach.map((val) => ({
+                  title: val.title,
+                  color: val.subskill.skill.color,
+                }))}
+                wantsToLearn={user.wantsToLearn.map((val) => ({
+                  title: val.title,
+                  color: val.subskill.skill.color,
+                }))}
                 isLiked={false}
                 onLike={() => {}}
                 onDetails={() => {}}
@@ -121,8 +127,14 @@ export default function CatalogPage() {
                 avatarUrl={`http://localhost:5000/images/users/${user.image_path}`}
                 name={user.name}
                 location={user.city.title}
-                canTeach={user.canTeach.map((val) => val.title)}
-                wantsToLearn={user.wantsToLearn.map((val) => val.title)}
+                canTeach={user.canTeach.map((val) => ({
+                  title: val.title,
+                  color: val.subskill.skill.color,
+                }))}
+                wantsToLearn={user.wantsToLearn.map((val) => ({
+                  title: val.title,
+                  color: val.subskill.skill.color,
+                }))}
                 isLiked={false}
                 onLike={() => {}}
                 onDetails={() => {}}
@@ -131,7 +143,7 @@ export default function CatalogPage() {
           </div>
         </section>
 
-        <section className={styles.spotlight}>
+        {/*<section className={styles.spotlight}>
           <div className={styles.section_header}>
             <h2>Рекомендуем</h2>
           </div>
@@ -151,7 +163,7 @@ export default function CatalogPage() {
               />
             ))}
           </div>
-        </section>
+        </section> */}
       </div>
     </main>
   )
