@@ -79,8 +79,14 @@ export default function CatalogPage() {
                 avatarUrl={`http://localhost:5000/images/users/${user.image_path}`}
                 name={user.name}
                 location={user.city.title}
-                canTeach={user.canTeach.map((val) => val.title)}
-                wantsToLearn={user.wantsToLearn.map((val) => val.title)}
+                canTeach={user.canTeach.map((val) => ({
+                  title: val.title,
+                  color: val.subskill.skill.color,
+                }))}
+                wantsToLearn={user.wantsToLearn.map((val) => ({
+                  title: val.title,
+                  color: val.subskill.skill.color,
+                }))}
                 isLiked={false}
                 onLike={() => {}}
                 onDetails={() => {}}
@@ -109,8 +115,14 @@ export default function CatalogPage() {
                 avatarUrl={`http://localhost:5000/images/users/${user.image_path}`}
                 name={user.name}
                 location={user.city.title}
-                canTeach={user.canTeach.map((val) => val.title)}
-                wantsToLearn={user.wantsToLearn.map((val) => val.title)}
+                canTeach={user.canTeach.map((val) => ({
+                  title: val.title,
+                  color: val.subskill.skill.color,
+                }))}
+                wantsToLearn={user.wantsToLearn.map((val) => ({
+                  title: val.title,
+                  color: val.subskill.skill.color,
+                }))}
                 isLiked={false}
                 onLike={() => {}}
                 onDetails={() => {}}
@@ -119,7 +131,7 @@ export default function CatalogPage() {
           </div>
         </section>
 
-        <section className={styles.spotlight}>
+        {/*<section className={styles.spotlight}>
           <div className={styles.section_header}>
             <h2>Рекомендуем</h2>
           </div>
