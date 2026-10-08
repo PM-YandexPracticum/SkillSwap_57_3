@@ -6,8 +6,11 @@ const mockAuthor = {
   name: 'Иван',
   location: 'Санкт-Петербург, 34 года',
   about: 'Привет! Люблю ритм, кофе по утрам и людей, которые не боятся пробовать новое',
-  canTeach: ['Английский язык'],
-  wantsToLearn: ['Тайм менеджмент', 'Медитация'],
+  canTeach: [{ title: 'Английский язык', color: 'light_beige' as const }],
+  wantsToLearn: [
+    { title: 'Тайм менеджмент', color: 'light_lavender' as const },
+    { title: 'Медитация', color: 'pale_green' as const },
+  ],
 };
 
 const mockSimilar = [
@@ -15,29 +18,42 @@ const mockSimilar = [
     avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200',
     name: 'Илона',
     location: 'Казань, 27 лет',
-    canTeach: ['Английский язык'],
-    wantsToLearn: ['Тайм менеджмент', 'Медитация', 'Рисование'],
+    canTeach: [{ title: 'Английский язык', color: 'light_beige' as const }],
+    wantsToLearn: [
+      { title: 'Тайм менеджмент', color: 'light_lavender' as const },
+      { title: 'Медитация', color: 'pale_green' as const },
+      { title: 'Рисование', color: 'light_pink' as const },
+    ],
   },
   {
     avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200',
     name: 'Михаил',
     location: 'Новосибирск, 29 лет',
-    canTeach: ['Английский язык'],
-    wantsToLearn: ['Тайм менеджмент', 'Медитация'],
+    canTeach: [{ title: 'Английский язык', color: 'light_beige' as const }],
+    wantsToLearn: [
+      { title: 'Тайм менеджмент', color: 'light_lavender' as const },
+      { title: 'Медитация', color: 'pale_green' as const },
+    ],
   },
   {
     avatarUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200',
     name: 'Мария',
     location: 'Красноярск, 21 год',
-    canTeach: ['Английский язык'],
-    wantsToLearn: ['Тайм менеджмент', 'Медитация'],
+    canTeach: [{ title: 'Английский язык', color: 'light_beige' as const }],
+    wantsToLearn: [
+      { title: 'Тайм менеджмент', color: 'light_lavender' as const },
+      { title: 'Медитация', color: 'pale_green' as const },
+    ],
   },
   {
     avatarUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200',
     name: 'Виктория',
     location: 'Кемерово, 38 лет',
-    canTeach: ['Английский язык'],
-    wantsToLearn: ['Тайм менеджмент', 'Медитация'],
+    canTeach: [{ title: 'Английский язык', color: 'light_beige' as const }],
+    wantsToLearn: [
+      { title: 'Тайм менеджмент', color: 'light_lavender' as const },
+      { title: 'Медитация', color: 'pale_green' as const },
+    ],
   },
 ];
 

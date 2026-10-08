@@ -51,10 +51,10 @@ export function UserCard({
         <h4>Может научить:</h4>
         <div className={style.skillsList}>
           {canTeach.slice(0, 2).map((skill, index) => (
-            <SkillItem key={index} title={skill} color="light_beige" />
+            <SkillItem key={index} title={skill.title} color={skill.color} />
           ))}
           {canTeach.length > 2 && (
-            <SkillItem title={`+${canTeach.length - 2}`} color="light_beige" />
+            <SkillItem title={`+${canTeach.length - 2}`} color={canTeach[1].color} />
           )}
         </div>
       </div>
@@ -63,10 +63,10 @@ export function UserCard({
         <h4>Хочет научиться:</h4>
         <div className={style.skillsList}>
           {wantsToLearn.slice(0, 2).map((skill, index) => (
-            <SkillItem key={index} title={skill} color="light_pink" />
+            <SkillItem key={index} title={skill.title} color={skill.color} />
           ))}
           {wantsToLearn.length > 2 && (
-            <SkillItem title={`+${wantsToLearn.length - 2}`} color="light_pink" />
+            <SkillItem title={`+${wantsToLearn.length - 2}`} color={wantsToLearn[1].color} />
           )}
         </div>
       </div>
