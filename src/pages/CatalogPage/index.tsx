@@ -10,6 +10,10 @@ export default function CatalogPage() {
     newest: [],
     topByLikes: [],
   })
+
+  const [cardVisibleCount, setCardVisibleCount] = useState(9)
+  const observerTarget = useRef<HTMLDivElement | null>(null)
+
   const [popularOpen, setPopularOpen] = useState(false)
   const [newOpen, setNewOpen] = useState(false)
   useEffect(() => {
@@ -23,6 +27,18 @@ export default function CatalogPage() {
     }
     fetchData()
   }, [])
+
+  const loadMoreCards = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setCardVisibleCount((prev) => Math.min(prev + 6, users.byName.length))
+        }
+      })
+    },
+    [users.byName.length],
+  )
+
   // useEffect для infinite scroll
   useEffect(() => {
     if (!users.byName.length) return
@@ -94,7 +110,7 @@ export default function CatalogPage() {
             />
           </div>
           <div className={styles.user_cards}>
-            {(newOpen ? MOCK_USERS : MOCK_USERS.slice(0, 3)).map((user, index) => (
+            {(newOpen ? users.newest : users.newest.slice(0, 3)).map((user, index) => (
               <UserCard
                 key={index}
                 variant="catalog"
