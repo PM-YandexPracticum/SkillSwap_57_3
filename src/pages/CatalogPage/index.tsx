@@ -1,53 +1,8 @@
 import { UserCard } from '@widgets/UserCard/index'
 import styles from './styles.module.css'
 import { ButtonsWithIcon } from '@ui/ButtonsWithIcon'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import { CatalogUserResponse } from '@/shared/types/apiTypes'
-
-{/*const MOCK_USERS = [
-  {
-    avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200',
-    name: 'Максим',
-    location: 'Москва, 23 года',
-    canTeach: ['Бизнес-план'],
-    wantsToLearn: ['Тайм менеджмент', 'Медитация'],
-  },
-  {
-    avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200',
-    name: 'Илона',
-    location: 'Казань, 27 лет',
-    canTeach: ['Английский язык'],
-    wantsToLearn: ['Тайм менеджмент', 'Медитация', 'Рисование'],
-  },
-  {
-    avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200',
-    name: 'Михаил',
-    location: 'Новосибирск, 29 лет',
-    canTeach: ['Английский язык'],
-    wantsToLearn: ['Тайм менеджмент', 'Медитация'],
-  },
-  {
-    avatarUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200',
-    name: 'Мария',
-    location: 'Красноярск, 21 год',
-    canTeach: ['Английский язык'],
-    wantsToLearn: ['Тайм менеджмент', 'Медитация'],
-  },
-  {
-    avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200',
-    name: 'Виктория',
-    location: 'Кемерово, 38 лет',
-    canTeach: ['Английский язык'],
-    wantsToLearn: ['Тайм менеджмент', 'Медитация'],
-  },
-  {
-    avatarUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200',
-    name: 'Анна',
-    location: 'Москва, 28 лет',
-    canTeach: ['Английский язык'],
-    wantsToLearn: ['Тайм менеджмент', 'Медитация'],
-  },
-] */}
 
 export default function CatalogPage() {
   const [users, setUsers] = useState<CatalogUserResponse>({
@@ -55,6 +10,22 @@ export default function CatalogPage() {
     newest: [],
     topByLikes: [],
   })
+
+  const [cardVisibleCount, setCardVisibleCount] = useState(9)
+  const observerTarget = useRef<HTMLDivElement | null>(null)
+
+  // колбек для Intersection Observer - показываем еще 6 карточек
+  const loadMoreCards = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setCardVisibleCount((prev) => Math.min(prev + 6, users.byName.length))
+        }
+      })
+    },
+    [users.byName.length],
+  )
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -66,6 +37,23 @@ export default function CatalogPage() {
     }
     fetchData()
   }, [])
+  // useEffect для infinite scroll
+  useEffect(() => {
+    if (!users.byName.length) return
+
+    const observer = new IntersectionObserver(loadMoreCards, {
+      threshold: 1.0,
+    })
+
+    if (observerTarget.current) {
+      observer.observe(observerTarget.current)
+    }
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [users.byName.length, loadMoreCards])
+
   return (
     <main className={styles.container}>
       <aside className={styles.sidebar} />
@@ -148,22 +136,24 @@ export default function CatalogPage() {
             <h2>Рекомендуем</h2>
           </div>
           <div className={styles.user_cards}>
-            {MOCK_USERS.map((user, index) => (
+            {users.byName.slice(0, cardVisibleCount).map((user) => (
               <UserCard
-                key={index}
+                key={user.id}
                 variant="catalog"
-                avatarUrl={user.avatarUrl}
+                avatarUrl={`http://localhost:5000/images/users/${user.image_path}`}
                 name={user.name}
-                location={user.location}
-                canTeach={user.canTeach}
-                wantsToLearn={user.wantsToLearn}
+                location={user.city.title}
+                canTeach={user.canTeach.map((val) => val.title)}
+                wantsToLearn={user.wantsToLearn.map((val) => val.title)}
                 isLiked={false}
                 onLike={() => {}}
                 onDetails={() => {}}
               />
             ))}
           </div>
-        </section> */}
+          {/* элемент по которому понимаем, что пользователь долистал до конца */}
+          <div ref={observerTarget}></div>
+        </section>
       </div>
     </main>
   )
