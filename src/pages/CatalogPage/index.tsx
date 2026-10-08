@@ -10,22 +10,8 @@ export default function CatalogPage() {
     newest: [],
     topByLikes: [],
   })
-
-  const [cardVisibleCount, setCardVisibleCount] = useState(9)
-  const observerTarget = useRef<HTMLDivElement | null>(null)
-
-  // колбек для Intersection Observer - показываем еще 6 карточек
-  const loadMoreCards = useCallback(
-    (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setCardVisibleCount((prev) => Math.min(prev + 6, users.byName.length))
-        }
-      })
-    },
-    [users.byName.length],
-  )
-
+  const [popularOpen, setPopularOpen] = useState(false)
+  const [newOpen, setNewOpen] = useState(false)
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -65,14 +51,14 @@ export default function CatalogPage() {
             <ButtonsWithIcon
               gap="gapSmall"
               iconSrc="./src/assets/ButtonSvg/chevron-right.svg"
-              onClick={() => {}}
-              text="Смотреть все"
+              onClick={() => setPopularOpen(!popularOpen)}
+              text={popularOpen ? 'Свернуть' : 'Смотреть все'}
               size="small"
               position="right"
             />
           </div>
           <div className={styles.user_cards}>
-            {users.topByLikes.slice(0, 3).map((user, index) => (
+            {(popularOpen ? users.topByLikes : users.topByLikes.slice(0, 3)).map((user, index) => (
               <UserCard
                 key={index}
                 variant="catalog"
@@ -101,14 +87,14 @@ export default function CatalogPage() {
             <ButtonsWithIcon
               gap="gapSmall"
               iconSrc="./src/assets/ButtonSvg/chevron-right.svg"
-              onClick={() => {}}
-              text="Смотреть все"
+              onClick={() => setNewOpen(!newOpen)}
+              text={newOpen ? 'Свернуть' : 'Смотреть все'}
               size="small"
               position="right"
             />
           </div>
           <div className={styles.user_cards}>
-            {users.newest.slice(0, 3).map((user, index) => (
+            {(newOpen ? MOCK_USERS : MOCK_USERS.slice(0, 3)).map((user, index) => (
               <UserCard
                 key={index}
                 variant="catalog"
