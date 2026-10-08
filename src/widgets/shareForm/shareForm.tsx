@@ -21,10 +21,17 @@ const SUBCATEGORY_OPTIONS = [
 
 export function ShareForm({ onSubmit, onBack }: ShareFormProps) {
   const [name, setName] = useState('');
+  const [nameError, setNameError] = useState('');        
   const [category, setCategory] = useState('');
   const [subcategory, setSubcategory] = useState('');
   const [description, setDescription] = useState('');
   const [images, setImages] = useState<File[]>([]);
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {   // ← ПРАВКА Б
+    const value = e.target.value;
+    setName(value);
+    setNameError(value === '' ? 'Название обязательно' : '');
+  };
 
   const handleSubmit = () => {
     const data: ShareFormData = {
@@ -47,9 +54,8 @@ export function ShareForm({ onSubmit, onBack }: ShareFormProps) {
         labelName="Название навыка"
         placeholder="Введите название вашего навыка"
         value={name}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setName(e.target.value)
-        }
+        onChange={handleNameChange}                        
+        error={nameError}                                  
       />
 
       <Select

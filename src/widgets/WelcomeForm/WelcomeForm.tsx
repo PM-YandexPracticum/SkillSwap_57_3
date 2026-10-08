@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { ButtonsWithIcon } from '@ui/ButtonsWithIcon/index'
 import { TextInput } from '@ui/TextInput/index'
 import { PasswordInput } from '@ui/PasswordInput/index'
@@ -8,6 +9,15 @@ import apple from '@assets/icon/Apple.svg'
 import { WelcomeFormProps } from './types.ts'
 
 export function WelcomeForm({ isRegForm }: WelcomeFormProps) {
+   const [email, setEmail] = useState('');
+   const [emailError, setEmailError] = useState('');
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEmail(value);
+    setEmailError(value === '' ? 'Email обязателен' : '');
+  };
+   
   return (
     <section className={styles.container}>
       <div className={styles.buttonContainer}>
@@ -33,12 +43,11 @@ export function WelcomeForm({ isRegForm }: WelcomeFormProps) {
 
       <form>
         <TextInput
-          value=""
+          value={email}
           labelName="Email"
           placeholder="Введите email"
-          onChange={() => {
-            return ''
-          }}
+          onChange={handleEmailChange}
+          error={emailError}
         />
         <fieldset className={styles.password}>
           {isRegForm ? (
