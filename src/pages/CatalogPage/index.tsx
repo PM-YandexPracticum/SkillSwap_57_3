@@ -130,6 +130,36 @@ export default function CatalogPage() {
             ))}
           </div>
         </section>
+
+        <section className={styles.spotlight}>
+          <div className={styles.section_header}>
+            <h2>Рекомендуем</h2>
+          </div>
+          <div className={styles.user_cards}>
+            {users.byName.slice(0, cardVisibleCount).map((user) => (
+              <UserCard
+                key={user.id}
+                variant="catalog"
+                avatarUrl={`http://localhost:5000/images/users/${user.image_path}`}
+                name={user.name}
+                location={user.city.title}
+                canTeach={user.canTeach.map((val) => ({
+                  color: val.subskill.skill.color,
+                  title: val.title,
+                }))}
+                wantsToLearn={user.wantsToLearn.map((val) => ({
+                  color: val.subskill.skill.color,
+                  title: val.title,
+                }))}
+                isLiked={false}
+                onLike={() => {}}
+                onDetails={() => {}}
+              />
+            ))}
+          </div>
+
+          <div ref={observerTarget}></div>
+        </section>
       </div>
     </main>
   )
