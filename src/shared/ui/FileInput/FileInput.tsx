@@ -3,7 +3,7 @@ import { FileInputProps } from './types'
 import FileInputIcon from '@assets/icon/FileInputIcon.svg'
 import styles from './FileInput.module.css'
 
-export function FileInput({ onChange }: FileInputProps) {
+export function FileInput({ onChange, error }: FileInputProps) {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
       return
@@ -27,15 +27,23 @@ export function FileInput({ onChange }: FileInputProps) {
   }
 
   return (
-    <label className={styles.label} onDragOver={handleDragOver} onDrop={handleDrop}>
-      <p>Перетащите или выберите изображения навыка</p>
+    <div className={styles.inputWrapper}>
+      <label
+        className={`${styles.label} ${error ? styles.error : ''}`}
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+      >
+        <p>Перетащите или выберите изображения навыка</p>
 
-      <div className={styles.secondLine}>
-        <img className={styles.icon} src={FileInputIcon} alt="file input icon" />
-        <p>Выбрать изображения</p>
-      </div>
+        <div className={styles.secondLine}>
+          <img className={styles.icon} src={FileInputIcon} alt="file input icon" />
+          <p>Выбрать изображения</p>
+        </div>
 
-      <input className={styles.input} type="file" multiple onChange={handleChange} />
-    </label>
+        <input className={styles.input} type="file" multiple onChange={handleChange} />
+      </label>
+
+      {error && <p className={styles.errorText}>{error}</p>}
+    </div>
   )
 }
