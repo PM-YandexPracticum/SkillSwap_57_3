@@ -1,1 +1,1 @@
-export {HeaderSearch} from './HeaderSearch.tsx'
+export { HeaderSearch } from './HeaderSearch.tsx'

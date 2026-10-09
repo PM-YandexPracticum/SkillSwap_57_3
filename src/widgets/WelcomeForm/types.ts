@@ -1,3 +1,3 @@
 export type WelcomeFormProps = {
-  isRegForm: boolean;
+  isRegForm: boolean
 }

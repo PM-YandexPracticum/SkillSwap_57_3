@@ -1,5 +1,5 @@
-import { UserMenu } from '@widgets/userMenu';
-import styles from './ProfilePage.module.css';
+import { UserMenu } from '@widgets/userMenu'
+import styles from './ProfilePage.module.css'
 
 export default function ProfilePage() {
   return (
@@ -12,5 +12,5 @@ export default function ProfilePage() {
         <p>Личные данные</p>
       </div>
     </main>
-  );
+  )
 }

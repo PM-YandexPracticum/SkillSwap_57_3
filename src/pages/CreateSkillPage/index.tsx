@@ -1,4 +1,4 @@
-import { ShareForm } from '@widgets/shareForm';
+import { ShareForm } from '@widgets/shareForm'
 
 export default function CreateSkillPage() {
   return (
@@ -6,5 +6,5 @@ export default function CreateSkillPage() {
       <h1>Создание навыка</h1>
       <ShareForm />
     </main>
-  );
+  )
 }

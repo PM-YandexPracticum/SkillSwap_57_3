@@ -23,7 +23,7 @@
       "@ui/*": ["shared/ui/*"],
       "@widgets/*": ["widgets/*"],
       "@assets/*": ["assets/*"],
-      "@hooks/*": ["shared/hooks/*"],
+      "@hooks/*": ["shared/hooks/*"]
     }
   },
   "include": ["src"]

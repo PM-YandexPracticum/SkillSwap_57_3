@@ -86,7 +86,7 @@
 }
 
 .selectWrapper::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 45%;
   right: 2px;
