@@ -1,1 +1,1 @@
-export { WelcomeForm } from './WelcomeForm'
+export { WelcomeForm } from './WelcomeForm';

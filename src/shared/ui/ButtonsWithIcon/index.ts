@@ -1,1 +1,1 @@
-export { ButtonsWithIcon } from './ButtonsWithIcon'
+export {ButtonsWithIcon} from './ButtonsWithIcon'

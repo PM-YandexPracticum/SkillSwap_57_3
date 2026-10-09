@@ -1,11 +1,8 @@
-import { Buttons } from '@/shared/ui/Buttons'
+import { Buttons } from '@/shared/ui/Buttons';
 import styles from './PopupNotification.module.css'
 import { PopupNotificationProps, PopupNotificationType } from './types'
 
-const POPUP_NOTIFICATION_CONTENT: Record<
-  PopupNotificationType,
-  { img: string; title: string; desc: string }
-> = {
+const POPUP_NOTIFICATION_CONTENT: Record<PopupNotificationType, { img: string; title: string; desc: string }> = {
   succes: {
     img: './src/assets/PopupNotificationSwg/Succes.svg',
     title: 'Важе предложение создано!',
@@ -28,7 +25,12 @@ export function PopupNotification({ type }: PopupNotificationProps) {
           <h2 className={styles.h2}>{title}</h2>
           <p className={styles.p}>{desc}</p>
         </div>
-        <Buttons text="Готово" onClick={() => {}} size="full-width" variant="greenButton" />
+        <Buttons
+          text='Готово'
+          onClick={() => {}}
+          size='full-width'
+          variant='greenButton'
+        />
       </div>
     </section>
   )

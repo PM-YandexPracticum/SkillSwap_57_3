@@ -1,8 +1,14 @@
-import githubIcon from '@assets/icon/GitHub.svg'
-import type { DevInfoCardProps } from './types'
-import styles from './devInfoCard.module.css'
+import githubIcon from '@assets/icon/GitHub.svg';
+import type { DevInfoCardProps } from './types';
+import styles from './devInfoCard.module.css';
 
-export function DevInfoCard({ avatarUrl, name, role, about, githubUrl }: DevInfoCardProps) {
+export function DevInfoCard({
+  avatarUrl,
+  name,
+  role,
+  about,
+  githubUrl,
+}: DevInfoCardProps) {
   return (
     <article className={styles.card}>
       <div className={styles.header}>
@@ -18,11 +24,16 @@ export function DevInfoCard({ avatarUrl, name, role, about, githubUrl }: DevInfo
       </div>
       <div className={styles.section}>
         <p className={styles.label}>Связаться со мной:</p>
-        <a className={styles.link} href={githubUrl} target="_blank" rel="noopener noreferrer">
+        <a
+          className={styles.link}
+          href={githubUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <img className={styles.githubIcon} src={githubIcon} alt="GitHub" />
           <span>{githubUrl.replace('https://', '')}</span>
         </a>
       </div>
     </article>
-  )
+  );
 }

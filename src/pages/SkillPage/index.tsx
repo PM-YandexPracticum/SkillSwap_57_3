@@ -1,5 +1,5 @@
-import { UserCard } from '@widgets/UserCard'
-import styles from './SkillPage.module.css'
+import { UserCard } from '@widgets/UserCard';
+import styles from './SkillPage.module.css';
 
 const mockAuthor = {
   avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200',
@@ -11,7 +11,7 @@ const mockAuthor = {
     { title: 'Тайм менеджмент', color: 'light_lavender' as const },
     { title: 'Медитация', color: 'pale_green' as const },
   ],
-}
+};
 
 const mockSimilar = [
   {
@@ -55,7 +55,7 @@ const mockSimilar = [
       { title: 'Медитация', color: 'pale_green' as const },
     ],
   },
-]
+];
 
 export default function SkillPage() {
   return (
@@ -97,5 +97,5 @@ export default function SkillPage() {
         </div>
       </section>
     </main>
-  )
+  );
 }

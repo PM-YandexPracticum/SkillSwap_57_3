@@ -6,7 +6,7 @@ export const ROUTES = {
   CREATE: '/create',
   LOGIN: '/login',
   REGISTER: '/register',
-  ABOUT: '/about',
+  ABOUT: '/about', 
 } as const
 
 export const SKILL_CATEGORIES = [

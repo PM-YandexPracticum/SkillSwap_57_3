@@ -22,7 +22,7 @@
 }
 
 .avatar {
-  width: 100px;
+  width: 100px;                
   height: 100px;
   border-radius: 50%;
   object-fit: cover;
@@ -73,8 +73,8 @@
   line-height: 1.5;
   color: rgb(58 58 58);
   margin: 0;
-  white-space: normal;
-  word-wrap: break-word;
+  white-space: normal;         
+  word-wrap: break-word;       
 }
 
 .link {

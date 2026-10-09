@@ -1,1 +1,1 @@
-export { NotServerPage } from './NotServer'
+export { NotServerPage } from "./NotServer"

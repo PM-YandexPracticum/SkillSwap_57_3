@@ -1,5 +1,5 @@
-import styles from './TextArea.module.css'
-import { TextAreaProps } from './types'
+import styles from './TextArea.module.css';
+import { TextAreaProps } from './types';
 
 export function TextArea({ labelName, value, onChange }: TextAreaProps) {
   return (
@@ -12,5 +12,5 @@ export function TextArea({ labelName, value, onChange }: TextAreaProps) {
         onChange={(e) => onChange(e.target.value)}
       />
     </label>
-  )
+  );
 }
