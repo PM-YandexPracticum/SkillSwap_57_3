@@ -111,3 +111,15 @@
   flex: 1;
   min-width: 0;
 }
+
+.inputError {
+  border-color: rgb(220 38 38);
+}
+
+.error {
+  display: block;
+  margin-top: 6px;
+  font-size: 14px;
+  color: rgb(220 38 38);
+  margin-left: 5px;
+}
