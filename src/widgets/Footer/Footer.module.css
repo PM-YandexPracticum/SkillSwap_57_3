@@ -26,6 +26,12 @@
   font-family: Roboto, sans-serif;
   font-size: 16px;
   line-height: 24px;
+  cursor: pointer;
+}
+
+.navigation_list_elem:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .caption {
