@@ -8,17 +8,20 @@
   font-size: 16px;
   line-height: 24px;
   font-family: Roboto, sans-serif;
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.15s ease;
 }
 
 .whiteButton {
-  background-color: #FFF;
-  border: 2px solid #ABD27A;
+  background-color: #fff;
+  border: 2px solid #abd27a;
   color: #253017;
 }
 
 .greenButton {
-  color:#253017 ;
-  background-color: #ABD27A;
+  color: #253017;
+  background-color: #abd27a;
 }
 
 /* размеры кнопки */
@@ -46,3 +49,22 @@
   width: 436px;
 }
 
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px #b7e582;
+}
+
+.button:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 10px #b7e582;
+}
+
+.button:focus {
+  outline: none;
+}
+
+.button:focus-visible {
+  box-shadow:
+    0 0 0 2px #fff,
+    0 0 0 4px #abd27a;
+}

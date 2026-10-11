@@ -10,12 +10,16 @@
   border-radius: 12px;
   background-color: rgba(255 255 255);
   font-family: Roboto, sans-serif;
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.15s ease;
 }
 
 .icon {
   display: block;
   width: 24px;
   height: 24px;
+  transition: transform 0.3s ease;
 }
 
 /* ширина кнопки */
@@ -52,7 +56,8 @@
 /* для svg в правой стороне */
 
 .right {
-  flex-direction: row-reverse;
+  position: relative;
+  padding-right: 24px;
 }
 
 .border {
@@ -60,5 +65,37 @@
 }
 
 .greenBorder {
-  border: 1px solid #ABD27A;
+  border: 1px solid #abd27a;
+}
+
+.right .icon {
+  position: absolute;
+  top: 12px;
+  right: 20px;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px #dfeece;
+}
+
+.right:hover .icon {
+  transform: translateX(4px);
+}
+
+.rotate .icon {
+  transform: rotate(90deg);
+}
+
+.rotate:hover .icon {
+  transform: rotate(90deg) translateX(4px);
+}
+
+.button:focus {
+  outline: none;
+}
+
+.button:focus-visible {
+  outline: 2px solid #abd27a;
+  outline-offset: 2px;
 }

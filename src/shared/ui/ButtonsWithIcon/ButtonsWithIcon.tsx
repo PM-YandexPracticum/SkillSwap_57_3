@@ -10,10 +10,11 @@ export function ButtonsWithIcon({
   position,
   border = false,
   greenBorder = false,
+  rotate = false,
 }: ButtonsWithIconProps) {
   return (
     <button
-      className={`${styles.button} ${styles[size]} ${styles[gap]} ${position === 'right' ? styles.right : ''} ${border && styles.border} ${greenBorder && styles.greenBorder}`}
+      className={`${styles.button} ${styles[size]} ${styles[gap]} ${position === 'right' ? styles.right : ''} ${border && styles.border} ${greenBorder && styles.greenBorder} ${rotate === true ? styles.rotate : ''}`}
       onClick={onClick}
     >
       <img src={iconSrc} alt="" className={styles.icon} />
