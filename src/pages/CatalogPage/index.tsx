@@ -71,6 +71,7 @@ export default function CatalogPage() {
               text={popularOpen ? 'Свернуть' : 'Смотреть все'}
               size="small"
               position="right"
+              rotate={popularOpen}
             />
           </div>
           <div className={styles.user_cards}>
@@ -107,6 +108,7 @@ export default function CatalogPage() {
               text={newOpen ? 'Свернуть' : 'Смотреть все'}
               size="small"
               position="right"
+              rotate={newOpen}
             />
           </div>
           <div className={styles.user_cards}>

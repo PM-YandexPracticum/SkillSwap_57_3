@@ -1,4 +1,17 @@
 .button {
   inline-size: 24px;
   block-size: 24px;
+  transition: transform 0.3s ease;
+}
+
+.button:hover {
+  transform: scale(1.2);
+}
+
+.button:focus {
+  outline: none;
+}
+
+.button:focus-visible .icon {
+  outline: 2px solid #abd27a;
 }
