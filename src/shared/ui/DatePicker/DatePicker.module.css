@@ -111,3 +111,15 @@
   flex: 1;
   min-width: 0;
 }
+
+.inputError {
+  border-color: rgb(220 38 38);
+}
+
+.error {
+  display: block;
+  font-family: Roboto, sans-serif;
+  margin-top: 4px;
+  font-size: 12px;
+  color: rgb(220 38 38);
+}

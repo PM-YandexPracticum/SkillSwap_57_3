@@ -36,6 +36,7 @@ export const DatePicker = () => {
   const [tempDate, setTempDate] = useState<Date | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [error, setError] = useState("");
 
   const parseInputDate = (value: string) => {
     const parts = value.split(".");
@@ -138,6 +139,7 @@ export const DatePicker = () => {
     }
 
     setInputValue(formattedValue);
+    setError("")
 
     if (formattedValue.length === 10) {
       const parsedDate = parseInputDate(formattedValue);
@@ -147,7 +149,17 @@ export const DatePicker = () => {
         setTempDate(parsedDate);
       }
     }
+
   };
+
+  const validateDate = () => {
+      if(!inputValue){
+        setError("это поле обязательное");
+        return;
+      }
+
+      setError("")
+    }
 
   const handleOpen = () => {
     const parsedDate = parseInputDate(inputValue);
@@ -175,6 +187,7 @@ export const DatePicker = () => {
 
     setSelectedDate(tempDate);
     setInputValue(tempDate.toLocaleDateString("ru-RU"));
+    setError("")
     setIsOpen(false);
   };
 
@@ -182,11 +195,14 @@ export const DatePicker = () => {
     <div className={styles.datePicker}>
       <div className={styles.inputWrapper}>
         <input
-          className={styles.input}
+          className={`${styles.input} ${
+        error ? styles.inputError : ""
+        }`}
           type="text"
           placeholder="дд.мм.гггг"
           value={inputValue}
           onChange={handleInputChange}
+          onBlur={validateDate}
           maxLength={10}
         />
 
@@ -203,6 +219,11 @@ export const DatePicker = () => {
           />
         </button>
       </div>
+      {error &&(
+        <span className={styles.error}>
+          {error}
+        </span>
+      )}
 
       {isOpen && (
         <div className={styles.calendarPopup}>

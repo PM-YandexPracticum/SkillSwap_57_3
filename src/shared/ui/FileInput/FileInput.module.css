@@ -30,3 +30,19 @@
 .input {
   display: none;
 }
+
+.error {
+  border-color: var(--color-error);
+}
+
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.errorText {
+  color: var(--color-error);
+  font-size: 12px;
+  line-height: 16px;
+}
