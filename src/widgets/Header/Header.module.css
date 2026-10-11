@@ -5,6 +5,9 @@
   padding: 12px 24px;
   background-color: rgb(249 250 247 / 100%);
   border-bottom: 1px solid rgb(224 224 224 / 100%);
+  position: sticky;
+  top: 0;
+  z-index: 5;
 }
 
 .left {
@@ -38,10 +41,16 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  color: rgb(37 48 23 / 100%); 
+  color: rgb(37 48 23 / 100%);
   background: none;
   border: none;
   cursor: pointer;
+}
+
+.buttonAbout:hover,
+.buttonSkills:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .buttonSkills {
@@ -76,14 +85,13 @@
   border-color: rgb(37 48 23 / 100%);
 }
 
-
 .buttonRegister {
   font-family: Roboto, sans-serif;
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
   color: rgb(255 255 255 / 100%);
-  background-color: rgb(171 210 122 / 100%); 
+  background-color: rgb(171 210 122 / 100%);
   border: none;
   padding: 8px 16px;
   border-radius: 8px;
