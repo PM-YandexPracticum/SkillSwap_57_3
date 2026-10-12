@@ -1,5 +1,5 @@
 import { Banner } from '@/widgets/Banner/Banner'
-import { ShareForm } from '@/widgets/ShareForm'
+import { ShareForm } from '@/widgets/shareForm'
 import styles from './CreateSkillPage.module.css'
 
 export default function CreateSkillPage() {
