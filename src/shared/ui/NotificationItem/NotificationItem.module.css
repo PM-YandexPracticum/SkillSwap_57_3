@@ -1,0 +1,39 @@
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.content {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  width: 436px;
+  height: 40px;
+}
+
+.icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.text {
+  width: 306px;
+  height: 40px;
+  font-family: Roboto, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: rgb(37 48 23);
+}
+
+.title {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.description {
+  font-size: 12px;
+  line-height: 16px;
+}
