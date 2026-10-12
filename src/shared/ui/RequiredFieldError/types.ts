@@ -1,6 +1,6 @@
-import type { CSSProperties, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 export type RequiredFieldErrorProps = {
-  children: (errorStyle: CSSProperties) => ReactNode
+  children: ReactNode
   hasError: boolean
 }
