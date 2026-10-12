@@ -3,7 +3,7 @@ import searchIcon from '@assets/icon/Search.svg'
 import styles from './HeaderSearch.module.css'
 import { useDebounce } from '@hooks/useDebounce'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { setSearchQuery, selectSearchQuery } from '@/features/search//searchSlice'
+import { setSearchQuery, selectSearchQuery } from '@/entities/search/model/searchSlice'
 
 export const HeaderSearch = () => {
   const dispatch = useAppDispatch()
