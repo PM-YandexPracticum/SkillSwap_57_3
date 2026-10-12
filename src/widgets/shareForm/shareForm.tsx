@@ -24,9 +24,14 @@ export function ShareForm({ onSubmit, onBack }: ShareFormProps) {
   const [category, setCategory] = useState('');
   const [subcategory, setSubcategory] = useState('');
   const [description, setDescription] = useState('');
+  const [descriptionError, setDescriptionError] = useState('');
   const [images, setImages] = useState<File[]>([]);
 
   const handleSubmit = () => {
+    if (description.trim() === '') {
+      setDescriptionError('Это поле обязательно');
+      return;
+    }
     const data: ShareFormData = {
       name,
       category,
@@ -35,6 +40,11 @@ export function ShareForm({ onSubmit, onBack }: ShareFormProps) {
       images,
     };
     onSubmit?.(data);
+  };
+
+  const handleDescriptionChange = (value: string) => {
+    setDescription(value);
+    if (descriptionError) setDescriptionError('');
   };
 
   const handleBack = () => {
@@ -71,7 +81,8 @@ export function ShareForm({ onSubmit, onBack }: ShareFormProps) {
       <TextArea
         labelName="Описание"
         value={description}
-        onChange={setDescription}
+        onChange={handleDescriptionChange}
+        error={descriptionError}
       />
 
       <FileInput onChange={setImages} />

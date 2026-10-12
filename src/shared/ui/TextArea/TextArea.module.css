@@ -25,3 +25,13 @@
 .textarea::placeholder {
   color: #888; 
 }
+
+.error {
+  border-color: #f5222d;
+}
+
+.errorMessage {
+  color: #f5222d;
+  font-size: 13px;
+  line-height: 18px;
+}
