@@ -1,0 +1,1 @@
+export { ModalSkills } from './ModalSkills'
