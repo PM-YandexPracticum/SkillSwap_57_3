@@ -27,6 +27,14 @@ const DEVELOPERS: DevInfoCardProps[] = [
       'Прохожу обучение на фронтенд-разработчика в Практикуме и участвую в командной разработке проекта SkillSwap.',
     githubUrl: 'https://github.com/knikulnikova',
   },
+  {
+    avatarUrl: 'https://github.com/nikolaevskidaniil19-ui.png',
+    name: 'Николаевский Даниил',
+    role: 'Рядовой разработчик',
+    about:
+      'Изучаю фронтенд-разработку в Яндекс Практикуме. В рамках обучения участвую в командной разработке SkillSwap.',
+    githubUrl: 'https://github.com/nikolaevskidaniil19-ui',
+  },
 ]
 
 export function AboutPage() {
