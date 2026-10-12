@@ -16,3 +16,14 @@
   font-size: 16px;
   line-height: 24px;
 }
+
+.inputError {
+  border-color: rgb(220 38 38);
+}
+
+.error {
+  font-family: Roboto, sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  color: rgb(220 38 38);
+}

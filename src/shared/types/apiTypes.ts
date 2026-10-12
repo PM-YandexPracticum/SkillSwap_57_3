@@ -1,8 +1,15 @@
 export type Skill = {
   id: number
   title: string
-  color: string
+  color:
+  | 'light_lavender'
+  | 'light_beige'
+  | 'light_peach'
+  | 'light_pink'
+  | 'pale_blue'
+  | 'pale_green'
   icon_src: string
+  subskills: Subskill[]
 }
 
 export type Subskill = {
@@ -41,4 +48,9 @@ export type CatalogUserResponse = {
   topByLikes: User[]
   newest: User[]
   byName: User[]
+}
+
+export type Genders = {
+  id: string
+  title: string
 }

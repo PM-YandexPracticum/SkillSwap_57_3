@@ -21,12 +21,24 @@ const SUBCATEGORY_OPTIONS = [
 
 export function ShareForm({ onSubmit, onBack }: ShareFormProps) {
   const [name, setName] = useState('');
+  const [nameError, setNameError] = useState('');        
   const [category, setCategory] = useState('');
   const [subcategory, setSubcategory] = useState('');
   const [description, setDescription] = useState('');
+  const [descriptionError, setDescriptionError] = useState('');
   const [images, setImages] = useState<File[]>([]);
 
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {   // ← ПРАВКА Б
+    const value = e.target.value;
+    setName(value);
+    setNameError(value === '' ? 'Название обязательно' : '');
+  };
+
   const handleSubmit = () => {
+    if (description.trim() === '') {
+      setDescriptionError('Это поле обязательно');
+      return;
+    }
     const data: ShareFormData = {
       name,
       category,
@@ -35,6 +47,11 @@ export function ShareForm({ onSubmit, onBack }: ShareFormProps) {
       images,
     };
     onSubmit?.(data);
+  };
+
+  const handleDescriptionChange = (value: string) => {
+    setDescription(value);
+    if (descriptionError) setDescriptionError('');
   };
 
   const handleBack = () => {
@@ -47,9 +64,8 @@ export function ShareForm({ onSubmit, onBack }: ShareFormProps) {
         labelName="Название навыка"
         placeholder="Введите название вашего навыка"
         value={name}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setName(e.target.value)
-        }
+        onChange={handleNameChange}                        
+        error={nameError}                                  
       />
 
       <Select
@@ -71,7 +87,8 @@ export function ShareForm({ onSubmit, onBack }: ShareFormProps) {
       <TextArea
         labelName="Описание"
         value={description}
-        onChange={setDescription}
+        onChange={handleDescriptionChange}
+        error={descriptionError}
       />
 
       <FileInput onChange={setImages} />

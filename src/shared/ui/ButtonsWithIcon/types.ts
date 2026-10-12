@@ -7,4 +7,5 @@ export type ButtonsWithIconProps = {
   position?: 'left' | 'right'
   border?: boolean
   greenBorder?: boolean
+  rotate?: boolean
 }

@@ -7,6 +7,7 @@ import calendarIcon from "@assets/ButtonSvg/calendar.svg";
 import "react-datepicker/dist/react-datepicker.css";
 import styles from "./DatePicker.module.css";
 import "./DatePicker.css";
+import { DatePickerProps } from './types'
 
 const months = [
   "Январь",
@@ -31,11 +32,12 @@ const years = Array.from(
   (_, index) => currentYear - index
 );
 
-export const DatePicker = () => {
+export const DatePicker = ({ /*value,*/ onChange }: DatePickerProps) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [tempDate, setTempDate] = useState<Date | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [error, setError] = useState("");
 
   const parseInputDate = (value: string) => {
     const parts = value.split(".");
@@ -138,6 +140,7 @@ export const DatePicker = () => {
     }
 
     setInputValue(formattedValue);
+    setError("")
 
     if (formattedValue.length === 10) {
       const parsedDate = parseInputDate(formattedValue);
@@ -145,9 +148,24 @@ export const DatePicker = () => {
       if (parsedDate) {
         setSelectedDate(parsedDate);
         setTempDate(parsedDate);
+        onChange(parsedDate)
+      } else {
+        onChange(null);
       }
+    } else {
+      onChange(null);
     }
+
   };
+
+  const validateDate = () => {
+      if(!inputValue){
+        setError("это поле обязательное");
+        return;
+      }
+
+      setError("")
+    }
 
   const handleOpen = () => {
     const parsedDate = parseInputDate(inputValue);
@@ -174,7 +192,9 @@ export const DatePicker = () => {
     }
 
     setSelectedDate(tempDate);
+    onChange(tempDate);
     setInputValue(tempDate.toLocaleDateString("ru-RU"));
+    setError("")
     setIsOpen(false);
   };
 
@@ -182,11 +202,14 @@ export const DatePicker = () => {
     <div className={styles.datePicker}>
       <div className={styles.inputWrapper}>
         <input
-          className={styles.input}
+          className={`${styles.input} ${
+        error ? styles.inputError : ""
+        }`}
           type="text"
           placeholder="дд.мм.гггг"
           value={inputValue}
           onChange={handleInputChange}
+          onBlur={validateDate}
           maxLength={10}
         />
 
@@ -203,6 +226,11 @@ export const DatePicker = () => {
           />
         </button>
       </div>
+      {error &&(
+        <span className={styles.error}>
+          {error}
+        </span>
+      )}
 
       {isOpen && (
         <div className={styles.calendarPopup}>

@@ -1,55 +1,8 @@
 import { UserCard } from '@widgets/UserCard/index'
 import styles from './styles.module.css'
 import { ButtonsWithIcon } from '@ui/ButtonsWithIcon'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import { CatalogUserResponse } from '@/shared/types/apiTypes'
-import { useAppSelector } from '@/store/hooks'
-import { selectSearchQuery } from '@/features/search/searchSlice'
-
-const MOCK_USERS = [
-  {
-    avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200',
-    name: 'Максим',
-    location: 'Москва, 23 года',
-    canTeach: ['Бизнес-план'],
-    wantsToLearn: ['Тайм менеджмент', 'Медитация'],
-  },
-  {
-    avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200',
-    name: 'Илона',
-    location: 'Казань, 27 лет',
-    canTeach: ['Английский язык'],
-    wantsToLearn: ['Тайм менеджмент', 'Медитация', 'Рисование'],
-  },
-  {
-    avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200',
-    name: 'Михаил',
-    location: 'Новосибирск, 29 лет',
-    canTeach: ['Английский язык'],
-    wantsToLearn: ['Тайм менеджмент', 'Медитация'],
-  },
-  {
-    avatarUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200',
-    name: 'Мария',
-    location: 'Красноярск, 21 год',
-    canTeach: ['Английский язык'],
-    wantsToLearn: ['Тайм менеджмент', 'Медитация'],
-  },
-  {
-    avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200',
-    name: 'Виктория',
-    location: 'Кемерово, 38 лет',
-    canTeach: ['Английский язык'],
-    wantsToLearn: ['Тайм менеджмент', 'Медитация'],
-  },
-  {
-    avatarUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200',
-    name: 'Анна',
-    location: 'Москва, 28 лет',
-    canTeach: ['Английский язык'],
-    wantsToLearn: ['Тайм менеджмент', 'Медитация'],
-  },
-]
 
 export default function CatalogPage() {
   const [users, setUsers] = useState<CatalogUserResponse>({
@@ -58,6 +11,11 @@ export default function CatalogPage() {
     topByLikes: [],
   })
 
+  const [cardVisibleCount, setCardVisibleCount] = useState(9)
+  const observerTarget = useRef<HTMLDivElement | null>(null)
+
+  const [popularOpen, setPopularOpen] = useState(false)
+  const [newOpen, setNewOpen] = useState(false)
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -70,27 +28,68 @@ export default function CatalogPage() {
     fetchData()
   }, [])
 
-  const searchQuery = useAppSelector(selectSearchQuery)
-  const filtredUsers = users.byName.filter((user) => {
-    return user.canTeach.some((skill) => {
-      return skill.title.toLowerCase().includes(searchQuery.toLowerCase())
+  const loadMoreCards = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setCardVisibleCount((prev) => Math.min(prev + 6, users.byName.length))
+        }
+      })
+    },
+    [users.byName.length],
+  )
+
+  // useEffect для infinite scroll
+  useEffect(() => {
+    if (!users.byName.length) return
+
+    const observer = new IntersectionObserver(loadMoreCards, {
+      threshold: 1.0,
     })
-  })
+
+    if (observerTarget.current) {
+      observer.observe(observerTarget.current)
+    }
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [users.byName.length, loadMoreCards])
+
   return (
     <main className={styles.container}>
       <aside className={styles.sidebar} />
-      {searchQuery ? (
+
+      <div className={styles.categories}>
         <section className={styles.spotlight}>
+          <div className={styles.section_header}>
+            <h2>Популярное</h2>
+            <ButtonsWithIcon
+              gap="gapSmall"
+              iconSrc="./src/assets/ButtonSvg/chevron-right.svg"
+              onClick={() => setPopularOpen(!popularOpen)}
+              text={popularOpen ? 'Свернуть' : 'Смотреть все'}
+              size="small"
+              position="right"
+              rotate={popularOpen}
+            />
+          </div>
           <div className={styles.user_cards}>
-            {filtredUsers.map((user, index) => (
+            {(popularOpen ? users.topByLikes : users.topByLikes.slice(0, 3)).map((user, index) => (
               <UserCard
                 key={index}
                 variant="catalog"
                 avatarUrl={`http://localhost:5000/images/users/${user.image_path}`}
                 name={user.name}
                 location={user.city.title}
-                canTeach={user.canTeach.map((val) => val.title)}
-                wantsToLearn={user.wantsToLearn.map((val) => val.title)}
+                canTeach={user.canTeach.map((val) => ({
+                  title: val.title,
+                  color: val.subskill.skill.color,
+                }))}
+                wantsToLearn={user.wantsToLearn.map((val) => ({
+                  title: val.title,
+                  color: val.subskill.skill.color,
+                }))}
                 isLiked={false}
                 onLike={() => {}}
                 onDetails={() => {}}
@@ -98,91 +97,74 @@ export default function CatalogPage() {
             ))}
           </div>
         </section>
-      ) : (
-        <div className={styles.categories}>
-          <section className={styles.spotlight}>
-            <div className={styles.section_header}>
-              <h2>Популярное</h2>
-              <ButtonsWithIcon
-                gap="gapSmall"
-                iconSrc="./src/assets/ButtonSvg/chevron-right.svg"
-                onClick={() => {}}
-                text="Смотреть все"
-                size="small"
-                position="right"
-              />
-            </div>
-            <div className={styles.user_cards}>
-              {users.topByLikes.slice(0, 3).map((user, index) => (
-                <UserCard
-                  key={index}
-                  variant="catalog"
-                  avatarUrl={`http://localhost:5000/images/users/${user.image_path}`}
-                  name={user.name}
-                  location={user.city.title}
-                  canTeach={user.canTeach.map((val) => val.title)}
-                  wantsToLearn={user.wantsToLearn.map((val) => val.title)}
-                  isLiked={false}
-                  onLike={() => {}}
-                  onDetails={() => {}}
-                />
-              ))}
-            </div>
-          </section>
 
-          <section className={styles.spotlight}>
-            <div className={styles.section_header}>
-              <h2>Новое</h2>
-              <ButtonsWithIcon
-                gap="gapSmall"
-                iconSrc="./src/assets/ButtonSvg/chevron-right.svg"
-                onClick={() => {}}
-                text="Смотреть все"
-                size="small"
-                position="right"
+        <section className={styles.spotlight}>
+          <div className={styles.section_header}>
+            <h2>Новое</h2>
+            <ButtonsWithIcon
+              gap="gapSmall"
+              iconSrc="./src/assets/ButtonSvg/chevron-right.svg"
+              onClick={() => setNewOpen(!newOpen)}
+              text={newOpen ? 'Свернуть' : 'Смотреть все'}
+              size="small"
+              position="right"
+              rotate={newOpen}
+            />
+          </div>
+          <div className={styles.user_cards}>
+            {(newOpen ? users.newest : users.newest.slice(0, 3)).map((user, index) => (
+              <UserCard
+                key={index}
+                variant="catalog"
+                avatarUrl={`http://localhost:5000/images/users/${user.image_path}`}
+                name={user.name}
+                location={user.city.title}
+                canTeach={user.canTeach.map((val) => ({
+                  title: val.title,
+                  color: val.subskill.skill.color,
+                }))}
+                wantsToLearn={user.wantsToLearn.map((val) => ({
+                  title: val.title,
+                  color: val.subskill.skill.color,
+                }))}
+                isLiked={false}
+                onLike={() => {}}
+                onDetails={() => {}}
               />
-            </div>
-            <div className={styles.user_cards}>
-              {users.newest.slice(0, 3).map((user, index) => (
-                <UserCard
-                  key={index}
-                  variant="catalog"
-                  avatarUrl={`http://localhost:5000/images/users/${user.image_path}`}
-                  name={user.name}
-                  location={user.city.title}
-                  canTeach={user.canTeach.map((val) => val.title)}
-                  wantsToLearn={user.wantsToLearn.map((val) => val.title)}
-                  isLiked={false}
-                  onLike={() => {}}
-                  onDetails={() => {}}
-                />
-              ))}
-            </div>
-          </section>
+            ))}
+          </div>
+        </section>
 
-          <section className={styles.spotlight}>
-            <div className={styles.section_header}>
-              <h2>Рекомендуем</h2>
-            </div>
-            <div className={styles.user_cards}>
-              {MOCK_USERS.map((user, index) => (
-                <UserCard
-                  key={index}
-                  variant="catalog"
-                  avatarUrl={user.avatarUrl}
-                  name={user.name}
-                  location={user.location}
-                  canTeach={user.canTeach}
-                  wantsToLearn={user.wantsToLearn}
-                  isLiked={false}
-                  onLike={() => {}}
-                  onDetails={() => {}}
-                />
-              ))}
-            </div>
-          </section>
-        </div>
-      )}
+        <section className={styles.spotlight}>
+          <div className={styles.section_header}>
+            <h2>Рекомендуем</h2>
+          </div>
+          <div className={styles.user_cards}>
+            {users.byName.slice(0, cardVisibleCount).map((user) => (
+              <UserCard
+                key={user.id}
+                variant="catalog"
+                avatarUrl={`http://localhost:5000/images/users/${user.image_path}`}
+                name={user.name}
+                location={user.city.title}
+                canTeach={user.canTeach.map((val) => ({
+                  color: val.subskill.skill.color,
+                  title: val.title,
+                }))}
+                wantsToLearn={user.wantsToLearn.map((val) => ({
+                  color: val.subskill.skill.color,
+                  title: val.title,
+                }))}
+                isLiked={false}
+                onLike={() => {}}
+                onDetails={() => {}}
+              />
+            ))}
+          </div>
+
+          <div ref={observerTarget}></div>
+        </section>
+      </div>
     </main>
   )
 }

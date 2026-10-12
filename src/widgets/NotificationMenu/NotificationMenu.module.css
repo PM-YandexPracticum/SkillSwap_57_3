@@ -1,0 +1,22 @@
+.menu {
+  width: 476px;
+  padding: 20px;
+  border-radius: 12px;
+  background-color: #fff;
+  box-shadow: 0 4px 16px rgb(37 48 23 / 12%);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  list-style: none;
+}
+
+.empty {
+  font-family: Roboto, sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.02em;
+  color: rgb(37 48 23);
+}

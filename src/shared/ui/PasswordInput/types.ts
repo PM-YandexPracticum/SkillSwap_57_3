@@ -5,4 +5,6 @@ export type PasswordInputProps = {
   placeholder: string
   value: string //значение инпута
   onChange: (e: ChangeEvent<HTMLInputElement>) => void// функция изменения значения состояния инпута
+  isError?: boolean
+  textHint?: string
 }
