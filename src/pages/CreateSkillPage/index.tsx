@@ -1,10 +1,12 @@
-import { ShareForm } from '@widgets/shareForm';
+import { Banner } from '@/widgets/Banner/Banner'
+import { ShareForm } from '@/widgets/ShareForm'
+import styles from './CreateSkillPage.module.css'
 
 export default function CreateSkillPage() {
   return (
-    <main>
-      <h1>Создание навыка</h1>
+    <main className={styles.conteiner}>
       <ShareForm />
+      <Banner type="about"></Banner>
     </main>
-  );
+  )
 }

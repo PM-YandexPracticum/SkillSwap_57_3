@@ -1,0 +1,7 @@
+.conteiner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  background-color: rgb(249 250 247 / 100%);
+}
