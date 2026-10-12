@@ -34,6 +34,10 @@
   opacity: 1;
 }
 
+.open {
+  z-index: 10;
+}
+
 .arrow {
   width: 24px;
   height: 24px;

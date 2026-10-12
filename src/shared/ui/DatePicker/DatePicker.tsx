@@ -7,6 +7,7 @@ import calendarIcon from "@assets/ButtonSvg/calendar.svg";
 import "react-datepicker/dist/react-datepicker.css";
 import styles from "./DatePicker.module.css";
 import "./DatePicker.css";
+import { DatePickerProps } from './types'
 
 const months = [
   "Январь",
@@ -31,7 +32,7 @@ const years = Array.from(
   (_, index) => currentYear - index
 );
 
-export const DatePicker = () => {
+export const DatePicker = ({ /*value,*/ onChange }: DatePickerProps) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [tempDate, setTempDate] = useState<Date | null>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -147,7 +148,12 @@ export const DatePicker = () => {
       if (parsedDate) {
         setSelectedDate(parsedDate);
         setTempDate(parsedDate);
+        onChange(parsedDate)
+      } else {
+        onChange(null);
       }
+    } else {
+      onChange(null);
     }
 
   };
@@ -186,6 +192,7 @@ export const DatePicker = () => {
     }
 
     setSelectedDate(tempDate);
+    onChange(tempDate);
     setInputValue(tempDate.toLocaleDateString("ru-RU"));
     setError("")
     setIsOpen(false);
