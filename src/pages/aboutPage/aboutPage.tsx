@@ -27,6 +27,14 @@ const DEVELOPERS: DevInfoCardProps[] = [
       'Прохожу обучение на фронтенд-разработчика в Практикуме и участвую в командной разработке проекта SkillSwap.',
     githubUrl: 'https://github.com/knikulnikova',
   },
+  {
+    avatarUrl: 'https://github.com/DmitryPanin-1991.png',
+    name: 'Панин Дмитрий',
+    role: 'Рядовой разработчик',
+    about:
+      'Осваиваю профессию фронтенд-разработчика в Яндекс Практикуме. В настоящее время работаю конструктором упаковки. Вместе с женой воспитываем пуделя Бруно. Увлекаюсь видеоиграми, кино и современными технологиями.',
+    githubUrl: 'https://github.com/DmitryPanin-1991',
+  },
 ]
 
 export function AboutPage() {
