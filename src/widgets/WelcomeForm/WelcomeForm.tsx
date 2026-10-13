@@ -9,20 +9,27 @@ import apple from '@assets/icon/Apple.svg'
 import { WelcomeFormProps } from './types.ts'
 
 export function WelcomeForm({ isRegForm }: WelcomeFormProps) {
-   const [email, setEmail] = useState('');
-   const [emailError, setEmailError] = useState('');
+  const [email, setEmail] = useState('')
+  const [emailError, setEmailError] = useState('')
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setEmail(value);
-    setEmailError(value === '' ? 'Email обязателен' : '');
-  };
-   
+    setEmail(e.target.value)
+    if (emailError) {
+      setEmailError('')
+    }
+  }
+
+  const handleEmailBlur = () => {
+    if (email === '') {
+      setEmailError('Email обязателен')
+    }
+  }
+
   return (
     <section className={styles.container}>
       <div className={styles.buttonContainer}>
         <ButtonsWithIcon
-          text="Продлжить с Google"
+          text="Продолжить с Google"
           iconSrc={google}
           size="large"
           gap="gapLarge"
@@ -47,6 +54,7 @@ export function WelcomeForm({ isRegForm }: WelcomeFormProps) {
           labelName="Email"
           placeholder="Введите email"
           onChange={handleEmailChange}
+          onBlur={handleEmailBlur}
           error={emailError}
         />
         <fieldset className={styles.password}>
@@ -54,11 +62,13 @@ export function WelcomeForm({ isRegForm }: WelcomeFormProps) {
             <>
               <PasswordInput
                 labelName="Пароль"
-                placeholder="Придумайте надежный пароль"
+                placeholder="Придумайте надёжный пароль"
                 onChange={() => {}}
                 value={''}
               />
-              <text className={styles.inscription}>Пароль должен содержать не менее 8 знаков</text>
+              <text className={styles.inscription}>
+                Пароль должен содержать не менее 8 знаков
+              </text>
             </>
           ) : (
             <PasswordInput
@@ -71,11 +81,23 @@ export function WelcomeForm({ isRegForm }: WelcomeFormProps) {
         </fieldset>
         {isRegForm ? (
           <>
-            <Buttons text="Далее" onClick={() => {}} variant="greenButton" size="extra-large" />
-            <button className={styles.enterButton}>Уже есть аккаунт? Войти</button>
+            <Buttons
+              text="Далее"
+              onClick={() => {}}
+              variant="greenButton"
+              size="extra-large"
+            />
+            <button className={styles.enterButton}>
+              Уже есть аккаунт? Войти
+            </button>
           </>
         ) : (
-          <Buttons text="Войти" onClick={() => {}} variant="greenButton" size="extra-large" />
+          <Buttons
+            text="Войти"
+            onClick={() => {}}
+            variant="greenButton"
+            size="extra-large"
+          />
         )}
       </form>
     </section>
