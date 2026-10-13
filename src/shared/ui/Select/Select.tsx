@@ -10,7 +10,7 @@ type SelectOption = {
   title: string
 }
 
-export const Select = ({ labelName, placeholder, options, value, onChange }: SelectProps) => {
+export const Select = ({ labelName, placeholder, options, value, onChange,error }: SelectProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const selectedOption = options.find((option) => option.title === value) || null
@@ -25,20 +25,28 @@ export const Select = ({ labelName, placeholder, options, value, onChange }: Sel
       padding: 0,
     }),
 
-    control: (baseStyles, state) => ({
-      ...baseStyles,
-      minHeight: '48px',
-      padding: '0 20px',
-      cursor: 'pointer',
-      border: state.menuIsOpen ? '1px solid #E4E8DF' : '1px solid #69735D',
-      borderRadius: '11px',
-      boxShadow: 'none',
-      zIndex: 2,
+     control: (baseStyles, state) => {
+      const borderColor = error
+        ? 'rgb(191 57 32 )'
+        : state.menuIsOpen
+          ? '#E4E8DF'
+          : '#69735D'
 
-      ':hover': {
-        border: state.menuIsOpen ? '1px solid #E4E8DF' : '1px solid #69735D',
-      },
-    }),
+      return {
+        ...baseStyles,
+        minHeight: '48px',
+        padding: '0 20px',
+        cursor: 'pointer',
+        border: `1px solid ${borderColor}`,
+        borderRadius: '11px',
+        boxShadow: 'none',
+        zIndex: 2,
+
+        ':hover': {
+          border: `1px solid ${borderColor}`,
+        },
+      }
+    },
 
     option: (baseStyles) => ({
       ...baseStyles,
@@ -104,6 +112,7 @@ export const Select = ({ labelName, placeholder, options, value, onChange }: Sel
           getOptionValue={(option) => option.title}
         />
       </div>
+      {error && <span className={styles.error}>{error}</span>}
     </div>
   )
 }
