@@ -1,43 +1,44 @@
-import { useState } from 'react';
-import { TextInput } from '@ui/TextInput';
-import { Select } from '@ui/Select';
-import { TextArea } from '@ui/TextArea';
-import { FileInput } from '@ui/FileInput';
-import { Buttons } from '@ui/Buttons';
-import { SKILL_CATEGORIES } from '@/shared/lib/constants';
-import styles from './shareForm.module.css';
-import type { ShareFormProps, ShareFormData } from './types';
+import { useState } from 'react'
+import { TextInput } from '@ui/TextInput'
+import { Select } from '@ui/Select'
+import { TextArea } from '@ui/TextArea'
+import { FileInput } from '@ui/FileInput'
+import { Buttons } from '@ui/Buttons'
+import { SKILL_CATEGORIES } from '@/shared/lib/constants'
+import styles from './shareForm.module.css'
+import type { ShareFormProps, ShareFormData } from './types'
 
 const CATEGORY_OPTIONS = SKILL_CATEGORIES.map((category) => ({
   value: category,
   label: category,
-}));
+}))
 
 const SUBCATEGORY_OPTIONS = [
   { value: 'subcategory-1', label: 'Подкатегория 1' },
   { value: 'subcategory-2', label: 'Подкатегория 2' },
   { value: 'subcategory-3', label: 'Подкатегория 3' },
-];
+]
 
 export function ShareForm({ onSubmit, onBack }: ShareFormProps) {
-  const [name, setName] = useState('');
-  const [nameError, setNameError] = useState('');        
-  const [category, setCategory] = useState('');
-  const [subcategory, setSubcategory] = useState('');
-  const [description, setDescription] = useState('');
-  const [descriptionError, setDescriptionError] = useState('');
-  const [images, setImages] = useState<File[]>([]);
+  const [name, setName] = useState('')
+  const [nameError, setNameError] = useState('')
+  const [category, setCategory] = useState('')
+  const [subcategory, setSubcategory] = useState('')
+  const [description, setDescription] = useState('')
+  const [descriptionError, setDescriptionError] = useState('')
+  const [images, setImages] = useState<File[]>([])
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {   // ← ПРАВКА Б
-    const value = e.target.value;
-    setName(value);
-    setNameError(value === '' ? 'Название обязательно' : '');
-  };
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // ← ПРАВКА Б
+    const value = e.target.value
+    setName(value)
+    setNameError(value === '' ? 'Название обязательно' : '')
+  }
 
   const handleSubmit = () => {
     if (description.trim() === '') {
-      setDescriptionError('Это поле обязательно');
-      return;
+      setDescriptionError('Это поле обязательно')
+      return
     }
     const data: ShareFormData = {
       name,
@@ -45,18 +46,18 @@ export function ShareForm({ onSubmit, onBack }: ShareFormProps) {
       subcategory,
       description,
       images,
-    };
-    onSubmit?.(data);
-  };
+    }
+    onSubmit?.(data)
+  }
 
   const handleDescriptionChange = (value: string) => {
-    setDescription(value);
-    if (descriptionError) setDescriptionError('');
-  };
+    setDescription(value)
+    if (descriptionError) setDescriptionError('')
+  }
 
   const handleBack = () => {
-    onBack?.();
-  };
+    onBack?.()
+  }
 
   return (
     <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
@@ -64,8 +65,8 @@ export function ShareForm({ onSubmit, onBack }: ShareFormProps) {
         labelName="Название навыка"
         placeholder="Введите название вашего навыка"
         value={name}
-        onChange={handleNameChange}                        
-        error={nameError}                                  
+        onChange={handleNameChange}
+        error={nameError}
       />
 
       <Select
@@ -95,12 +96,14 @@ export function ShareForm({ onSubmit, onBack }: ShareFormProps) {
 
       <div className={styles.buttons}>
         <Buttons
+          type="button"
           text="Назад"
           variant="whiteButton"
           size="medium"
           onClick={handleBack}
         />
         <Buttons
+          type="button"
           text="Продолжить"
           variant="greenButton"
           size="medium"
@@ -108,5 +111,5 @@ export function ShareForm({ onSubmit, onBack }: ShareFormProps) {
         />
       </div>
     </form>
-  );
+  )
 }

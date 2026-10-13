@@ -1,6 +1,6 @@
 import * as yup from 'yup'
 
-export const aboutFormSchema = yup.object({
+export const schema = yup.object({
   avatar: yup
     .mixed<File>()
     .required('Загрузите аватар')
@@ -9,7 +9,8 @@ export const aboutFormSchema = yup.object({
     })
     .test('file-type', 'Допустимые форматы: JPEG, PNG', (file) => {
       return file instanceof File && ['image/jpeg', 'image/png'].includes(file.type)
-    }),
+    })
+    .nullable(),
 
   name: yup.string().trim().required('Введите имя'),
 
@@ -24,3 +25,5 @@ export const aboutFormSchema = yup.object({
   skill: yup.string().required('Выберите категорию'),
   subskill: yup.string().required('Выберите подкатегорию'),
 })
+
+export type Values = yup.InferType<typeof schema>
