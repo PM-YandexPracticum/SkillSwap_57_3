@@ -24,12 +24,19 @@ export function NotServerPage() {
         </div>
         <div className={styles.buttons}>
           <Buttons
+            type="button"
             text="Сообщить об ошибке"
             onClick={handleReportError}
             variant="whiteButton"
             size="large"
           />
-          <Buttons text="На главную" onClick={handleGoHome} variant="greenButton" size="large" />
+          <Buttons
+            type="button"
+            text="На главную"
+            onClick={handleGoHome}
+            variant="greenButton"
+            size="large"
+          />
         </div>
       </div>
     </main>

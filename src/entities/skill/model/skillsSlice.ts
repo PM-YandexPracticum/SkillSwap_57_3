@@ -8,10 +8,20 @@ const initialState: SkillsSliceState = {
   error: null,
 }
 
-export const fetchSkills = createAsyncThunk<Skill[]>('skill/getSkills', async () => {
-  const data = await fetch('http://localhost:5000/api/skills')
-  return data.json()
-})
+export const fetchSkills = createAsyncThunk<Skill[]>(
+  'skill/getSkills',
+  async (_, { signal, rejectWithValue }) => {
+    try {
+      const res = await fetch('http://localhost:5000/api/skills', { signal })
+      return await res.json()
+    } catch (e) {
+      if (e instanceof Error && e.name === 'AbortError') {
+        throw e
+      }
+      return rejectWithValue((e as Error).message)
+    }
+  },
+)
 
 const skillsSlice = createSlice({
   name: 'skills',

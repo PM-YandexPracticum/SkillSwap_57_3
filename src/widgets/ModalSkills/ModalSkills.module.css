@@ -1,16 +1,24 @@
 .modal {
   position: absolute;
-  top: 100%;
-  left: 36px;
-  inline-size: 1136px;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 100;
+  width: max-content;
+  max-width: min(1136px);
   box-sizing: border-box;
   background-color: white;
   border: 1px solid #253017;
   border-radius: 12px;
-  padding: 60px;
+  padding: 32px;
+  box-shadow: 0 8px 24px rgb(37 48 23 / 12%);
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;
+  gap: 32px 40px;
+  max-height: min(90vh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(0 0 0 / 15%) transparent;
 }
 
 .skillWrap {
@@ -22,6 +30,7 @@
 .titleWrap {
   display: flex;
   gap: 12px;
+  align-items: center;
 }
 
 .titleSkill {
@@ -30,25 +39,25 @@
   font-weight: 500;
   font-size: 24px;
   line-height: 28px;
-  letter-spacing: -1.1%;
+  letter-spacing: -0.011em;
   color: #253017;
 }
 
 .subskillsList {
   margin: 0;
   padding: 0;
-  margin-inline-start: 52px;
+  padding-inline-start: 36px;
+  list-style: none;
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
 .subskill {
-  list-style: none;
   font-family: Roboto, sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  letter-spacing: 2%;
+  letter-spacing: 0.02em;
   color: #253017;
 }

@@ -1,7 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { ROUTES } from '@/shared/lib/constants'
 import { MainLayout, AuthLayout } from '@/app/Layouts'
+import { useAppDispatch } from '@/store/hooks'
+import { fetchSkills } from '@/entities/skill/model/skillsSlice'
+import { fetchCities } from '@/entities/city/citySlice'
+import { fetchGenders } from '@/entities/genders/genderSlice'
 
 // Lazy-загрузка страниц — каждая страница грузится только при переходе на неё
 const CatalogPage = lazy(() => import('@/pages/CatalogPage'))
@@ -10,6 +14,7 @@ const ProfilePage = lazy(() => import('@/pages/ProfilePage'))
 const FavoritesPage = lazy(() => import('@/pages/FavoritesPage'))
 const CreateSkillPage = lazy(() => import('@/pages/CreateSkillPage'))
 const LoginPage = lazy(() => import('@/pages/LoginPage'))
+const RegisterPage = lazy(() => import('@/pages/RegisterPage'))
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'))
 const NotServerPage = lazy(() =>
   import('@/pages/NotServerPage').then((module) => ({ default: module.NotServerPage })),
@@ -17,6 +22,14 @@ const NotServerPage = lazy(() =>
 const AboutPage = lazy(() => import('@/pages/aboutPage'))
 
 export function AppRouter() {
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(fetchSkills())
+    dispatch(fetchCities())
+    dispatch(fetchGenders())
+  }, [dispatch])
+
   return (
     <>
       <BrowserRouter>
@@ -36,8 +49,8 @@ export function AppRouter() {
               <Route path="/500" element={<NotServerPage />} />
             </Route>
             <Route element={<AuthLayout />}>
-              <Route path={ROUTES.LOGIN} element={<LoginPage isLogin />} />
-              <Route path={ROUTES.REGISTER} element={<LoginPage isLogin />} />
+              <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+              <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
             </Route>
           </Routes>
         </Suspense>

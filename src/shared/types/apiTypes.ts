@@ -2,14 +2,19 @@ export type Skill = {
   id: number
   title: string
   color:
-  | 'light_lavender'
-  | 'light_beige'
-  | 'light_peach'
-  | 'light_pink'
-  | 'pale_blue'
-  | 'pale_green'
+    | 'light_lavender'
+    | 'light_beige'
+    | 'light_peach'
+    | 'light_pink'
+    | 'pale_blue'
+    | 'pale_green'
   icon_src: string
   subskills: Subskill[]
+}
+
+export type SkillStandalone = {
+  id: number
+  title: string
 }
 
 export type Subskill = {
@@ -51,6 +56,6 @@ export type CatalogUserResponse = {
 }
 
 export type Genders = {
-  id: string
+  id: number
   title: string
 }
