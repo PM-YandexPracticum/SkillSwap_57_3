@@ -1,0 +1,39 @@
+.dropdown {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+
+  width: 260px;
+  height: 152px;
+  padding: 40px;
+
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(178, 185, 169);
+  border-radius: 12px;
+}
+
+.dropdownItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+
+  padding: 0;
+
+  color: rgb(37, 48, 23);
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.02em;
+
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.logoutIcon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
