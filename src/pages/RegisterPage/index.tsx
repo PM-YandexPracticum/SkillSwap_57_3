@@ -49,7 +49,7 @@ export default function RegisterPage() {
             ))}
           </div>
         </div>
-        <div className={styles.main}>
+        <div className={styles.main} key={step}>
           {step === 1 && (
             <>
               <WelcomeForm isRegistry={true} setStepFn={setWelcomeFormData} />
