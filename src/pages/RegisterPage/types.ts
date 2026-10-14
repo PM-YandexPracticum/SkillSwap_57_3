@@ -8,4 +8,10 @@ export type RegisterData = {
   city: string
   skill: string
   subskill: string
+  nameSkill: string
+  canTeachSkillName: string
+  canTeachSkill: string
+  canTeachSubskill: string
+  canTeachdescription: string
+  skillFile: File[]
 }
