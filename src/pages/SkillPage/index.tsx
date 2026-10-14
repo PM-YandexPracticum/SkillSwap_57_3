@@ -1,5 +1,6 @@
-import { UserCard } from '@widgets/UserCard';
-import styles from './SkillPage.module.css';
+import { UserCard } from '@widgets/UserCard'
+import { ExchangeCard } from '@/widgets/ExchangeCard'
+import styles from './SkillPage.module.css'
 
 const mockAuthor = {
   avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200',
@@ -11,7 +12,7 @@ const mockAuthor = {
     { title: 'Тайм менеджмент', color: 'light_lavender' as const },
     { title: 'Медитация', color: 'pale_green' as const },
   ],
-};
+}
 
 const mockSimilar = [
   {
@@ -55,30 +56,66 @@ const mockSimilar = [
       { title: 'Медитация', color: 'pale_green' as const },
     ],
   },
-];
+]
+
+const mockSkill = {
+  title: 'Игра на барабанах',
+  category: 'Творчество и искусство / Музыка и звук',
+  description:
+    'Привет! Я играю на барабанах уже больше 10 лет — от репетиций в гараже до выступлений на сцене с живыми группами. Научу основам техники (и как не отбить себе пальцы), играть любимые ритмы и разбирать песни, импровизировать и звучать уверенно даже без паритуры',
+  images: [
+    '/src/assets/icon/Apple.svg',
+    '/src/assets/icon/Category.svg',
+    '/src/assets/icon/FileInputIcon.svg',
+    '/src/assets/icon/User.svg',
+  ],
+  isLiked: false,
+  status: 'available' as const,
+  onExchange: () => {
+    console.log('Нажата кнопка обмена')
+  },
+  onLike: () => {
+    console.log('Добавлено в избранное')
+  },
+  onShare: () => {
+    console.log('Поделиться карточкой')
+  },
+  onLearnMore: () => {
+    console.log('Подробнее о карточке')
+  },
+}
 
 export default function SkillPage() {
   return (
     <main className={styles.page}>
       <h1>SkillPage</h1>
 
-      <section className={styles.section}>
-        <h2>Автор навыка</h2>
-        <div>
-          <UserCard
-            variant="author"
-            avatarUrl={mockAuthor.avatarUrl}
-            name={mockAuthor.name}
-            location={mockAuthor.location}
-            about={mockAuthor.about}
-            canTeach={mockAuthor.canTeach}
-            wantsToLearn={mockAuthor.wantsToLearn}
-          />
-        </div>
+      <section className={`${styles.section} ${styles.skillSection}`}>
+        <UserCard
+          variant="author"
+          avatarUrl={mockAuthor.avatarUrl}
+          name={mockAuthor.name}
+          location={mockAuthor.location}
+          about={mockAuthor.about}
+          canTeach={mockAuthor.canTeach}
+          wantsToLearn={mockAuthor.wantsToLearn}
+        />
+        <ExchangeCard
+          title={mockSkill.title}
+          category={mockSkill.category}
+          description={mockSkill.description}
+          images={mockSkill.images}
+          isLiked={mockSkill.isLiked}
+          status={mockSkill.status}
+          onExchange={mockSkill.onExchange}
+          onLike={mockSkill.onLike}
+          onShare={mockSkill.onShare}
+          onLearnMore={mockSkill.onLearnMore}
+        />
       </section>
 
       <section className={styles.section}>
-        <h2>Похожие предложения</h2>
+        <h2 className={styles.title}>Похожие предложения</h2>
         <div className={styles.similar}>
           {mockSimilar.map((user, index) => (
             <UserCard
@@ -97,5 +134,5 @@ export default function SkillPage() {
         </div>
       </section>
     </main>
-  );
+  )
 }
