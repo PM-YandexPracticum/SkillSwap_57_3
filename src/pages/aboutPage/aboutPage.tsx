@@ -28,6 +28,12 @@ const DEVELOPERS: DevInfoCardProps[] = [
     githubUrl: 'https://github.com/knikulnikova',
   },
   {
+    avatarUrl: 'https://github.com/nikolaevskidaniil19-ui.png',
+    name: 'Николаевский Даниил',
+    role: 'Рядовой разработчик',
+    about:
+      'Изучаю фронтенд-разработку в Яндекс Практикуме. В рамках обучения участвую в командной разработке SkillSwap.',
+    githubUrl: 'https://github.com/nikolaevskidaniil19-ui',
     avatarUrl: 'https://github.com/DmitryPanin-1991.png',
     name: 'Панин Дмитрий',
     role: 'Рядовой разработчик',
