@@ -10,6 +10,7 @@ import {
   pluralizeYears,
 } from '@/shared/lib/helpers'
 import { ExchangeCard } from '@/widgets/ExchangeCard'
+import { API_URL } from '@/shared/config/api'
 
 export default function SkillPage() {
   const { id } = useParams<{ id: string }>()
@@ -28,7 +29,7 @@ export default function SkillPage() {
         <div className={styles.spotlight}>
           <UserCard
             variant="author"
-            avatarUrl={`http://localhost:5000/images/users/${currentUser.image_path}`}
+            avatarUrl={`${API_URL}/images/users/${currentUser.image_path}`}
             name={currentUser.name}
             location={`${currentUser.city.title}, ${pluralizeYears(currentUser.age)}`}
             about={currentUser.bio}
@@ -39,10 +40,10 @@ export default function SkillPage() {
             category={`${currentUser.canTeach[0].title} / ${currentUser.canTeach[0].subskill.title}`}
             description={currentUser.canTeach[0].description}
             images={[
-              `http://localhost:5000/images/can_teach/${currentUser.canTeach[0].image_1!}`,
-              `http://localhost:5000/images/can_teach/${currentUser.canTeach[0].image_2!}`,
-              `http://localhost:5000/images/can_teach/${currentUser.canTeach[0].image_3!}`,
-              `http://localhost:5000/images/can_teach/${currentUser.canTeach[0].image_4!}`,
+              `${API_URL}/images/can_teach/${currentUser.canTeach[0].image_1!}`,
+              `${API_URL}/images/can_teach/${currentUser.canTeach[0].image_2!}`,
+              `${API_URL}/images/can_teach/${currentUser.canTeach[0].image_3!}`,
+              `${API_URL}/images/can_teach/${currentUser.canTeach[0].image_4!}`,
             ]}
             title={currentUser.canTeach[0].title}
             onExchange={() => {}}
@@ -63,7 +64,7 @@ export default function SkillPage() {
               <UserCard
                 key={index}
                 variant="catalog"
-                avatarUrl={`http://localhost:5000/images/users/${user.image_path}`}
+                avatarUrl={`${API_URL}/images/users/${user.image_path}`}
                 name={user.name}
                 location={`${user.city.title}, ${pluralizeYears(user.age)}`}
                 canTeach={mapCanTeachToCardSkills(user.canTeach)}

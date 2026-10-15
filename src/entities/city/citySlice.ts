@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { CitySliceState } from './types.ts'
+import { API_URL } from '@/shared/config/api.ts'
 import type { City } from '@/shared/types/apiTypes'
 
 const initialState: CitySliceState = {
@@ -12,7 +13,7 @@ export const fetchCities = createAsyncThunk<City[]>(
   'city/getCities',
   async (_, { signal, rejectWithValue }) => {
     try {
-      const res = await fetch('http://localhost:5000/api/cities', { signal })
+      const res = await fetch(`${API_URL}/api/cities`, { signal })
       return await res.json()
     } catch (e) {
       if (e instanceof Error && e.name === 'AbortError') {

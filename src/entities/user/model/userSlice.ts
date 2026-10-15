@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { UserSliceState } from './types'
+import { API_URL } from '@/shared/config/api'
 import type { CatalogUserResponse, SingleUser } from '@/shared/types/apiTypes'
 
 const initialState: UserSliceState = {
@@ -10,14 +11,14 @@ const initialState: UserSliceState = {
 }
 
 export const fetchUsers = createAsyncThunk<CatalogUserResponse>('user/getUsers', async () => {
-  const response = await fetch('http://localhost:5000/api/users/')
+  const response = await fetch(`${API_URL}/api/users/`)
   return response.json()
 })
 
 export const fetchUser = createAsyncThunk<SingleUser, string>(
   'user/getUser',
   async (id: string) => {
-    const response = await fetch(`http://localhost:5000/api/users/${id}`)
+    const response = await fetch(`${API_URL}/api/users/${id}`)
     return response.json()
   },
 )
