@@ -1,10 +1,10 @@
 import styles from './Footer.module.css'
 import '@/app/styles/fonts.css'
 import Logo from '@ui/Logo/Logo'
+import { Link } from 'react-router-dom'
 
 export function Footer() {
   const data = [
-    'О проект',
     'Все навыки',
     'Контакты',
     'Блог',
@@ -16,6 +16,9 @@ export function Footer() {
       <Logo />
       <nav className={styles.navigation}>
         <ul className={styles.navigation_list}>
+          <li className={styles.navigation_list_elem}>
+            <Link to="/about">О проекте</Link>
+          </li>
           {data.map((item, index) => (
             <li key={index} className={styles.navigation_list_elem}>
               {item}
