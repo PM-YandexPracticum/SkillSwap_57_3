@@ -1,0 +1,70 @@
+.popupNotification {
+  display: flex;
+  flex-direction: row;
+  padding: 24px;
+  width: 340px;
+  height: 72px;
+  font-family: Jost, sans-serif;
+  font-size: 20px;
+  line-height: 24px;
+  color: rgb(37 48 23);
+  border-radius: 12px;
+  gap: 8px;
+  z-index: 1;
+  background-color: rgb(222 235 197);
+  position: relative;
+}
+
+.buttonMove {
+  position: absolute;
+  z-index: 2;
+  left: 259px;
+  top: 34px;
+  width: 74px;
+  height: 32px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 20px;
+  background-color: rgb(255 255 255);
+  color: rgb(37 48 23);
+  font-family: Roboto, sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  opacity: 0;
+}
+
+.buttonMove:hover,
+.buttonMove:focus-visible {
+  opacity: 1;
+}
+
+.buttonMove:hover,
+.buttonMove:active {
+  transform: none;
+  box-shadow: none;
+}
+
+.closeButton {
+  position: absolute;
+  z-index: 2;
+  left: 312px;
+  top: 4px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+}
+
+.closeButton:hover,
+.closeButton:active {
+  transform: none;
+  box-shadow: none;
+}
+
+.closeButton img {
+  width: 24px;
+  height: 24px;
+}

@@ -1,17 +1,26 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { UserSliceState } from './types'
-import type { CatalogUserResponse } from '@/shared/types/apiTypes'
+import type { CatalogUserResponse, SingleUser } from '@/shared/types/apiTypes'
 
 const initialState: UserSliceState = {
   data: null,
   loading: false,
   error: null,
+  currentUser: null,
 }
 
 export const fetchUsers = createAsyncThunk<CatalogUserResponse>('user/getUsers', async () => {
-  const response = await fetch('http://localhost:5001/api/users/')
+  const response = await fetch('http://localhost:5000/api/users/')
   return response.json()
 })
+
+export const fetchUser = createAsyncThunk<SingleUser, string>(
+  'user/getUser',
+  async (id: string) => {
+    const response = await fetch(`http://localhost:5000/api/users/${id}`)
+    return response.json()
+  },
+)
 
 const userSlice = createSlice({
   name: 'user',
@@ -31,6 +40,10 @@ const userSlice = createSlice({
     builder.addCase(fetchUsers.rejected, (state, action) => {
       state.loading = false
       state.error = action.error.message ?? 'Ошибка загрузки пользователей'
+    })
+
+    builder.addCase(fetchUser.fulfilled, (state, action) => {
+      state.currentUser = action.payload
     })
   },
 })
