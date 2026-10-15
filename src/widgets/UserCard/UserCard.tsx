@@ -73,6 +73,7 @@ export function UserCard({
 
       {variant === 'catalog' && (
         <Buttons
+          type="button"
           size="large"
           text="Подробнее"
           onClick={onDetails ?? (() => {})}

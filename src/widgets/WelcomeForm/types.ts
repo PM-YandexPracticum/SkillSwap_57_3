@@ -1,3 +1,4 @@
 export type WelcomeFormProps = {
-  isRegForm: boolean;
+  isRegistry: boolean
+  setStepFn?: (data: { email: string; password: string }) => void
 }

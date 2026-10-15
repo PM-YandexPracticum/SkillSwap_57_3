@@ -18,6 +18,7 @@ export default function NotFoundPage() {
         </div>
         <div className={styles.actions}>
           <Buttons
+            type="button"
             text="Сообщить об ошибке"
             onClick={() => {
               console.log('Страница не найдена')
@@ -27,6 +28,7 @@ export default function NotFoundPage() {
             size={'medium'}
           />
           <Buttons
+            type="button"
             text="На главную"
             onClick={() => {
               navigate('/')

@@ -1,5 +1,4 @@
 .header {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -101,4 +100,8 @@
 
 .buttonRegister:hover {
   background-color: rgb(141 180 92 / 100%);
+}
+
+.skillsWrap {
+  position: relative;
 }

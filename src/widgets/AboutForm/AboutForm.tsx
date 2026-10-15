@@ -1,193 +1,174 @@
-import { useEffect, useState } from 'react'
-import * as yup from 'yup'
-import { aboutFormSchema } from './AboutForm.validation'
+import { schema, Values } from './schema'
 import { AboutFormProps } from './types'
 import styles from './AboutForm.module.css'
-import { Skill, City, Genders } from '@/shared/types/apiTypes'
 
 import { AvatarInput } from '@/shared/ui/AvatarInput'
 import { TextInput } from '@/shared/ui/TextInput'
 import { Buttons } from '@/shared/ui/Buttons'
 import { Select } from '@/shared/ui/Select'
-import { DatePicker } from '@/shared/ui/DatePicker/DatePicker'
+import { DatePicker } from '@/shared/ui/Datepicker/DatePicker'
+import { useAppSelector } from '@/store/hooks'
+import { useForm, Controller } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Skill } from '@/shared/types/apiTypes'
+import { splitSkills } from '@/shared/lib/helpers'
+import { useEffect } from 'react'
 
-export function AboutForm({
-  avatar,
-  name,
-  birthDate,
-  gender,
-  city,
-  skill,
-  subskill,
-  onAvatarChange,
-  onNameChange,
-  onBirthDateChange,
-  onGenderChange,
-  onCityChange,
-  onSkillChange,
-  onSubskillChange,
-  onBack,
-  onContinue,
-}: AboutFormProps) {
-  const [errors, setErrors] = useState<Record<string, string>>({})
-  // TODO: получать данные из store
-  const [skills, setSkills] = useState<Skill[]>()
-  const [genders, setGenders] = useState<Genders[]>()
-  const [cities, setCities] = useState<City[]>()
-  // TODO: перенести загрузку в slice
+export function AboutForm({ setStepFn, setPreviousStep }: AboutFormProps) {
+  const cities = useAppSelector((state) => state.city.data)
+  const genders = useAppSelector((state) => state.gender.data)
+  const skillsFromSelector = useAppSelector((state) => state.skill.data)
+
+  const { skills, subskills } = splitSkills(skillsFromSelector as Skill[])
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm<Values>({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      birthDate: new Date(),
+      city: '',
+      gender: '',
+      name: '',
+      skill: '',
+      subskill: '',
+    },
+    mode: 'onBlur',
+    reValidateMode: 'onChange',
+  })
+
+  const selectedSkill = watch('skill')
+  const selectedSubskill = watch('subskill')
+
+  const filteredSubskills = selectedSkill
+    ? subskills.filter((sub) => sub.skill.title === selectedSkill)
+    : subskills
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const skillsData = await fetch('http://localhost:5000/api/skills/').then((data) => data)
-        setSkills(await skillsData.json())
-
-        const gendersData = await fetch('http://localhost:5000/api/genders/').then((data) => data)
-        setGenders(await gendersData.json())
-
-        const citiesData = await fetch('http://localhost:5000/api/cities/').then((data) => data)
-        setCities(await citiesData.json())
-      } catch (e) {
-        console.log(e)
+    if (selectedSkill && selectedSubskill) {
+      const sub = subskills.find((s) => s.title === selectedSubskill)
+      if (sub?.skill.title !== selectedSkill) {
+        setValue('subskill', '', { shouldValidate: false })
       }
     }
-    fetchData()
-  }, [])
+  }, [selectedSkill, selectedSubskill, subskills, setValue])
 
-  // сохраняем выбранную категорию для последующей фильтрации опций подкатегорий
-  const selectedSkill = skills?.find((item) => String(item.id) === skill)
-
-  // подготавлияваем опции для селектов
-  const gendersOptions =
-    genders?.map((gender) => ({
-      value: String(gender.id),
-      label:
-        gender.title === 'male' ? 'Мужской' : gender.title === 'female' ? 'Женский' : 'Не указан',
-    })) ?? []
-
-  const citiesOptions = cities?.map((city) => ({ value: String(city.id), label: city.title })) ?? []
-
-  const skillsOptions =
-    skills?.map((skill) => ({ value: String(skill.id), label: skill.title })) ?? []
-
-  const subskillsOptions = selectedSkill
-    ? selectedSkill.subskills.map((subskill) => ({
-        value: String(subskill.id),
-        label: subskill.title,
-      }))
-    : (skills?.reduce<{ value: string; label: string }[]>((options, skill) => {
-        skill.subskills.forEach((subskill) => {
-          options.push({
-            value: String(subskill.id),
-            label: subskill.title,
-          })
-        })
-        return options
-      }, []) ?? [])
-
-  // для сброса подкатегории при выборе категории
-  const handleSkillChange = (value: string) => {
-    onSkillChange(value)
-    onSubskillChange('')
-  }
-
-  // для выбора категории при выборе подкатегории
-  const handleSubskillChange = (value: string) => {
-    onSubskillChange(value)
-    const category = skills?.find((item) =>
-      item.subskills.some((subitem) => String(subitem.id) === value),
-    )
-    if (category && String(category.id) !== skill) {
-      onSkillChange(String(category.id))
+  useEffect(() => {
+    if (selectedSubskill && !selectedSkill) {
+      const sub = subskills.find((s) => s.title === selectedSubskill)
+      if (sub) {
+        setValue('skill', sub.skill.title, { shouldValidate: false })
+      }
     }
-  }
-  // валидация перед продолжением
-  const handleSubmit = async () => {
+  }, [selectedSubskill, selectedSkill, subskills, setValue])
+
+  const onSubmit = async (data: Values) => {
     try {
-      await aboutFormSchema.validate(
-        {
-          avatar,
-          name,
-          birthDate,
-          gender,
-          city,
-          skill,
-          subskill,
-        },
-        { abortEarly: false }, //собрать ошибки сразу по всем полям
-      )
-      setErrors({})
-      onContinue()
+      console.log(data)
+      if (setStepFn) setStepFn(data)
     } catch (e) {
-      if (e instanceof yup.ValidationError) {
-        const formErrors: Record<string, string> = {}
-        e.inner.forEach((error) => {
-          if (error.path && !formErrors[error.path]) {
-            formErrors[error.path] = error.message
-          }
-        })
-        setErrors(formErrors)
-      }
+      console.error(e)
     }
   }
 
   return (
     <section className={styles.container}>
-      <form
-        className={styles.form}
-        onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-          e.preventDefault()
-          handleSubmit().catch(console.error)
-        }}
-      >
-        <AvatarInput onChange={onAvatarChange} error={errors.avatar}/>
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <Controller
+          name="avatar"
+          control={control}
+          render={({ field: { onChange }, fieldState }) => {
+            return <AvatarInput onChange={onChange} error={fieldState.error?.message} />
+          }}
+        />
         <TextInput
+          {...register('name')}
           labelName="Имя"
           placeholder="Введите ваше имя"
-          onChange={onNameChange}
-          value={name}
+          error={errors.name?.message}
         />
         <div className={styles['personal-info-row']}>
-          <label className={styles['date-picker-label']}>
-            Дата рождения
-            <DatePicker value={birthDate} onChange={onBirthDateChange} />
-          </label>
-          <Select
-            labelName="Пол"
-            placeholder="Не указан"
-            options={gendersOptions}
-            onChange={onGenderChange}
-            value={gender}
+          <Controller
+            name="birthDate"
+            control={control}
+            render={({ field }) => (
+              <label className={styles['date-picker-label']}>
+                Дата рождения
+                <DatePicker value={field.value} onChange={field.onChange} />
+              </label>
+            )}
+          />
+          <Controller
+            name="gender"
+            control={control}
+            render={({ field, fieldState }) => (
+              <Select
+                labelName="Пол"
+                placeholder="Не указан"
+                options={genders}
+                value={field.value}
+                onChange={field.onChange}
+                error={fieldState.error?.message}
+              />
+            )}
           />
         </div>
-        <Select
-          labelName="Город"
-          placeholder="Не указан"
-          options={citiesOptions}
-          onChange={onCityChange}
-          value={city}
+        <Controller
+          name="city"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Select
+              labelName="Город"
+              placeholder="Не указан"
+              options={cities}
+              value={field.value}
+              onChange={field.onChange}
+              error={fieldState.error?.message}
+            />
+          )}
         />
-        <Select
-          labelName="Категория навыка, которому хотите научиться"
-          placeholder="Выберите категорию"
-          options={skillsOptions}
-          onChange={handleSkillChange}
-          value={skill}
+        <Controller
+          name="skill"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Select
+              labelName="Категория навыка, которому хотите научиться"
+              placeholder="Выберите категорию"
+              options={skills}
+              value={field.value}
+              onChange={field.onChange}
+              error={fieldState.error?.message}
+            />
+          )}
         />
-        <Select
-          labelName="Подкатегория навыка, которому хотите научиться"
-          placeholder="Выберите подкатегорию"
-          options={subskillsOptions}
-          onChange={handleSubskillChange}
-          value={subskill}
+        <Controller
+          name="subskill"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Select
+              labelName="Подкатегория навыка, которому хотите научиться"
+              placeholder="Выберите подкатегорию"
+              options={filteredSubskills}
+              value={field.value}
+              onChange={field.onChange}
+              error={fieldState.error?.message}
+            />
+          )}
         />
         <div className={styles.actions}>
-          <Buttons text="Назад" onClick={onBack} variant="whiteButton" size="semi-medium" />
           <Buttons
-            text="Продолжить"
-            onClick={handleSubmit}
-            variant="greenButton"
+            type="button"
+            onClick={() => setPreviousStep(1)}
+            text="Назад"
+            variant="whiteButton"
             size="semi-medium"
           />
+          <Buttons type="submit" text="Продолжить" variant="greenButton" size="semi-medium" />
         </div>
       </form>
     </section>

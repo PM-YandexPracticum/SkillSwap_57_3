@@ -13,7 +13,7 @@ export function NotificationItem({ title, description, onClick }: NotificationIt
           <p className={styles.description}>{description}</p>
         </div>
       </div>
-      <Buttons text="Перейти" onClick={onClick} variant="greenButton" size="small" />
+      <Buttons type="button" text="Перейти" onClick={onClick} variant="greenButton" size="small" />
     </article>
   )
 }

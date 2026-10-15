@@ -11,14 +11,15 @@ export function ButtonsWithIcon({
   border = false,
   greenBorder = false,
   rotate = false,
+  className,
 }: ButtonsWithIconProps) {
   return (
     <button
-      className={`${styles.button} ${styles[size]} ${styles[gap]} ${position === 'right' ? styles.right : ''} ${border && styles.border} ${greenBorder && styles.greenBorder} ${rotate === true ? styles.rotate : ''}`}
+      className={`${styles.button} ${styles[size]} ${gap ? styles[gap] : ''} ${position === 'right' ? styles.right : ''} ${border ? styles.border : ''} ${greenBorder ? styles.greenBorder : ''} ${rotate ? styles.rotate : ''} ${className ?? ''}`}
       onClick={onClick}
     >
       <img src={iconSrc} alt="" className={styles.icon} />
-      <span>{text}</span>
+      {text && <span>{text}</span>}
     </button>
   )
 }

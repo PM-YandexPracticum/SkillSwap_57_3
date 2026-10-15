@@ -3,10 +3,14 @@ import { configureStore } from '@reduxjs/toolkit'
 import skillsReducer from '@/entities/skill/model/skillsSlice'
 // import authReducer from '@/features/auth/model/authSlice'
 import userReducer from '@/entities/user/model/userSlice'
+import cityReducer from '@/entities/city/citySlice'
+import genderReducer from '@/entities/genders/genderSlice'
 
 export const store = configureStore({
   reducer: {
-    skills: skillsReducer,
+    skill: skillsReducer,
+    city: cityReducer,
+    gender: genderReducer,
     // auth: authReducer,
     user: userReducer,
   },
