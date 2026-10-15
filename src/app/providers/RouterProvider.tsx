@@ -6,6 +6,7 @@ import { useAppDispatch } from '@/store/hooks'
 import { fetchSkills } from '@/entities/skill/model/skillsSlice'
 import { fetchCities } from '@/entities/city/citySlice'
 import { fetchGenders } from '@/entities/genders/genderSlice'
+import { fetchUsers } from '@/entities/user/model/userSlice'
 
 // Lazy-загрузка страниц — каждая страница грузится только при переходе на неё
 const CatalogPage = lazy(() => import('@/pages/CatalogPage'))
@@ -25,6 +26,7 @@ export function AppRouter() {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
+    dispatch(fetchUsers())
     dispatch(fetchSkills())
     dispatch(fetchCities())
     dispatch(fetchGenders())
