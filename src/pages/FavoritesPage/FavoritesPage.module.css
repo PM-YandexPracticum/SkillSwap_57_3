@@ -1,0 +1,22 @@
+.container {
+  background-color: rgb(249 250 247);
+  padding: 32px 36px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.title {
+  font-family: Jost, sans-serif;
+  font-size: 32px;
+  font-weight: 500;
+  color: rgb(37 48 23);
+  margin: 0;
+}
+
+.user_cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 1020px;
+}
