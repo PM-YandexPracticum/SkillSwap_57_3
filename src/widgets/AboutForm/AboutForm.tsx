@@ -6,7 +6,7 @@ import { AvatarInput } from '@/shared/ui/AvatarInput'
 import { TextInput } from '@/shared/ui/TextInput'
 import { Buttons } from '@/shared/ui/Buttons'
 import { Select } from '@/shared/ui/Select'
-import { DatePicker } from '@/shared/ui/Datepicker/DatePicker'
+import { DatePicker } from '@/shared/ui/DatePicker/DatePicker'
 import { useAppSelector } from '@/store/hooks'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -31,7 +31,7 @@ export function AboutForm({ setStepFn, setPreviousStep }: AboutFormProps) {
   } = useForm<Values>({
     resolver: yupResolver(schema),
     defaultValues: {
-      birthDate: new Date(),
+      birthDate: null as unknown as Date,
       city: '',
       gender: '',
       name: '',
@@ -96,10 +96,15 @@ export function AboutForm({ setStepFn, setPreviousStep }: AboutFormProps) {
           <Controller
             name="birthDate"
             control={control}
-            render={({ field }) => (
+            render={({ field,fieldState }) => (
               <label className={styles['date-picker-label']}>
                 Дата рождения
-                <DatePicker value={field.value} onChange={field.onChange} />
+                <DatePicker
+                value={field.value ?? null}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                error={fieldState.error?.message}
+/>
               </label>
             )}
           />
