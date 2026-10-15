@@ -28,6 +28,12 @@ const DEVELOPERS: DevInfoCardProps[] = [
     githubUrl: 'https://github.com/knikulnikova',
   },
   {
+    avatarUrl: 'https://github.com/DmitryPanin-1991.png',
+    name: 'Панин Дмитрий',
+    role: 'Рядовой разработчик',
+    about:
+      'Осваиваю профессию фронтенд-разработчика в Яндекс Практикуме. В настоящее время работаю конструктором упаковки. Вместе с женой воспитываем пуделя Бруно. Увлекаюсь видеоиграми, кино и современными технологиями.',
+    githubUrl: 'https://github.com/DmitryPanin-1991',
     avatarUrl: 'https://avatars.githubusercontent.com/u/181559490?v=4',
     name: 'Выгузова Наталья',
     role: 'Рядовой разработчик',
