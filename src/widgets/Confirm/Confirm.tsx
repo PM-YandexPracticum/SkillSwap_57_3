@@ -37,7 +37,13 @@ export const Confirm = ({
               border={false}
               greenBorder={true}
             />
-            <Buttons text="Готово" onClick={onConfirm} variant="greenButton" size="semi-medium" />
+            <Buttons
+              type="button"
+              text="Готово"
+              onClick={onConfirm}
+              variant="greenButton"
+              size="semi-medium"
+            />
           </div>
         </div>
 

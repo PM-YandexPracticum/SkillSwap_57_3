@@ -1,0 +1,48 @@
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { GenderSliceState } from './types'
+import type { Genders } from '@/shared/types/apiTypes'
+
+const initialState: GenderSliceState = {
+  data: [],
+  loading: false,
+  error: null,
+}
+
+export const fetchGenders = createAsyncThunk<Genders[]>(
+  'gender/getGenders',
+  async (_, { signal, rejectWithValue }) => {
+    try {
+      const res = await fetch('http://localhost:5000/api/genders', { signal })
+      return await res.json()
+    } catch (e) {
+      if (e instanceof Error && e.name === 'AbortError') {
+        throw e
+      }
+      return rejectWithValue((e as Error).message)
+    }
+  },
+)
+
+const genderSlice = createSlice({
+  name: 'skills',
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(fetchGenders.pending, (state) => {
+      state.loading = true
+      state.error = null
+    })
+
+    builder.addCase(fetchGenders.fulfilled, (state, action) => {
+      state.loading = false
+      state.data = action.payload
+    })
+
+    builder.addCase(fetchGenders.rejected, (state, action) => {
+      state.loading = false
+      state.error = action.error.message ?? 'ошибка: гендеры не загрузились'
+    })
+  },
+})
+
+export default genderSlice.reducer

@@ -3,45 +3,40 @@ import styles from './styles.module.css'
 import { ButtonsWithIcon } from '@ui/ButtonsWithIcon'
 import { useEffect, useState, useRef, useCallback } from 'react'
 import { CatalogUserResponse } from '@/shared/types/apiTypes'
+import { useAppSelector } from '@/store/hooks'
+import { Link } from 'react-router-dom'
+import { pluralizeYears } from '@/shared/lib/helpers'
 
 export default function CatalogPage() {
-  const [users, setUsers] = useState<CatalogUserResponse>({
-    byName: [],
-    newest: [],
+  const EMPTY_CATALOG: CatalogUserResponse = {
     topByLikes: [],
-  })
-
+    newest: [],
+    byName: [],
+  }
+  const userSelector = useAppSelector(
+    (state) => state.user.data ?? EMPTY_CATALOG,
+  ) as CatalogUserResponse
   const [cardVisibleCount, setCardVisibleCount] = useState(9)
   const observerTarget = useRef<HTMLDivElement | null>(null)
 
   const [popularOpen, setPopularOpen] = useState(false)
   const [newOpen, setNewOpen] = useState(false)
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetch('http://localhost:5000/api/users/').then((data) => data)
-        setUsers(await data.json())
-      } catch (e) {
-        console.log(e)
-      }
-    }
-    fetchData()
-  }, [])
 
   const loadMoreCards = useCallback(
     (entries: IntersectionObserverEntry[]) => {
+      if (!userSelector.byName.length) return
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          setCardVisibleCount((prev) => Math.min(prev + 6, users.byName.length))
+          setCardVisibleCount((prev) => Math.min(prev + 6, userSelector.byName.length))
         }
       })
     },
-    [users.byName.length],
+    [userSelector.byName.length],
   )
 
   // useEffect для infinite scroll
   useEffect(() => {
-    if (!users.byName.length) return
+    if (!userSelector.byName.length) return
 
     const observer = new IntersectionObserver(loadMoreCards, {
       threshold: 1.0,
@@ -54,7 +49,7 @@ export default function CatalogPage() {
     return () => {
       observer.disconnect()
     }
-  }, [users.byName.length, loadMoreCards])
+  }, [userSelector.byName.length, loadMoreCards])
 
   return (
     <main className={styles.container}>
@@ -75,26 +70,30 @@ export default function CatalogPage() {
             />
           </div>
           <div className={styles.user_cards}>
-            {(popularOpen ? users.topByLikes : users.topByLikes.slice(0, 3)).map((user, index) => (
-              <UserCard
-                key={index}
-                variant="catalog"
-                avatarUrl={`http://localhost:5000/images/users/${user.image_path}`}
-                name={user.name}
-                location={user.city.title}
-                canTeach={user.canTeach.map((val) => ({
-                  title: val.title,
-                  color: val.subskill.skill.color,
-                }))}
-                wantsToLearn={user.wantsToLearn.map((val) => ({
-                  title: val.title,
-                  color: val.subskill.skill.color,
-                }))}
-                isLiked={false}
-                onLike={() => {}}
-                onDetails={() => {}}
-              />
-            ))}
+            {(popularOpen ? userSelector.topByLikes : userSelector.topByLikes.slice(0, 3)).map(
+              (user, index) => (
+                <Link key={index} to={`skill/${user.id}`}>
+                  <UserCard
+                    key={index}
+                    variant="catalog"
+                    avatarUrl={`http://localhost:5000/images/users/${user.image_path}`}
+                    name={user.name}
+                    location={`${user.city.title}, ${pluralizeYears(user.age)}`}
+                    canTeach={user.canTeach.map((val) => ({
+                      title: val.title,
+                      color: val.subskill.skill.color,
+                    }))}
+                    wantsToLearn={user.wantsToLearn.map((val) => ({
+                      title: val.subskill.title,
+                      color: val.subskill.skill.color,
+                    }))}
+                    isLiked={false}
+                    onLike={() => {}}
+                    onDetails={() => {}}
+                  />
+                </Link>
+              ),
+            )}
           </div>
         </section>
 
@@ -112,26 +111,28 @@ export default function CatalogPage() {
             />
           </div>
           <div className={styles.user_cards}>
-            {(newOpen ? users.newest : users.newest.slice(0, 3)).map((user, index) => (
-              <UserCard
-                key={index}
-                variant="catalog"
-                avatarUrl={`http://localhost:5000/images/users/${user.image_path}`}
-                name={user.name}
-                location={user.city.title}
-                canTeach={user.canTeach.map((val) => ({
-                  title: val.title,
-                  color: val.subskill.skill.color,
-                }))}
-                wantsToLearn={user.wantsToLearn.map((val) => ({
-                  title: val.title,
-                  color: val.subskill.skill.color,
-                }))}
-                isLiked={false}
-                onLike={() => {}}
-                onDetails={() => {}}
-              />
-            ))}
+            {(newOpen ? userSelector.newest : userSelector.newest.slice(0, 3)).map(
+              (user, index) => (
+                <UserCard
+                  key={index}
+                  variant="catalog"
+                  avatarUrl={`http://localhost:5000/images/users/${user.image_path}`}
+                  name={user.name}
+                  location={`${user.city.title}, ${pluralizeYears(user.age)}`}
+                  canTeach={user.canTeach.map((val) => ({
+                    title: val.title,
+                    color: val.subskill.skill.color,
+                  }))}
+                  wantsToLearn={user.wantsToLearn.map((val) => ({
+                    title: val.subskill.title,
+                    color: val.subskill.skill.color,
+                  }))}
+                  isLiked={false}
+                  onLike={() => {}}
+                  onDetails={() => {}}
+                />
+              ),
+            )}
           </div>
         </section>
 
@@ -140,20 +141,20 @@ export default function CatalogPage() {
             <h2>Рекомендуем</h2>
           </div>
           <div className={styles.user_cards}>
-            {users.byName.slice(0, cardVisibleCount).map((user) => (
+            {userSelector.byName.slice(0, cardVisibleCount).map((user) => (
               <UserCard
                 key={user.id}
                 variant="catalog"
                 avatarUrl={`http://localhost:5000/images/users/${user.image_path}`}
                 name={user.name}
-                location={user.city.title}
+                location={`${user.city.title}, ${pluralizeYears(user.age)}`}
                 canTeach={user.canTeach.map((val) => ({
                   color: val.subskill.skill.color,
                   title: val.title,
                 }))}
                 wantsToLearn={user.wantsToLearn.map((val) => ({
+                  title: val.subskill.title,
                   color: val.subskill.skill.color,
-                  title: val.title,
                 }))}
                 isLiked={false}
                 onLike={() => {}}

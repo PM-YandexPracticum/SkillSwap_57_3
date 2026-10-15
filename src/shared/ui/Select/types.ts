@@ -2,9 +2,10 @@ export type SelectProps = {
   labelName: string
   placeholder: string
   options: {
-    value: string
-    label: string
+    id: number
+    title: string
   }[]
-  value: string
-  onChange: (value: string) => void
+  value: string | null
+  onChange: (value: string | null) => void
+  error?: string
 }

@@ -1,7 +1,6 @@
 .page {
-  padding: 40px 0 40px 42px;
+  padding: 40px 42px;
   background-color: rgb(255 255 255);
-  min-height: calc(100vh - 80px);
 }
 
 .title {
@@ -10,13 +9,13 @@
   font-weight: 500;
   line-height: 40px;
   letter-spacing: -0.011em;
-  color: rgb(26 26 26);                    
+  color: rgb(26 26 26);
   margin: 0 0 24px;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: 606px 606px;
+  grid-template-columns: 1fr 1fr;
   gap: 24px;
   justify-content: start;
   align-items: start;
@@ -28,7 +27,6 @@
   }
 
   .grid {
-    grid-template-columns: 1fr 1fr;
     width: 100%;
   }
 }

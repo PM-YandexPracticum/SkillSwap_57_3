@@ -2,18 +2,22 @@ import { SelectProps } from './types'
 import styles from './Select.module.css'
 import chevronDown from './chevron-down.svg'
 import { useState } from 'react'
-import ReactSelect from 'react-select'
+import ReactSelect, { SingleValue } from 'react-select'
 import { StylesConfig } from 'react-select'
 
 type SelectOption = {
-  value: string
-  label: string
+  id: number
+  title: string
 }
 
 export const Select = ({ labelName, placeholder, options, value, onChange }: SelectProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
-  const selectedOption = options.find((option) => option.value === value) || null
+  const selectedOption = options.find((option) => option.title === value) || null
+
+  const handleChange = (option: SingleValue<SelectOption>) => {
+    onChange(option ? option.title : null)
+  }
 
   const customStyles: StylesConfig<SelectOption, false> = {
     valueContainer: (baseStyles) => ({
@@ -87,7 +91,7 @@ export const Select = ({ labelName, placeholder, options, value, onChange }: Sel
           options={options}
           value={selectedOption}
           placeholder={placeholder}
-          onChange={(option) => onChange(option ? option.value : '')}
+          onChange={handleChange}
           isSearchable={false}
           styles={customStyles}
           onMenuOpen={() => setIsOpen(true)}
@@ -96,6 +100,8 @@ export const Select = ({ labelName, placeholder, options, value, onChange }: Sel
             DropdownIndicator,
             IndicatorSeparator: () => null,
           }}
+          getOptionLabel={(option) => option.title}
+          getOptionValue={(option) => option.title}
         />
       </div>
     </div>
