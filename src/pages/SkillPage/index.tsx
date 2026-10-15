@@ -1,33 +1,4 @@
 import { UserCard } from '@widgets/UserCard'
-import { ExchangeCard } from '@/widgets/ExchangeCard'
-import styles from './SkillPage.module.css'
-
-const mockSkill = {
-  title: 'Игра на барабанах',
-  category: 'Творчество и искусство / Музыка и звук',
-  description:
-    'Привет! Я играю на барабанах уже больше 10 лет — от репетиций в гараже до выступлений на сцене с живыми группами. Научу основам техники (и как не отбить себе пальцы), играть любимые ритмы и разбирать песни, импровизировать и звучать уверенно даже без паритуры',
-  images: [
-    '/src/assets/icon/Apple.svg',
-    '/src/assets/icon/Category.svg',
-    '/src/assets/icon/FileInputIcon.svg',
-    '/src/assets/icon/User.svg',
-  ],
-  isLiked: false,
-  status: 'available' as const,
-  onExchange: () => {
-    console.log('Нажата кнопка обмена')
-  },
-  onLike: () => {
-    console.log('Добавлено в избранное')
-  },
-  onShare: () => {
-    console.log('Поделиться карточкой')
-  },
-  onLearnMore: () => {
-    console.log('Подробнее о карточке')
-  },
-}
 import styles from './SkillPage.module.css'
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
@@ -38,6 +9,7 @@ import {
   mapWantsToLearnToCardSkills,
   pluralizeYears,
 } from '@/shared/lib/helpers'
+import { ExchangeCard } from '@/widgets/ExchangeCard'
 
 export default function SkillPage() {
   const { id } = useParams<{ id: string }>()
@@ -53,7 +25,7 @@ export default function SkillPage() {
   return (
     <main className={styles.page}>
       <section className={styles.section}>
-        <div>
+        <div className={styles.spotlight}>
           <UserCard
             variant="author"
             avatarUrl={`http://localhost:5000/images/users/${currentUser.image_path}`}
@@ -62,6 +34,22 @@ export default function SkillPage() {
             about={currentUser.bio}
             canTeach={mapCanTeachToCardSkills(currentUser.canTeach)}
             wantsToLearn={mapWantsToLearnToCardSkills(currentUser.wantsToLearn)}
+          />
+          <ExchangeCard
+            category={`${currentUser.canTeach[0].title} / ${currentUser.canTeach[0].subskill.title}`}
+            description={currentUser.canTeach[0].description}
+            images={[
+              `http://localhost:5000/images/can_teach/${currentUser.canTeach[0].image_1!}`,
+              `http://localhost:5000/images/can_teach/${currentUser.canTeach[0].image_2!}`,
+              `http://localhost:5000/images/can_teach/${currentUser.canTeach[0].image_3!}`,
+              `http://localhost:5000/images/can_teach/${currentUser.canTeach[0].image_4!}`,
+            ]}
+            title={currentUser.canTeach[0].title}
+            onExchange={() => {}}
+            onLearnMore={() => {}}
+            onLike={() => {}}
+            onShare={() => {}}
+            status="available"
           />
         </div>
       </section>

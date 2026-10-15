@@ -24,7 +24,13 @@ export type Subskill = {
 }
 
 export type CanTeachItem = {
+  id: number
   title: string
+  description: string
+  image_1: string | null
+  image_2: string | null
+  image_3: string | null
+  image_4: string | null
   subskill: Subskill
 }
 

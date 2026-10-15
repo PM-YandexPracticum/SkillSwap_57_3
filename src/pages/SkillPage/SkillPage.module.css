@@ -8,6 +8,10 @@
   margin-bottom: 40px;
 }
 
+.spotlight {
+  display: flex;
+}
+
 .skillSection {
   display: flex;
   gap: 24px;

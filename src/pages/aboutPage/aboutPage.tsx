@@ -34,12 +34,16 @@ const DEVELOPERS: DevInfoCardProps[] = [
     about:
       'Изучаю фронтенд-разработку в Яндекс Практикуме. В рамках обучения участвую в командной разработке SkillSwap.',
     githubUrl: 'https://github.com/nikolaevskidaniil19-ui',
+  },
+  {
     avatarUrl: 'https://github.com/DmitryPanin-1991.png',
     name: 'Панин Дмитрий',
     role: 'Рядовой разработчик',
     about:
       'Осваиваю профессию фронтенд-разработчика в Яндекс Практикуме. В настоящее время работаю конструктором упаковки. Вместе с женой воспитываем пуделя Бруно. Увлекаюсь видеоиграми, кино и современными технологиями.',
     githubUrl: 'https://github.com/DmitryPanin-1991',
+  },
+  {
     avatarUrl: 'https://avatars.githubusercontent.com/u/181559490?v=4',
     name: 'Выгузова Наталья',
     role: 'Рядовой разработчик',
