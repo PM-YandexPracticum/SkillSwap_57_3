@@ -1,78 +1,38 @@
-import { UserCard } from '@widgets/UserCard';
-import styles from './SkillPage.module.css';
-
-const mockAuthor = {
-  avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200',
-  name: 'Иван',
-  location: 'Санкт-Петербург, 34 года',
-  about: 'Привет! Люблю ритм, кофе по утрам и людей, которые не боятся пробовать новое',
-  canTeach: [{ title: 'Английский язык', color: 'light_beige' as const }],
-  wantsToLearn: [
-    { title: 'Тайм менеджмент', color: 'light_lavender' as const },
-    { title: 'Медитация', color: 'pale_green' as const },
-  ],
-};
-
-const mockSimilar = [
-  {
-    avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200',
-    name: 'Илона',
-    location: 'Казань, 27 лет',
-    canTeach: [{ title: 'Английский язык', color: 'light_beige' as const }],
-    wantsToLearn: [
-      { title: 'Тайм менеджмент', color: 'light_lavender' as const },
-      { title: 'Медитация', color: 'pale_green' as const },
-      { title: 'Рисование', color: 'light_pink' as const },
-    ],
-  },
-  {
-    avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200',
-    name: 'Михаил',
-    location: 'Новосибирск, 29 лет',
-    canTeach: [{ title: 'Английский язык', color: 'light_beige' as const }],
-    wantsToLearn: [
-      { title: 'Тайм менеджмент', color: 'light_lavender' as const },
-      { title: 'Медитация', color: 'pale_green' as const },
-    ],
-  },
-  {
-    avatarUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200',
-    name: 'Мария',
-    location: 'Красноярск, 21 год',
-    canTeach: [{ title: 'Английский язык', color: 'light_beige' as const }],
-    wantsToLearn: [
-      { title: 'Тайм менеджмент', color: 'light_lavender' as const },
-      { title: 'Медитация', color: 'pale_green' as const },
-    ],
-  },
-  {
-    avatarUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200',
-    name: 'Виктория',
-    location: 'Кемерово, 38 лет',
-    canTeach: [{ title: 'Английский язык', color: 'light_beige' as const }],
-    wantsToLearn: [
-      { title: 'Тайм менеджмент', color: 'light_lavender' as const },
-      { title: 'Медитация', color: 'pale_green' as const },
-    ],
-  },
-];
+import { UserCard } from '@widgets/UserCard'
+import styles from './SkillPage.module.css'
+import { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { fetchUser } from '@/entities/user/model/userSlice'
+import {
+  mapCanTeachToCardSkills,
+  mapWantsToLearnToCardSkills,
+  pluralizeYears,
+} from '@/shared/lib/helpers'
 
 export default function SkillPage() {
+  const { id } = useParams<{ id: string }>()
+  const dispatch = useAppDispatch()
+  const currentUser = useAppSelector((state) => state.user.currentUser)
+  const recomendations = useAppSelector((state) => state.user.data?.byName)
+  useEffect(() => {
+    if (!id) return
+    dispatch(fetchUser(id!))
+  }, [dispatch, id])
+
+  if (!currentUser) return
   return (
     <main className={styles.page}>
-      <h1>SkillPage</h1>
-
       <section className={styles.section}>
-        <h2>Автор навыка</h2>
         <div>
           <UserCard
             variant="author"
-            avatarUrl={mockAuthor.avatarUrl}
-            name={mockAuthor.name}
-            location={mockAuthor.location}
-            about={mockAuthor.about}
-            canTeach={mockAuthor.canTeach}
-            wantsToLearn={mockAuthor.wantsToLearn}
+            avatarUrl={`http://localhost:5000/images/users/${currentUser.image_path}`}
+            name={currentUser.name}
+            location={`${currentUser.city.title}, ${pluralizeYears(currentUser.age)}`}
+            about={currentUser.bio}
+            canTeach={mapCanTeachToCardSkills(currentUser.canTeach)}
+            wantsToLearn={mapWantsToLearnToCardSkills(currentUser.wantsToLearn)}
           />
         </div>
       </section>
@@ -80,22 +40,24 @@ export default function SkillPage() {
       <section className={styles.section}>
         <h2>Похожие предложения</h2>
         <div className={styles.similar}>
-          {mockSimilar.map((user, index) => (
-            <UserCard
-              key={index}
-              variant="catalog"
-              avatarUrl={user.avatarUrl}
-              name={user.name}
-              location={user.location}
-              canTeach={user.canTeach}
-              wantsToLearn={user.wantsToLearn}
-              isLiked={false}
-              onLike={() => {}}
-              onDetails={() => {}}
-            />
-          ))}
+          {!recomendations && <p>Загрузка</p>}
+          {recomendations &&
+            recomendations.map((user, index) => (
+              <UserCard
+                key={index}
+                variant="catalog"
+                avatarUrl={`http://localhost:5000/images/users/${user.image_path}`}
+                name={user.name}
+                location={`${user.city.title}, ${pluralizeYears(user.age)}`}
+                canTeach={mapCanTeachToCardSkills(user.canTeach)}
+                wantsToLearn={mapWantsToLearnToCardSkills(user.wantsToLearn)}
+                isLiked={false}
+                onLike={() => {}}
+                onDetails={() => {}}
+              />
+            ))}
         </div>
       </section>
     </main>
-  );
+  )
 }
