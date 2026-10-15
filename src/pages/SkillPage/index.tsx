@@ -10,16 +10,24 @@ import {
   pluralizeYears,
 } from '@/shared/lib/helpers'
 import { ExchangeCard } from '@/widgets/ExchangeCard'
+import { fetchRecommendations } from '@/entities/userRecommendations/userRecommendationsSlice'
 
 export default function SkillPage() {
   const { id } = useParams<{ id: string }>()
   const dispatch = useAppDispatch()
   const currentUser = useAppSelector((state) => state.user.currentUser)
-  const recomendations = useAppSelector((state) => state.user.data?.byName)
+  const recommendations = useAppSelector((state) => state.recommendations.data)
   useEffect(() => {
     if (!id) return
-    dispatch(fetchUser(id!))
+    dispatch(fetchUser(id))
   }, [dispatch, id])
+
+  useEffect(() => {
+    if (!currentUser) return
+    const skillId = currentUser.canTeach[0]?.subskill.skill.id
+    if (!skillId) return
+    dispatch(fetchRecommendations(skillId))
+  }, [dispatch, currentUser])
 
   if (!currentUser) return
   return (
@@ -57,17 +65,17 @@ export default function SkillPage() {
       <section className={styles.section}>
         <h2 className={styles.title}>Похожие предложения</h2>
         <div className={styles.similar}>
-          {!recomendations && <p>Загрузка</p>}
-          {recomendations &&
-            recomendations.map((user, index) => (
+          {!recommendations && <p>Загрузка</p>}
+          {recommendations &&
+            recommendations.map((rec, index) => (
               <UserCard
                 key={index}
                 variant="catalog"
-                avatarUrl={`http://localhost:5000/images/users/${user.image_path}`}
-                name={user.name}
-                location={`${user.city.title}, ${pluralizeYears(user.age)}`}
-                canTeach={mapCanTeachToCardSkills(user.canTeach)}
-                wantsToLearn={mapWantsToLearnToCardSkills(user.wantsToLearn)}
+                avatarUrl={`http://localhost:5000/images/users/${rec.image_path}`}
+                name={rec.name}
+                location={`${rec.city}, ${pluralizeYears(rec.age)}`}
+                canTeach={rec.canTeach}
+                wantsToLearn={rec.wantsToLearn}
                 isLiked={false}
                 onLike={() => {}}
                 onDetails={() => {}}

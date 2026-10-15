@@ -8,11 +8,14 @@ const initialState: CitySliceState = {
   error: null,
 }
 
-export const fetchCities = createAsyncThunk<City[]>(
+export const fetchCities = createAsyncThunk<City[], void, { rejectValue: string }>(
   'city/getCities',
   async (_, { signal, rejectWithValue }) => {
     try {
       const res = await fetch('http://localhost:5000/api/cities', { signal })
+      if (!res.ok) {
+        return rejectWithValue(`HTTP ${res.status}`)
+      }
       return await res.json()
     } catch (e) {
       if (e instanceof Error && e.name === 'AbortError') {
@@ -39,6 +42,7 @@ const citySlice = createSlice({
     })
 
     builder.addCase(fetchCities.rejected, (state, action) => {
+      if (action.error.name === 'AbortError') return
       state.loading = false
       state.error = action.error.message ?? 'ошибка: города не загрузились'
     })
