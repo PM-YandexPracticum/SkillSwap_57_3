@@ -8,7 +8,12 @@
   margin-bottom: 40px;
 }
 
-.section h2 {
+.skillSection {
+  display: flex;
+  gap: 24px;
+}
+
+.title {
   font-family: Jost, sans-serif;
   font-size: 24px;
   font-weight: 500;

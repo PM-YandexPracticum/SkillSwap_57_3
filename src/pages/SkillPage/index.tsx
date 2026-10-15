@@ -1,4 +1,33 @@
 import { UserCard } from '@widgets/UserCard'
+import { ExchangeCard } from '@/widgets/ExchangeCard'
+import styles from './SkillPage.module.css'
+
+const mockSkill = {
+  title: 'Игра на барабанах',
+  category: 'Творчество и искусство / Музыка и звук',
+  description:
+    'Привет! Я играю на барабанах уже больше 10 лет — от репетиций в гараже до выступлений на сцене с живыми группами. Научу основам техники (и как не отбить себе пальцы), играть любимые ритмы и разбирать песни, импровизировать и звучать уверенно даже без паритуры',
+  images: [
+    '/src/assets/icon/Apple.svg',
+    '/src/assets/icon/Category.svg',
+    '/src/assets/icon/FileInputIcon.svg',
+    '/src/assets/icon/User.svg',
+  ],
+  isLiked: false,
+  status: 'available' as const,
+  onExchange: () => {
+    console.log('Нажата кнопка обмена')
+  },
+  onLike: () => {
+    console.log('Добавлено в избранное')
+  },
+  onShare: () => {
+    console.log('Поделиться карточкой')
+  },
+  onLearnMore: () => {
+    console.log('Подробнее о карточке')
+  },
+}
 import styles from './SkillPage.module.css'
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
@@ -38,7 +67,7 @@ export default function SkillPage() {
       </section>
 
       <section className={styles.section}>
-        <h2>Похожие предложения</h2>
+        <h2 className={styles.title}>Похожие предложения</h2>
         <div className={styles.similar}>
           {!recomendations && <p>Загрузка</p>}
           {recomendations &&
