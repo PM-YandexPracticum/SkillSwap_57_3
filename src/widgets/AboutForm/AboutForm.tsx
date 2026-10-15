@@ -31,7 +31,7 @@ export function AboutForm({ setStepFn, setPreviousStep }: AboutFormProps) {
   } = useForm<Values>({
     resolver: yupResolver(schema),
     defaultValues: {
-     birthDate: null as unknown as Date,
+      birthDate: null as unknown as Date,
       city: '',
       gender: '',
       name: '',
