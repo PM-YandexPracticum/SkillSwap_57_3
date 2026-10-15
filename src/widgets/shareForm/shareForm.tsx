@@ -1,98 +1,135 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
 import { TextInput } from '@ui/TextInput'
 import { Select } from '@ui/Select'
 import { TextArea } from '@ui/TextArea'
 import { FileInput } from '@ui/FileInput'
 import { Buttons } from '@ui/Buttons'
-import { SKILL_CATEGORIES } from '@/shared/lib/constants'
 import styles from './shareForm.module.css'
-import type { ShareFormProps, ShareFormData } from './types'
+import type { ShareFormProps } from './types'
 
-const CATEGORY_OPTIONS = SKILL_CATEGORIES.map((category) => ({
-  value: category,
-  label: category,
-}))
+import { schema, Values } from './schema'
+import { useForm, Controller } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Skill } from '@/shared/types/apiTypes'
+import { splitSkills } from '@/shared/lib/helpers'
+import { useAppSelector } from '@/store/hooks'
 
-const SUBCATEGORY_OPTIONS = [
-  { value: 'subcategory-1', label: 'Подкатегория 1' },
-  { value: 'subcategory-2', label: 'Подкатегория 2' },
-  { value: 'subcategory-3', label: 'Подкатегория 3' },
-]
+export function ShareForm({ setStepFn, setPreviousStep }: ShareFormProps) {
+  const skillsFromSelector = useAppSelector((state) => state.skill.data)
+  const { skills, subskills } = splitSkills(skillsFromSelector as Skill[])
 
-export function ShareForm({ onSubmit, onBack }: ShareFormProps) {
-  const [name, setName] = useState('')
-  const [nameError, setNameError] = useState('')
-  const [category, setCategory] = useState('')
-  const [subcategory, setSubcategory] = useState('')
-  const [description, setDescription] = useState('')
-  const [descriptionError, setDescriptionError] = useState('')
-  const [images, setImages] = useState<File[]>([])
+  const {
+    register,
+    handleSubmit,
+    control,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm<Values>({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      canTeachSkillName: '',
+      canTeachSkill: '',
+      canTeachSubskill: '',
+      canTeachdescription: '',
+      skillFile: [],
+    },
+    mode: 'onBlur',
+    reValidateMode: 'onChange',
+  })
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // ← ПРАВКА Б
-    const value = e.target.value
-    setName(value)
-    setNameError(value === '' ? 'Название обязательно' : '')
-  }
+  const selectedSkill = watch('canTeachSkill')
+  const selectedSubskill = watch('canTeachSubskill')
 
-  const handleSubmit = () => {
-    if (description.trim() === '') {
-      setDescriptionError('Это поле обязательно')
-      return
+  const filteredSubskills = selectedSkill
+    ? subskills.filter((sub) => sub.skill.title === selectedSkill)
+    : subskills
+
+  useEffect(() => {
+    if (selectedSkill && selectedSubskill) {
+      const sub = subskills.find((s) => s.title === selectedSubskill)
+      if (sub?.skill.title !== selectedSkill) {
+        setValue('canTeachSubskill', '', { shouldValidate: false })
+      }
     }
-    const data: ShareFormData = {
-      name,
-      category,
-      subcategory,
-      description,
-      images,
+  }, [selectedSkill, selectedSubskill, subskills, setValue])
+
+  useEffect(() => {
+    if (selectedSubskill && !selectedSkill) {
+      const sub = subskills.find((s) => s.title === selectedSubskill)
+      if (sub) {
+        setValue('canTeachSkill', sub.skill.title, { shouldValidate: false })
+      }
     }
-    onSubmit?.(data)
-  }
+  }, [selectedSubskill, selectedSkill, subskills, setValue])
 
-  const handleDescriptionChange = (value: string) => {
-    setDescription(value)
-    if (descriptionError) setDescriptionError('')
-  }
-
-  const handleBack = () => {
-    onBack?.()
+  const onSubmit = async (data: Values) => {
+    try {
+      console.log(data)
+      if (setStepFn) setStepFn(data)
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   return (
-    <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
+    <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <TextInput
+        {...register('canTeachSkillName')}
         labelName="Название навыка"
         placeholder="Введите название вашего навыка"
-        value={name}
-        onChange={handleNameChange}
-        error={nameError}
+        error={errors.canTeachSkillName?.message}
       />
 
-      <Select
-        labelName="Категория навыка"
-        placeholder="Выберите категорию навыка"
-        options={CATEGORY_OPTIONS}
-        value={category}
-        onChange={(value: string) => setCategory(value)}
+      <Controller
+        name="canTeachSkill"
+        control={control}
+        render={({ field, fieldState }) => (
+          <Select
+            labelName="Категория навыка"
+            placeholder="Выберите категорию навыка"
+            options={skills}
+            value={field.value}
+            onChange={field.onChange}
+            error={fieldState.error?.message}
+          />
+        )}
       />
 
-      <Select
-        labelName="Подкатегория навыка"
-        placeholder="Выберите подкатегорию навыка"
-        options={SUBCATEGORY_OPTIONS}
-        value={subcategory}
-        onChange={(value: string) => setSubcategory(value)}
+      <Controller
+        name="canTeachSubskill"
+        control={control}
+        render={({ field, fieldState }) => (
+          <Select
+            labelName="Подкатегория навыка"
+            placeholder="Выберите подкатегорию навыка"
+            options={filteredSubskills}
+            value={field.value}
+            onChange={field.onChange}
+            error={fieldState.error?.message}
+          />
+        )}
+      />
+      <Controller
+        name="canTeachdescription"
+        control={control}
+        render={({ field, fieldState }) => (
+          <TextArea
+            labelName="Описание"
+            value={field.value}
+            onChange={field.onChange}
+            error={fieldState.error?.message}
+          />
+        )}
       />
 
-      <TextArea
-        labelName="Описание"
-        value={description}
-        onChange={handleDescriptionChange}
-        error={descriptionError}
+      <Controller
+        name="skillFile"
+        control={control}
+        render={({ field: { onChange, value }, fieldState }) => {
+          return <FileInput value={value} onChange={onChange} error={fieldState.error?.message} />
+        }}
       />
-
-      <FileInput onChange={setImages} />
 
       <div className={styles.buttons}>
         <Buttons
@@ -100,15 +137,9 @@ export function ShareForm({ onSubmit, onBack }: ShareFormProps) {
           text="Назад"
           variant="whiteButton"
           size="medium"
-          onClick={handleBack}
+          onClick={() => setPreviousStep(2)}
         />
-        <Buttons
-          type="button"
-          text="Продолжить"
-          variant="greenButton"
-          size="medium"
-          onClick={handleSubmit}
-        />
+        <Buttons type="submit" text="Продолжить" variant="greenButton" size="medium" onClick={handleSubmit(onSubmit)}/>
       </div>
     </form>
   )

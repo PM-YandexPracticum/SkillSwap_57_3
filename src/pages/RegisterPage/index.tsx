@@ -8,20 +8,28 @@ import { WelcomeForm } from '@/widgets/WelcomeForm'
 import { useState } from 'react'
 import { AboutForm } from '@/widgets/AboutForm'
 import { RegisterData } from './types'
+import { ShareForm } from '@/widgets/shareForm'
+import { AboutFormValues } from '@/widgets/AboutForm/types'
+import { ShareFormValues } from '@/widgets/shareForm/types'
 
 export default function RegisterPage() {
   const navigate = useNavigate()
   const [step, setStep] = useState(1)
-  const [, setRegisterData] = useState<RegisterData>()
+  const [registerData, setRegisterData] = useState<RegisterData>()
 
-  const setWelcomeFormData = (data: { email: string; password: string }) => {
+  const setWelcomeFormData = (data: Pick<RegisterData, 'email' | 'password'>) => {
     setRegisterData((prev) => ({ ...(prev ?? {}), ...data }) as RegisterData)
     setStep(2)
   }
 
-  const setAboutFormData = (data: Omit<RegisterData, 'email' | 'password'>) => {
+  const setAboutFormData = (data: AboutFormValues) => {
     setRegisterData((prev) => ({ ...prev, ...data }) as RegisterData)
-    // setStep(3)
+    setStep(3)
+  }
+
+  const setShareFormData = (data: ShareFormValues) => {
+    setRegisterData((prev) => ({ ...prev, ...data }) as RegisterData)
+    console.log('FULL REGISTER DATA:', { ...registerData, ...data })
   }
 
   return (
@@ -60,6 +68,12 @@ export default function RegisterPage() {
             <>
               <AboutForm setStepFn={setAboutFormData} setPreviousStep={setStep} />
               <Banner type="about" />
+            </>
+          )}
+          {step === 3 && (
+            <>
+              <ShareForm setStepFn={setShareFormData} setPreviousStep={setStep} />
+              <Banner type="share" />
             </>
           )}
         </div>
