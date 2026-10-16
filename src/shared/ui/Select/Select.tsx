@@ -10,7 +10,14 @@ type SelectOption = {
   title: string
 }
 
-export const Select = ({ labelName, placeholder, options, value, onChange,error }: SelectProps) => {
+export const Select = ({
+  labelName,
+  placeholder,
+  options,
+  value,
+  onChange,
+  error,
+}: SelectProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const selectedOption = options.find((option) => option.title === value) || null
@@ -25,12 +32,8 @@ export const Select = ({ labelName, placeholder, options, value, onChange,error 
       padding: 0,
     }),
 
-     control: (baseStyles, state) => {
-      const borderColor = error
-        ? 'rgb(191 57 32 )'
-        : state.menuIsOpen
-          ? '#E4E8DF'
-          : '#69735D'
+    control: (baseStyles, state) => {
+      const borderColor = error ? 'rgb(191 57 32 )' : state.menuIsOpen ? '#E4E8DF' : '#69735D'
 
       return {
         ...baseStyles,

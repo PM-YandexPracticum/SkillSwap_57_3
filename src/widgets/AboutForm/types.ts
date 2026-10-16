@@ -9,4 +9,5 @@ export type AboutFormValues = Pick<
 export type AboutFormProps = {
   setStepFn: (data: AboutFormValues) => void
   setPreviousStep: Dispatch<React.SetStateAction<number>>
+  registerData: RegisterData | null
 }

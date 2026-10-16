@@ -6,6 +6,7 @@ import userReducer from '@/entities/user/model/userSlice'
 import cityReducer from '@/entities/city/citySlice'
 import genderReducer from '@/entities/genders/genderSlice'
 import recommendationReducer from '@/entities/userRecommendations/userRecommendationsSlice'
+import authReducer from '@/entities/auth/authSlice'
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     recommendations: recommendationReducer,
     // auth: authReducer,
     user: userReducer,
+    auth: authReducer,
   },
 })
 
