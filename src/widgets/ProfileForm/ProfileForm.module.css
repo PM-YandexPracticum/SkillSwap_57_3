@@ -1,0 +1,237 @@
+.container {
+  inline-size: 1020px;
+  min-block-size: 752px;
+  padding: 60px;
+  border-radius: 24px 24px 0 0;
+  background-color: rgb(255 255 255);
+  color: rgb(37 48 23);
+  font-family: Roboto, sans-serif;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 460px 244px;
+  gap: 196px;
+  align-items: start;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-inline-size: 0;
+}
+
+.emailGroup,
+.passwordSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.passwordSection {
+  align-items: flex-start;
+}
+
+.passwordButton {
+  padding: 0;
+  color: rgb(80 136 38);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.02em;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.passwordButton:hover {
+  text-decoration: underline;
+}
+
+.passwordInput,
+.fieldRow,
+.fieldset {
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.fieldRow {
+  position: relative;
+}
+
+.fieldset {
+  padding: 0;
+  border: 0;
+}
+
+.fieldset label,
+.passwordInput label {
+  inline-size: 100%;
+  gap: 4px;
+}
+
+.fieldset input,
+.passwordInput input {
+  inline-size: 100%;
+  block-size: 48px;
+  padding: 12px 54px 12px 20px;
+  border-radius: 12px;
+  background-color: rgb(255 255 255);
+}
+
+.fieldset input:disabled {
+  opacity: 1;
+  color: rgb(37 48 23);
+  -webkit-text-fill-color: rgb(37 48 23);
+}
+
+.editButton {
+  position: absolute;
+  top: 40px;
+  right: 20px;
+}
+
+.personalInfoRow {
+  display: grid;
+  grid-template-columns: repeat(2, 218px);
+  gap: 24px;
+}
+
+.profileField {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+  gap: 4px;
+}
+
+.fieldHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  block-size: 24px;
+}
+
+.fieldLabel,
+.aboutLabel {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.readonlyField {
+  inline-size: 100%;
+  block-size: 48px;
+  border: 1px solid rgb(105 115 93);
+  border-radius: 12px;
+  background-color: rgb(255 255 255);
+  color: rgb(37 48 23);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  font: inherit;
+}
+
+.fieldIcon {
+  inline-size: 24px;
+  block-size: 24px;
+  flex-shrink: 0;
+}
+
+.aboutLabel {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.aboutTextarea {
+  display: block;
+  inline-size: 100%;
+  block-size: 120px;
+  padding: 12px 54px 12px 20px;
+  resize: none;
+  border: 1px solid rgb(105 115 93);
+  border-radius: 12px;
+  background-color: rgb(255 255 255);
+  color: rgb(37 48 23);
+  font: inherit;
+}
+
+.aboutTextarea:disabled {
+  opacity: 1;
+  color: rgb(37 48 23);
+  -webkit-text-fill-color: rgb(37 48 23);
+}
+
+.aboutEditButton {
+  position: absolute;
+  top: 76px;
+  right: 20px;
+}
+
+.inputError {
+  border-color: rgb(191 57 32);
+}
+
+.error {
+  font-size: 12px;
+  line-height: 16px;
+  color: rgb(191 57 32);
+}
+
+.saveButton {
+  inline-size: 100%;
+  margin-top: 16px;
+}
+
+.avatarLabel {
+  display: block;
+  inline-size: 244px;
+  block-size: 244px;
+  cursor: pointer;
+}
+
+.fileInput {
+  display: none;
+}
+
+.avatar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 244px;
+  block-size: 244px;
+  border-radius: 50%;
+  background-color: rgb(228 232 223);
+  overflow: hidden;
+}
+
+.avatarIcon {
+  inline-size: 80px;
+  block-size: 80px;
+}
+
+.avatarPreview {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+.avatarBadge {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 56px;
+  block-size: 56px;
+  border-radius: 50%;
+  background-color: rgb(228 245 201);
+}
+
+.avatarBadge img {
+  inline-size: 28px;
+  block-size: 28px;
+}
