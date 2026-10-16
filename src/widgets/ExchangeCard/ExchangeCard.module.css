@@ -6,6 +6,8 @@
   flex-direction: column;
   align-items: center;
   gap: 24px;
+  background-color: rgb(255 255 255);
+  border-radius: 12px;
 }
 
 .actions {

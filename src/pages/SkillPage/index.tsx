@@ -32,37 +32,35 @@ export default function SkillPage() {
   if (!currentUser) return
   return (
     <main className={styles.page}>
-      <section className={styles.section}>
-        <div className={styles.spotlight}>
-          <UserCard
-            variant="author"
-            avatarUrl={`http://localhost:5000/images/users/${currentUser.image_path}`}
-            name={currentUser.name}
-            location={`${currentUser.city.title}, ${pluralizeYears(currentUser.age)}`}
-            about={currentUser.bio}
-            canTeach={mapCanTeachToCardSkills(currentUser.canTeach)}
-            wantsToLearn={mapWantsToLearnToCardSkills(currentUser.wantsToLearn)}
-          />
-          <ExchangeCard
-            category={`${currentUser.canTeach[0].title} / ${currentUser.canTeach[0].subskill.title}`}
-            description={currentUser.canTeach[0].description}
-            images={[
-              `http://localhost:5000/images/can_teach/${currentUser.canTeach[0].image_1!}`,
-              `http://localhost:5000/images/can_teach/${currentUser.canTeach[0].image_2!}`,
-              `http://localhost:5000/images/can_teach/${currentUser.canTeach[0].image_3!}`,
-              `http://localhost:5000/images/can_teach/${currentUser.canTeach[0].image_4!}`,
-            ]}
-            title={currentUser.canTeach[0].title}
-            onExchange={() => {}}
-            onLearnMore={() => {}}
-            onLike={() => {}}
-            onShare={() => {}}
-            status="available"
-          />
-        </div>
+      <section className={styles.spotlight}>
+        <UserCard
+          variant="author"
+          avatarUrl={`http://localhost:5000/images/users/${currentUser.image_path}`}
+          name={currentUser.name}
+          location={`${currentUser.city.title}, ${pluralizeYears(currentUser.age)}`}
+          about={currentUser.bio}
+          canTeach={mapCanTeachToCardSkills(currentUser.canTeach)}
+          wantsToLearn={mapWantsToLearnToCardSkills(currentUser.wantsToLearn)}
+        />
+        <ExchangeCard
+          category={`${currentUser.canTeach[0].title} / ${currentUser.canTeach[0].subskill.title}`}
+          description={currentUser.canTeach[0].description}
+          images={[
+            `http://localhost:5000/images/can_teach/${currentUser.canTeach[0].image_1!}`,
+            `http://localhost:5000/images/can_teach/${currentUser.canTeach[0].image_2!}`,
+            `http://localhost:5000/images/can_teach/${currentUser.canTeach[0].image_3!}`,
+            `http://localhost:5000/images/can_teach/${currentUser.canTeach[0].image_4!}`,
+          ]}
+          title={currentUser.canTeach[0].title}
+          onExchange={() => {}}
+          onLearnMore={() => {}}
+          onLike={() => {}}
+          onShare={() => {}}
+          status="available"
+        />
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.recommendations}>
         <h2 className={styles.title}>Похожие предложения</h2>
         <div className={styles.similar}>
           {!recommendations && <p>Загрузка</p>}
