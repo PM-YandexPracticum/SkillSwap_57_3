@@ -33,7 +33,7 @@ export const registerUser = createAsyncThunk<AuthUser, RegisterUserData, { rejec
       formData.append('images', registerData.image_3)
       formData.append('images', registerData.image_4)
 
-      const res = await fetch('http://localhost:5000/api/users/register', {
+      const res = await fetch(`${API_URL}/api/users/register`, {
         method: 'POST',
         body: formData,
         credentials: 'include',
