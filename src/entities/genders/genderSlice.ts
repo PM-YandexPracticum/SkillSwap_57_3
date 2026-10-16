@@ -27,7 +27,7 @@ export const fetchGenders = createAsyncThunk<Genders[], void, { rejectValue: str
 )
 
 const genderSlice = createSlice({
-  name: 'skills',
+  name: 'genders',
   initialState,
   reducers: {},
   extraReducers: (builder) => {

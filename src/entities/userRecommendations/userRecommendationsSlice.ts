@@ -26,8 +26,8 @@ export const fetchRecommendations = createAsyncThunk<
   }
 })
 
-const skillsSlice = createSlice({
-  name: 'skills',
+const recommendationsSlice = createSlice({
+  name: 'recommendations',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -49,4 +49,4 @@ const skillsSlice = createSlice({
   },
 })
 
-export default skillsSlice.reducer
+export default recommendationsSlice.reducer

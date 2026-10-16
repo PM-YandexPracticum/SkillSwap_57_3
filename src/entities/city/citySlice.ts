@@ -27,7 +27,7 @@ export const fetchCities = createAsyncThunk<City[], void, { rejectValue: string 
 )
 
 const citySlice = createSlice({
-  name: 'skills',
+  name: 'cities',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
