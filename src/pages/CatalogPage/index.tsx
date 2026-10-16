@@ -6,6 +6,7 @@ import { CatalogUserResponse } from '@/shared/types/apiTypes'
 import { useAppSelector } from '@/store/hooks'
 import { Link } from 'react-router-dom'
 import { pluralizeYears } from '@/shared/lib/helpers'
+import { API_URL } from '@/shared/config/api'
 
 export default function CatalogPage() {
   const EMPTY_CATALOG: CatalogUserResponse = {
@@ -76,7 +77,7 @@ export default function CatalogPage() {
                   <UserCard
                     key={index}
                     variant="catalog"
-                    avatarUrl={`http://localhost:5000/images/users/${user.image_path}`}
+                    avatarUrl={`${API_URL}/images/users/${user.image_path}`}
                     name={user.name}
                     location={`${user.city.title}, ${pluralizeYears(user.age)}`}
                     canTeach={user.canTeach.map((val) => ({
@@ -116,7 +117,7 @@ export default function CatalogPage() {
                 <UserCard
                   key={index}
                   variant="catalog"
-                  avatarUrl={`http://localhost:5000/images/users/${user.image_path}`}
+                  avatarUrl={`${API_URL}/images/users/${user.image_path}`}
                   name={user.name}
                   location={`${user.city.title}, ${pluralizeYears(user.age)}`}
                   canTeach={user.canTeach.map((val) => ({
@@ -145,7 +146,7 @@ export default function CatalogPage() {
               <UserCard
                 key={user.id}
                 variant="catalog"
-                avatarUrl={`http://localhost:5000/images/users/${user.image_path}`}
+                avatarUrl={`${API_URL}/images/users/${user.image_path}`}
                 name={user.name}
                 location={`${user.city.title}, ${pluralizeYears(user.age)}`}
                 canTeach={user.canTeach.map((val) => ({

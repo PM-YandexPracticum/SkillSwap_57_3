@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { UserSliceState } from './types'
+import { API_URL } from '@/shared/config/api'
 import type { CatalogUserResponse, SingleUser } from '@/shared/types/apiTypes'
 
 const initialState: UserSliceState = {
@@ -13,7 +14,7 @@ export const fetchUsers = createAsyncThunk<CatalogUserResponse, void, { rejectVa
   'user/getUsers',
   async (_, { signal, rejectWithValue }) => {
     try {
-      const response = await fetch('http://localhost:5000/api/users', { signal })
+      const response = await fetch(`${API_URL}/api/users`, { signal })
 
       if (!response.ok) {
         return rejectWithValue(`HTTP ${response.status}`)
@@ -33,7 +34,7 @@ export const fetchUser = createAsyncThunk<SingleUser, string, { rejectValue: str
   'user/getUser',
   async (id: string, { signal, rejectWithValue }) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/users/${id}`, { signal })
+      const response = await fetch(`${API_URL}/api/users/${id}`, { signal })
 
       if (!response.ok) {
         return rejectWithValue(`HTTP ${response.status}`)

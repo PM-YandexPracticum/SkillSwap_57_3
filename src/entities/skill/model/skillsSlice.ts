@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { SkillsSliceState } from './types'
+import { API_URL } from '@/shared/config/api'
 import type { Skill } from '@/shared/types/apiTypes'
 
 const initialState: SkillsSliceState = {
@@ -12,7 +13,7 @@ export const fetchSkills = createAsyncThunk<Skill[], void, { rejectValue: string
   'skill/getSkills',
   async (_, { signal, rejectWithValue }) => {
     try {
-      const res = await fetch('http://localhost:5000/api/skills', { signal })
+      const res = await fetch(`${API_URL}/api/skills`, { signal })
       if (!res.ok) {
         return rejectWithValue(`HTTP ${res.status}`)
       }

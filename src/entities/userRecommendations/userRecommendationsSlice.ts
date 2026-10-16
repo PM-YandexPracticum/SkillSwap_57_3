@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RecommendationItem, RecommendationsSliceState } from './types'
+import { API_URL } from '@/shared/config/api'
 
 const initialState: RecommendationsSliceState = {
   data: null,
@@ -13,7 +14,7 @@ export const fetchRecommendations = createAsyncThunk<
   { rejectValue: string }
 >('recommendations/getRecommendations', async (id: number, { signal, rejectWithValue }) => {
   try {
-    const res = await fetch(`http://localhost:5000/api/recommendations/${id}`, { signal })
+    const res = await fetch(`${API_URL}/api/recommendations/${id}`, { signal })
     if (!res.ok) {
       return rejectWithValue(`HTTP ${res.status}`)
     }

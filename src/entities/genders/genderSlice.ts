@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { GenderSliceState } from './types'
+import { API_URL } from '@/shared/config/api'
 import type { Genders } from '@/shared/types/apiTypes'
 
 const initialState: GenderSliceState = {
@@ -12,7 +13,7 @@ export const fetchGenders = createAsyncThunk<Genders[], void, { rejectValue: str
   'gender/getGenders',
   async (_, { signal, rejectWithValue }) => {
     try {
-      const res = await fetch('http://localhost:5000/api/genders', { signal })
+      const res = await fetch(`${API_URL}/api/genders`, { signal })
       if (!res.ok) {
         return rejectWithValue(`HTTP ${res.status}`)
       }

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { UserCard } from '@widgets/UserCard/index'
 import { CatalogUserResponse } from '@/shared/types/apiTypes'
 import styles from './FavoritesPage.module.css'
+import { API_URL } from '@/shared/config/api'
 
 export default function FavoritesPage() {
   const [users, setUsers] = useState<CatalogUserResponse>({
@@ -13,7 +14,7 @@ export default function FavoritesPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/users/')
+        const res = await fetch(`${API_URL}/api/users/`)
         if (!res.ok) throw new Error('API недоступен')
         const data = await res.json()
         setUsers({
@@ -36,7 +37,7 @@ export default function FavoritesPage() {
           <UserCard
             key={user.id}
             variant="catalog"
-            avatarUrl={`http://localhost:5000/images/users/${user.image_path}`}
+            avatarUrl={`${API_URL}/images/users/${user.image_path}`}
             name={user.name}
             location={user.city.title}
             canTeach={user.canTeach.map((val) => ({
