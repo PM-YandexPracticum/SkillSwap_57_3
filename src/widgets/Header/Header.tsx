@@ -9,10 +9,12 @@ import { ModalSkills } from '@widgets/ModalSkills'
 
 import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useAppSelector } from '@/store/hooks'
 
 export function Header() {
   const [isSkillsOpen, setIsSkillsOpen] = useState(false)
   const skillButtonRef = useRef<HTMLButtonElement>(null)
+  const isAuth = useAppSelector((state) => state.auth.isAuth)
 
   return (
     <header className={styles.header}>
@@ -53,14 +55,17 @@ export function Header() {
 
       <div className={styles.right}>
         <IconButton icon={moon} onClick={() => {}} ariaLabel="Изменить тему" />
+        {!isAuth && (
+          <>
+            <Link to="/login" className={styles.buttonLogin}>
+              Войти
+            </Link>
 
-        <Link to="/login" className={styles.buttonLogin}>
-          Войти
-        </Link>
-
-        <Link to="/register" className={styles.buttonRegister}>
-          Зарегистрироваться
-        </Link>
+            <Link to="/register" className={styles.buttonRegister}>
+              Зарегистрироваться
+            </Link>
+          </>
+        )}
       </div>
     </header>
   )
