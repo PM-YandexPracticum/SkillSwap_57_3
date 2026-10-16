@@ -14,7 +14,7 @@ import { Skill } from '@/shared/types/apiTypes'
 import { splitSkills } from '@/shared/lib/helpers'
 import { useEffect } from 'react'
 
-export function AboutForm({ setStepFn, setPreviousStep }: AboutFormProps) {
+export function AboutForm({ setStepFn, setPreviousStep, registerData }: AboutFormProps) {
   const cities = useAppSelector((state) => state.city.data)
   const genders = useAppSelector((state) => state.gender.data)
   const skillsFromSelector = useAppSelector((state) => state.skill.data)
@@ -31,12 +31,13 @@ export function AboutForm({ setStepFn, setPreviousStep }: AboutFormProps) {
   } = useForm<Values>({
     resolver: yupResolver(schema),
     defaultValues: {
-      birthDate: null as unknown as Date,
-      city: '',
-      gender: '',
-      name: '',
-      skill: '',
-      subskill: '',
+      avatar: registerData ? registerData.avatar : null,
+      birthDate: registerData ? registerData.birthDate : new Date(),
+      city: registerData ? registerData.city : '',
+      gender: registerData ? registerData.gender : '',
+      name: registerData ? registerData.name : '',
+      skill: registerData ? registerData.skill : '',
+      subskill: registerData ? registerData.subskill : '',
     },
     mode: 'onBlur',
     reValidateMode: 'onChange',
@@ -69,7 +70,6 @@ export function AboutForm({ setStepFn, setPreviousStep }: AboutFormProps) {
 
   const onSubmit = async (data: Values) => {
     try {
-      console.log(data)
       if (setStepFn) setStepFn(data)
     } catch (e) {
       console.error(e)
@@ -82,8 +82,14 @@ export function AboutForm({ setStepFn, setPreviousStep }: AboutFormProps) {
         <Controller
           name="avatar"
           control={control}
-          render={({ field: { onChange }, fieldState }) => {
-            return <AvatarInput onChange={onChange} error={fieldState.error?.message} />
+          render={({ field, fieldState }) => {
+            return (
+              <AvatarInput
+                value={field.value}
+                onChange={field.onChange}
+                error={fieldState.error?.message}
+              />
+            )
           }}
         />
         <TextInput
@@ -96,15 +102,15 @@ export function AboutForm({ setStepFn, setPreviousStep }: AboutFormProps) {
           <Controller
             name="birthDate"
             control={control}
-            render={({ field,fieldState }) => (
+            render={({ field, fieldState }) => (
               <label className={styles['date-picker-label']}>
                 Дата рождения
                 <DatePicker
-                value={field.value ?? null}
-                onChange={field.onChange}
-                onBlur={field.onBlur}
-                error={fieldState.error?.message}
-/>
+                  value={field.value ?? null}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  error={fieldState.error?.message}
+                />
               </label>
             )}
           />

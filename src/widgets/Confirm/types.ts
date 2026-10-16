@@ -2,7 +2,7 @@ export type ConfirmProps = {
   title: string
   category: string
   description: string
-  images: string[]
+  images: File[]
   onEdit: () => void
   onConfirm: () => void
 }

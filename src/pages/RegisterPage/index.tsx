@@ -11,11 +11,20 @@ import { RegisterData } from './types'
 import { ShareForm } from '@/widgets/shareForm'
 import { AboutFormValues } from '@/widgets/AboutForm/types'
 import { ShareFormValues } from '@/widgets/shareForm/types'
+import { Confirm } from '@/widgets/Confirm'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { RegisterUserData } from '@/entities/auth/types'
+import { registerUser } from '@/entities/auth/authSlice'
 
 export default function RegisterPage() {
   const navigate = useNavigate()
   const [step, setStep] = useState(1)
   const [registerData, setRegisterData] = useState<RegisterData>()
+  const [showConfirm, setShowConfirm] = useState<boolean>(false)
+  const skills = useAppSelector((state) => state.skill.data)
+  const genders = useAppSelector((state) => state.gender.data)
+  const cities = useAppSelector((state) => state.city.data)
+  const dispatch = useAppDispatch()
 
   const setWelcomeFormData = (data: Pick<RegisterData, 'email' | 'password'>) => {
     setRegisterData((prev) => ({ ...(prev ?? {}), ...data }) as RegisterData)
@@ -23,13 +32,65 @@ export default function RegisterPage() {
   }
 
   const setAboutFormData = (data: AboutFormValues) => {
-    setRegisterData((prev) => ({ ...prev, ...data }) as RegisterData)
+    setRegisterData((prev) => ({ ...prev, ...data, gender: data.gender }) as RegisterData)
     setStep(3)
   }
 
   const setShareFormData = (data: ShareFormValues) => {
-    setRegisterData((prev) => ({ ...prev, ...data }) as RegisterData)
-    console.log('FULL REGISTER DATA:', { ...registerData, ...data })
+    setRegisterData(
+      (prev) => ({ ...prev, ...data, nameSkill: data.canTeachSkillName }) as RegisterData,
+    )
+    setShowConfirm(true)
+  }
+
+  const handleEditInfo = () => {
+    setShowConfirm(false)
+    setStep(1)
+  }
+
+  const handleConfirm = async () => {
+    if (registerData) {
+      if (skills && genders && cities) {
+        const canTeachSkill = skills.find((s) => s.title === registerData.canTeachSkill)
+        const canTeachSubskill = canTeachSkill?.subskills.find(
+          (s) => s.title === registerData.canTeachSubskill,
+        )
+        const wantsToLearnSkill = skills.find((s) => s.title === registerData.skill)
+        const wantsToLearnSubskill = wantsToLearnSkill?.subskills.find(
+          (s) => s.title === registerData.subskill,
+        )
+        const city = cities.find((c) => c.title === registerData.city)
+        const gender = genders.find((g) => g.title === registerData.gender)
+
+        const apiRegisterData: RegisterUserData = {
+          name: registerData.name,
+          email: registerData.email,
+          password: registerData.password,
+          date_birth: registerData.birthDate,
+          bio: '',
+          skillDescription: registerData.canTeachDescription,
+          canTeachSkillId: String(canTeachSkill?.id),
+          canTeachSubskillId: String(canTeachSubskill?.id),
+          wantsToLearnSkillId: String(wantsToLearnSkill?.id),
+          wantsToLearnSubskillId: String(wantsToLearnSubskill?.id),
+          city: city!,
+          gender: gender!,
+          image_path: registerData.avatar!,
+          image_1: registerData.skillFile[0],
+          image_2: registerData.skillFile[1],
+          image_3: registerData.skillFile[2],
+          image_4: registerData.skillFile[3],
+          skillTitle: registerData.nameSkill,
+        }
+
+        const res = await dispatch(registerUser(apiRegisterData)).unwrap()
+
+        localStorage.setItem('accessToken', res.accessToken)
+
+        setShowConfirm(false)
+        navigate('/')
+      }
+    }
   }
 
   return (
@@ -57,24 +118,46 @@ export default function RegisterPage() {
             ))}
           </div>
         </div>
-        <div className={styles.main} key={step}>
+        <div className={styles.main}>
           {step === 1 && (
             <>
-              <WelcomeForm isRegistry={true} setStepFn={setWelcomeFormData} />
+              <WelcomeForm
+                isRegistry={true}
+                setStepFn={setWelcomeFormData}
+                registerData={registerData!}
+              />
               <Banner type="welcome" />
             </>
           )}
           {step === 2 && (
             <>
-              <AboutForm setStepFn={setAboutFormData} setPreviousStep={setStep} />
+              <AboutForm
+                setStepFn={setAboutFormData}
+                setPreviousStep={setStep}
+                registerData={registerData!}
+              />
               <Banner type="about" />
             </>
           )}
           {step === 3 && (
             <>
-              <ShareForm setStepFn={setShareFormData} setPreviousStep={setStep} />
+              <ShareForm
+                setStepFn={setShareFormData}
+                setPreviousStep={setStep}
+                registerData={registerData!}
+              />
               <Banner type="share" />
             </>
+          )}
+          {showConfirm && (
+            <Confirm
+              category={`${registerData!.canTeachSkill} / ${registerData!.canTeachSubskill}`}
+              description={registerData!.canTeachDescription}
+              images={registerData!.skillFile}
+              onEdit={handleEditInfo}
+              title={registerData!.canTeachSkillName}
+              onConfirm={handleConfirm}
+            />
           )}
         </div>
       </div>

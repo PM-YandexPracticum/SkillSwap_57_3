@@ -11,7 +11,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Link } from 'react-router-dom'
 import { WelcomeFormProps } from './types.ts'
 
-export function WelcomeForm({ isRegistry, setStepFn }: WelcomeFormProps) {
+export function WelcomeForm({ isRegistry, setStepFn, registerData }: WelcomeFormProps) {
   const {
     register,
     handleSubmit,
@@ -19,8 +19,8 @@ export function WelcomeForm({ isRegistry, setStepFn }: WelcomeFormProps) {
   } = useForm<Values>({
     resolver: yupResolver(isRegistry ? registrationSchema : schema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: registerData?.email ?? '',
+      password: registerData?.password ?? '',
     },
     mode: 'onBlur',
     reValidateMode: 'onChange',

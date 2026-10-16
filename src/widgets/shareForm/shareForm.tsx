@@ -14,7 +14,7 @@ import { Skill } from '@/shared/types/apiTypes'
 import { splitSkills } from '@/shared/lib/helpers'
 import { useAppSelector } from '@/store/hooks'
 
-export function ShareForm({ setStepFn, setPreviousStep }: ShareFormProps) {
+export function ShareForm({ setStepFn, setPreviousStep, registerData }: ShareFormProps) {
   const skillsFromSelector = useAppSelector((state) => state.skill.data)
   const { skills, subskills } = splitSkills(skillsFromSelector as Skill[])
 
@@ -28,11 +28,11 @@ export function ShareForm({ setStepFn, setPreviousStep }: ShareFormProps) {
   } = useForm<Values>({
     resolver: yupResolver(schema),
     defaultValues: {
-      canTeachSkillName: '',
-      canTeachSkill: '',
-      canTeachSubskill: '',
-      canTeachdescription: '',
-      skillFile: [],
+      canTeachSkillName: registerData?.canTeachSkillName ?? '',
+      canTeachSkill: registerData?.canTeachSkill ?? '',
+      canTeachSubskill: registerData?.canTeachSubskill ?? '',
+      canTeachDescription: registerData?.canTeachDescription ?? '',
+      skillFile: registerData?.skillFile ?? [],
     },
     mode: 'onBlur',
     reValidateMode: 'onChange',
@@ -65,7 +65,6 @@ export function ShareForm({ setStepFn, setPreviousStep }: ShareFormProps) {
 
   const onSubmit = async (data: Values) => {
     try {
-      console.log(data)
       if (setStepFn) setStepFn(data)
     } catch (e) {
       console.error(e)
@@ -111,7 +110,7 @@ export function ShareForm({ setStepFn, setPreviousStep }: ShareFormProps) {
         )}
       />
       <Controller
-        name="canTeachdescription"
+        name="canTeachDescription"
         control={control}
         render={({ field, fieldState }) => (
           <TextArea
@@ -139,7 +138,13 @@ export function ShareForm({ setStepFn, setPreviousStep }: ShareFormProps) {
           size="medium"
           onClick={() => setPreviousStep(2)}
         />
-        <Buttons type="submit" text="Продолжить" variant="greenButton" size="medium" onClick={handleSubmit(onSubmit)}/>
+        <Buttons
+          type="submit"
+          text="Продолжить"
+          variant="greenButton"
+          size="medium"
+          onClick={handleSubmit(onSubmit)}
+        />
       </div>
     </form>
   )

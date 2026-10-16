@@ -6,34 +6,37 @@ const initialState: AuthUserState = {
   data: null,
   loading: false,
   error: null,
+  isAuth: false,
 }
-
-// export const fetchCities = createAsyncThunk<City[], void, { rejectValue: string }>(
-//   'city/getCities',
-//   async (_, { signal, rejectWithValue }) => {
-//     try {
-//       const res = await fetch(`${API_URL}/api/cities`, { signal })
-//       if (!res.ok) {
-//         return rejectWithValue(`HTTP ${res.status}`)
-//       }
-//       return await res.json()
-//     } catch (e) {
-//       if (e instanceof Error && e.name === 'AbortError') {
-//         throw e
-//       }
-//       return rejectWithValue((e as Error).message)
-//     }
-//   },
-// )
 
 export const registerUser = createAsyncThunk<AuthUser, RegisterUserData, { rejectValue: string }>(
   'user/registerUser',
   async (registerData, { signal, rejectWithValue }) => {
     try {
-      const res = await fetch(`${API_URL}/api/register`, {
+      const formData = new FormData()
+      formData.append('name', registerData.name)
+      formData.append('email', registerData.email)
+      formData.append('password', registerData.password)
+      formData.append('bio', registerData.bio)
+      formData.append('date_birth', registerData.date_birth.toISOString().split('T')[0])
+      formData.append('city_id', String(registerData.city.id))
+      formData.append('gender_id', String(registerData.gender.id))
+      formData.append('skillTitle', registerData.skillTitle)
+      formData.append('skillDescription', registerData.skillDescription)
+      formData.append('canTeachSkillId', registerData.canTeachSkillId)
+      formData.append('canTeachSubskillId', registerData.canTeachSubskillId)
+      formData.append('wantsToLearnSkillId', registerData.wantsToLearnSkillId)
+      formData.append('wantsToLearnSubskillId', registerData.wantsToLearnSubskillId)
+      formData.append('avatar', registerData.image_path)
+      formData.append('images', registerData.image_1)
+      formData.append('images', registerData.image_2)
+      formData.append('images', registerData.image_3)
+      formData.append('images', registerData.image_4)
+
+      const res = await fetch('http://localhost:5000/api/users/register', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(registerData),
+        body: formData,
+        credentials: 'include',
         signal,
       })
       if (!res.ok) {
@@ -62,6 +65,7 @@ const authUserSlice = createSlice({
     builder.addCase(registerUser.fulfilled, (state, action) => {
       state.loading = false
       state.data = action.payload
+      state.isAuth = true
     })
 
     builder.addCase(registerUser.rejected, (state, action) => {

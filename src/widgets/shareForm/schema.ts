@@ -4,7 +4,7 @@ export const schema = yup.object({
   canTeachSkillName: yup.string().trim().required('Введите имя'),
   canTeachSkill: yup.string().required('Выберите категорию'),
   canTeachSubskill: yup.string().required('Выберите подкатегорию'),
-  canTeachdescription: yup.string().trim().required('Опишите, чему можете научить'),
+  canTeachDescription: yup.string().trim().required('Опишите, чему можете научить'),
   skillFile: yup
     .array()
     .required('Загрузите изображения навыка')
@@ -17,7 +17,7 @@ export const schema = yup.object({
         (file) =>
           file instanceof File &&
           file.size <= 2 * 1024 * 1024 &&
-          ['image/jpeg', 'image/png'].includes(file.type)
+          ['image/jpeg', 'image/png'].includes(file.type),
       )
     }),
 })

@@ -12,6 +12,6 @@ export type RegisterData = {
   canTeachSkillName: string
   canTeachSkill: string
   canTeachSubskill: string
-  canTeachdescription: string
+  canTeachDescription: string
   skillFile: File[]
 }
