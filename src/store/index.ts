@@ -5,12 +5,14 @@ import skillsReducer from '@/entities/skill/model/skillsSlice'
 import userReducer from '@/entities/user/model/userSlice'
 import cityReducer from '@/entities/city/citySlice'
 import genderReducer from '@/entities/genders/genderSlice'
+import recommendationReducer from '@/entities/userRecommendations/userRecommendationsSlice'
 
 export const store = configureStore({
   reducer: {
     skill: skillsReducer,
     city: cityReducer,
     gender: genderReducer,
+    recommendations: recommendationReducer,
     // auth: authReducer,
     user: userReducer,
   },

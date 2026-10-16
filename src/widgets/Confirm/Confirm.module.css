@@ -5,6 +5,8 @@
   flex-direction: column;
   align-items: center;
   gap: 40px;
+  background-color: rgb(255 255 255);
+  border-radius: 12px;
 }
 
 .caption {

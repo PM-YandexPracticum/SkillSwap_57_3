@@ -10,16 +10,43 @@ const initialState: UserSliceState = {
   currentUser: null,
 }
 
-export const fetchUsers = createAsyncThunk<CatalogUserResponse>('user/getUsers', async () => {
-  const response = await fetch(`${API_URL}/api/users/`)
-  return response.json()
-})
+export const fetchUsers = createAsyncThunk<CatalogUserResponse, void, { rejectValue: string }>(
+  'user/getUsers',
+  async (_, { signal, rejectWithValue }) => {
+    try {
+      const response = await fetch(`${API_URL}/api/users`, { signal })
 
-export const fetchUser = createAsyncThunk<SingleUser, string>(
+      if (!response.ok) {
+        return rejectWithValue(`HTTP ${response.status}`)
+      }
+
+      return (await response.json()) as CatalogUserResponse
+    } catch (e) {
+      if (e instanceof Error && e.name === 'AbortError') {
+        throw e
+      }
+      return rejectWithValue((e as Error).message)
+    }
+  },
+)
+
+export const fetchUser = createAsyncThunk<SingleUser, string, { rejectValue: string }>(
   'user/getUser',
-  async (id: string) => {
-    const response = await fetch(`${API_URL}/api/users/${id}`)
-    return response.json()
+  async (id: string, { signal, rejectWithValue }) => {
+    try {
+      const response = await fetch(`${API_URL}/api/users/${id}`, { signal })
+
+      if (!response.ok) {
+        return rejectWithValue(`HTTP ${response.status}`)
+      }
+
+      return response.json()
+    } catch (e) {
+      if (e instanceof Error && e.name === 'AbortError') {
+        throw e
+      }
+      return rejectWithValue((e as Error).message)
+    }
   },
 )
 
@@ -39,6 +66,7 @@ const userSlice = createSlice({
     })
 
     builder.addCase(fetchUsers.rejected, (state, action) => {
+      if (action.error.name === 'AbortError') return
       state.loading = false
       state.error = action.error.message ?? 'Ошибка загрузки пользователей'
     })

@@ -29,7 +29,7 @@ export const Confirm = ({
           <div className={styles.actions}>
             <ButtonsWithIcon
               text="Редактировать"
-              iconSrc="./src/assets/icon/edit.svg"
+              iconSrc="/src/assets/icon/edit.svg"
               onClick={onEdit}
               size="semi-medium"
               gap="gapSmall"

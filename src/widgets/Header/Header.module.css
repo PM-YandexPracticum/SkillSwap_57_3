@@ -8,6 +8,7 @@
   position: sticky;
   top: 0;
   z-index: 5;
+  gap: 32px;
 }
 
 .left {
@@ -26,7 +27,8 @@
   flex: 1;
   display: flex;
   justify-content: center;
-  max-width: 400px;
+  inline-size: 100%;
+  min-inline-size: 200px;
 }
 
 .right {
