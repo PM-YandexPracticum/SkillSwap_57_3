@@ -51,6 +51,14 @@ const DEVELOPERS: DevInfoCardProps[] = [
       'Изучаю фронтенд-разработку в Яндекс Практикуме, участвую в командной разработке проекта SkillSwap.',
     githubUrl: 'https://github.com/Nata0803',
   },
+    {
+    avatarUrl: 'https://github.com/Lylelit.png',
+    name: 'Смирнова Елена',
+    role: 'Рядовой разработчик',
+    about:
+      'Изучаю фронтенд-разработку в Яндекс Практикуме. В SkillSwap получаю опыт командной разработки. Планирую применять полученные знания на текущей работе, чтобы оптимизировать процессы. В свободное время рисую и играю в геншин :)',
+    githubUrl: 'https://github.com/Lylelit',
+  },
 ]
 
 export function AboutPage() {
