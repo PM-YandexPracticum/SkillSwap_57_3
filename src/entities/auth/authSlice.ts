@@ -7,7 +7,7 @@ const initialState: AuthUserState = {
   loading: false,
   error: null,
   isAuth: false,
-  isAuthChecked: false
+  isAuthChecked: false,
 }
 
 export const registerUser = createAsyncThunk<AuthUser, RegisterUserData, { rejectValue: string }>(
@@ -53,6 +53,34 @@ export const registerUser = createAsyncThunk<AuthUser, RegisterUserData, { rejec
   },
 )
 
+export const authUser = createAsyncThunk<
+  AuthUser,
+  Pick<RegisterUserData, 'email' | 'password'>,
+  { rejectValue: string }
+>('user/authUser', async (authData, { signal, rejectWithValue }) => {
+  try {
+    const formData = new FormData()
+    formData.append('email', authData.email)
+    formData.append('password', authData.password)
+    const res = await fetch(`${API_URL}/api/users/auth`, {
+      method: 'POST',
+      body: formData,
+      credentials: 'include',
+      signal,
+    })
+    if (!res.ok) {
+      return rejectWithValue(`HTTP ${res.status}`)
+    }
+
+    return (await res.json()) as AuthUser
+  } catch (e) {
+    if (e instanceof Error && e.name === 'AbortError') {
+      throw e
+    }
+    return rejectWithValue((e as Error).message)
+  }
+})
+
 const authUserSlice = createSlice({
   name: 'auth',
   initialState,
@@ -80,12 +108,28 @@ const authUserSlice = createSlice({
       state.error = action.error.message ?? 'ошибка: регистрация не удалась'
       state.isAuthChecked = true
     })
+
+    builder.addCase(authUser.pending, (state) => {
+      state.loading = true
+      state.error = null
+    })
+
+    builder.addCase(authUser.fulfilled, (state, action) => {
+      state.loading = false
+      state.data = action.payload
+      state.isAuth = true
+      state.isAuthChecked = true
+    })
+
+    builder.addCase(authUser.rejected, (state, action) => {
+      if (action.error.name === 'AbortError') return
+      state.loading = false
+      state.error = action.error.message ?? 'ошибка: авторизация не удалась'
+      state.isAuthChecked = true
+    })
   },
 })
 
 export default authUserSlice.reducer
 
-export const {
-  getUserSelector,
-  getIsAuthCheckedSelector,
-} = authUserSlice.selectors;
+export const { getUserSelector, getIsAuthCheckedSelector } = authUserSlice.selectors
