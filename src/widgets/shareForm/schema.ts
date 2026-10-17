@@ -8,8 +8,8 @@ export const schema = yup.object({
   skillFile: yup
     .array()
     .required('Загрузите изображения навыка')
-    .test('not-empty', 'Загрузите хотя бы одно изображение', (files) => {
-      return Array.isArray(files) && files.length > 0
+    .test('not-empty', 'Загрузите 4 изображения', (files) => {
+      return Array.isArray(files) && files.length === 4
     })
     .test('valid-files', 'Все файлы должны быть JPEG или PNG до 2 МБ', (files) => {
       if (!Array.isArray(files)) return false

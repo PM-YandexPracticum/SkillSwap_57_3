@@ -126,7 +126,14 @@ export function ShareForm({ setStepFn, setPreviousStep, registerData }: ShareFor
         name="skillFile"
         control={control}
         render={({ field: { onChange, value }, fieldState }) => {
-          return <FileInput value={value} onChange={onChange} error={fieldState.error?.message} />
+          return (
+            <FileInput
+              value={value}
+              onChange={onChange}
+              error={fieldState.error?.message}
+              maxFiles={4}
+            />
+          )
         }}
       />
 
