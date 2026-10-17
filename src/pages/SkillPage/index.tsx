@@ -13,6 +13,7 @@ import { ExchangeCard } from '@/widgets/ExchangeCard'
 import { fetchRecommendations } from '@/entities/userRecommendations/userRecommendationsSlice'
 import { API_URL } from '@/shared/config/api'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { SkillCardCarousel } from '@widgets/SkillCardCarousel/index'
 
 export default function SkillPage() {
   const { id } = useParams<{ id: string }>()
@@ -71,27 +72,7 @@ export default function SkillPage() {
         />
       </section>
 
-      <section className={styles.recommendations}>
-        <h2 className={styles.title}>Похожие предложения</h2>
-        <div className={styles.similar}>
-          {!recommendations && <p>Загрузка</p>}
-          {recommendations &&
-            recommendations.map((rec, index) => (
-              <UserCard
-                key={index}
-                variant="catalog"
-                avatarUrl={`${API_URL}/images/users/${rec.image_path}`}
-                name={rec.name}
-                location={`${rec.city}, ${pluralizeYears(rec.age)}`}
-                canTeach={rec.canTeach}
-                wantsToLearn={rec.wantsToLearn}
-                isLiked={false}
-                onLike={() => {}}
-                onDetails={() => {}}
-              />
-            ))}
-        </div>
-      </section>
+      <SkillCardCarousel recommendations={recommendations} />
     </main>
   )
 }
