@@ -37,6 +37,11 @@
   gap: 16px;
 }
 
+.headerIcon {
+  inline-size: 24px;
+  block-size: 24px;
+}
+
 .buttonAbout,
 .buttonSkills {
   font-family: Roboto, sans-serif;
