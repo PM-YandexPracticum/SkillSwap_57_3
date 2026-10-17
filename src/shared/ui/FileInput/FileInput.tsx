@@ -3,7 +3,7 @@ import { FileInputProps } from './types'
 import FileInputIcon from '@assets/icon/FileInputIcon.svg'
 import styles from './FileInput.module.css'
 
-export function FileInput({ value = [], onChange, error }: FileInputProps) {
+export function FileInput({ value = [], onChange, error, maxFiles }: FileInputProps) {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const addFiles = (files: FileList | null) => {
@@ -13,9 +13,13 @@ export function FileInput({ value = [], onChange, error }: FileInputProps) {
     // объединяем с уже выбранными + убираем дубликаты по name+size
     const merged = [...value, ...incoming].filter(
       (file, idx, arr) =>
-        arr.findIndex((f) => f.name === file.name && f.size === file.size) === idx
+        arr.findIndex((f) => f.name === file.name && f.size === file.size) === idx,
     )
-    onChange(merged)
+    if (maxFiles !== undefined) {
+      onChange(merged.slice(0, maxFiles))
+    } else {
+      onChange(merged)
+    }
   }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
