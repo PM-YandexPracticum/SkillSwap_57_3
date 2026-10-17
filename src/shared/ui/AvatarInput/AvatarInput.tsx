@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useMemo } from 'react'
+import { ChangeEvent, useMemo } from 'react'
 import { AvatarInputProps } from './types'
 import styles from './AvatarInput.module.css'
 import avatarUpload from './Icon+Add.svg'
