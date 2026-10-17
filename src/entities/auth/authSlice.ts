@@ -7,6 +7,7 @@ const initialState: AuthUserState = {
   loading: false,
   error: null,
   isAuth: false,
+  isAuthChecked: false
 }
 
 export const registerUser = createAsyncThunk<AuthUser, RegisterUserData, { rejectValue: string }>(
@@ -53,9 +54,13 @@ export const registerUser = createAsyncThunk<AuthUser, RegisterUserData, { rejec
 )
 
 const authUserSlice = createSlice({
-  name: 'skills',
+  name: 'auth',
   initialState,
   reducers: {},
+  selectors: {
+    getUserSelector: (state) => state.data,
+    getIsAuthCheckedSelector: (state) => state.isAuthChecked,
+  },
   extraReducers: (builder) => {
     builder.addCase(registerUser.pending, (state) => {
       state.loading = true
@@ -66,14 +71,21 @@ const authUserSlice = createSlice({
       state.loading = false
       state.data = action.payload
       state.isAuth = true
+      state.isAuthChecked = true
     })
 
     builder.addCase(registerUser.rejected, (state, action) => {
       if (action.error.name === 'AbortError') return
       state.loading = false
       state.error = action.error.message ?? 'ошибка: регистрация не удалась'
+      state.isAuthChecked = true
     })
   },
 })
 
 export default authUserSlice.reducer
+
+export const {
+  getUserSelector,
+  getIsAuthCheckedSelector,
+} = authUserSlice.selectors;

@@ -7,6 +7,7 @@ import { fetchSkills } from '@/entities/skill/model/skillsSlice'
 import { fetchCities } from '@/entities/city/citySlice'
 import { fetchGenders } from '@/entities/genders/genderSlice'
 import { fetchUsers } from '@/entities/user/model/userSlice'
+import { PrivateRoute } from '@/app/routes'
 
 // Lazy-загрузка страниц — каждая страница грузится только при переходе на неё
 const CatalogPage = lazy(() => import('@/pages/CatalogPage'))
@@ -40,19 +41,53 @@ export function AppRouter() {
             <Route element={<MainLayout />}>
               <Route path={ROUTES.HOME} element={<CatalogPage />} />
               <Route path={ROUTES.SKILL} element={<SkillPage />} />
-              <Route path={ROUTES.FAVORITES} element={<FavoritesPage />} />
+              <Route
+                path={ROUTES.FAVORITES}
+                element={
+                  <PrivateRoute>
+                    <FavoritesPage />
+                  </PrivateRoute>
+                }
+              />
               <Route path={ROUTES.ABOUT} element={<AboutPage />} />
 
-              {/* Защищённые маршруты — добавь PrivateRoute обёртку */}
-              <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
-              <Route path={ROUTES.CREATE} element={<CreateSkillPage />} />
+              <Route
+                path={ROUTES.PROFILE}
+                element={
+                  <PrivateRoute>
+                    <ProfilePage />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path={ROUTES.CREATE}
+                element={
+                  <PrivateRoute>
+                    <CreateSkillPage />
+                  </PrivateRoute>
+                }
+              />
 
               <Route path="*" element={<NotFoundPage />} />
               <Route path="/500" element={<NotServerPage />} />
             </Route>
             <Route element={<AuthLayout />}>
-              <Route path={ROUTES.LOGIN} element={<LoginPage />} />
-              <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
+              <Route
+                path={ROUTES.LOGIN}
+                element={
+                  <PrivateRoute onlyUnAuth>
+                    <LoginPage />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path={ROUTES.REGISTER}
+                element={
+                  <PrivateRoute onlyUnAuth>
+                    <RegisterPage />
+                  </PrivateRoute>
+                }
+              />
             </Route>
           </Routes>
         </Suspense>
