@@ -1,0 +1,130 @@
+.section {
+  background-color: transparent;
+  max-inline-size: 1368px;
+  inline-size: 100%;
+}
+
+.title {
+  font-family: Jost, sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 28px;
+  color: rgb(37 48 23);
+}
+
+.carousel {
+  inline-size: 100%;
+  display: flex;
+  position: relative;
+  margin-top: 32px;
+}
+
+.cards {
+  inline-size: 100%;
+  display: flex;
+  background-color: transparent;
+  animation: fade-slide 0.5s ease-out;
+}
+
+.fewСards {
+  gap: 24px;
+}
+
+.fullCards {
+  gap: 5px;
+  justify-content: space-between;
+}
+
+.button {
+  position: absolute;
+  top: 168px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(228 232 223);
+  block-size: 32px;
+  inline-size: 32px;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.button:focus {
+  outline: none;
+}
+
+.button:focus-visible {
+  outline: 2px solid rgb(171 210 122);
+}
+
+.forward {
+  right: -16px;
+}
+
+.forward:hover {
+  transform: scale(1.2);
+}
+
+.back {
+  left: -16px;
+  transform: rotate(180deg);
+}
+
+.back:hover {
+  transform: rotate(180deg) scale(1.2);
+}
+
+.disable {
+  display: none;
+}
+
+.icon {
+  block-size: 10px;
+  inline-size: 10px;
+}
+
+.slideRight {
+  animation: slide-right 0.25s ease-out;
+}
+
+.slideleft {
+  animation: slide-left 0.25s ease-out;
+}
+
+.loader {
+  block-size: 70px;
+  inline-size: 70px;
+  border: 6px solid;
+  border-radius: 50%;
+  border-color: rgb(171 210 122) transparent;
+  animation: loader 2s infinite;
+}
+
+@keyframes slide-right {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-left {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes loader {
+  to {
+    transform: rotate(360deg);
+  }
+}
