@@ -15,7 +15,7 @@ import calendarIcon from '@assets/ButtonSvg/calendar.svg'
 import editIcon from '@assets/icon/edit.svg'
 import chevronIcon from '@ui/Select/chevron-down.svg'
 import galleryEditIcon from './icons/gallery-edit.svg'
-import { schema, Values } from './schema'
+import { schema, schemaWithPassword, Values } from './schema'
 import { ProfileFormProps } from './types'
 import styles from './ProfileForm.module.css'
 
@@ -46,8 +46,7 @@ export function ProfileForm({ initialValues, onSave }: ProfileFormProps) {
     clearErrors,
     formState: { errors, isSubmitting },
   } = useForm<Values>({
-    resolver: yupResolver(schema),
-    context: { changePassword: showPassword },
+    resolver: yupResolver(showPassword ? schemaWithPassword : schema),
     defaultValues: {
       email: '',
       name: '',

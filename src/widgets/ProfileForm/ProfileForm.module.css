@@ -184,7 +184,13 @@
   margin-top: 16px;
 }
 
+.saveMessage {
+  font-size: 14px;
+  line-height: 20px;
+}
+
 .avatarLabel {
+  position: relative;
   display: block;
   inline-size: 244px;
   block-size: 244px;

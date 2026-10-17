@@ -23,11 +23,11 @@ export const schema = yup.object({
   gender: yup.string().required('Выберите пол'),
   city: yup.string().required('Выберите город'),
   about: yup.string().default(''),
-  password: yup.string().when('$changePassword', {
-    is: true,
-    then: () => passwordSchema.required('Введите новый пароль'),
-    otherwise: (field) => field.optional(),
-  }),
+  password: yup.string().optional(),
+})
+
+export const schemaWithPassword = schema.shape({
+  password: passwordSchema.required('Введите новый пароль'),
 })
 
 export type Values = yup.InferType<typeof schema>
