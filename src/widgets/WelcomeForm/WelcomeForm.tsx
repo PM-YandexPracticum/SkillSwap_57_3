@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { ButtonsWithIcon } from '@ui/ButtonsWithIcon/index'
 import { TextInput } from '@ui/TextInput/index'
 import { PasswordInput } from '@ui/PasswordInput/index'
@@ -6,27 +5,46 @@ import { Buttons } from '@ui/Buttons/index'
 import styles from './WelcomeForm.module.css'
 import google from '@assets/icon/Google.svg'
 import apple from '@assets/icon/Apple.svg'
+import { schema, Values, registrationSchema } from './schema'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Link } from 'react-router-dom'
 import { WelcomeFormProps } from './types.ts'
 
-export function WelcomeForm({ isRegForm }: WelcomeFormProps) {
-   const [email, setEmail] = useState('');
-   const [emailError, setEmailError] = useState('');
+export function WelcomeForm({ isRegistry, setStepFn, registerData }: WelcomeFormProps) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Values>({
+    resolver: yupResolver(isRegistry ? registrationSchema : schema),
+    defaultValues: {
+      email: registerData?.email ?? '',
+      password: registerData?.password ?? '',
+    },
+    mode: 'onBlur',
+    reValidateMode: 'onChange',
+  })
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setEmail(value);
-    setEmailError(value === '' ? 'Email обязателен' : '');
-  };
-   
+  const onSubmit = async (data: Values) => {
+    try {
+      if (setStepFn) setStepFn(data)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   return (
     <section className={styles.container}>
       <div className={styles.buttonContainer}>
         <ButtonsWithIcon
-          text="Продлжить с Google"
+          text="Продолжить с Google"
           iconSrc={google}
           size="large"
           gap="gapLarge"
-          onClick={() => {}}
+          onClick={() => {
+            console.log('Функция в разработке')
+          }}
           border={true}
         />
         <ButtonsWithIcon
@@ -34,50 +52,42 @@ export function WelcomeForm({ isRegForm }: WelcomeFormProps) {
           iconSrc={apple}
           size="large"
           gap="gapLarge"
-          onClick={() => {}}
+          onClick={() => {
+            console.log('Функция в разработке')
+          }}
           border={true}
         />
       </div>
 
       <div className={styles.divider}>или</div>
 
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <TextInput
-          value={email}
+          {...register('email')}
           labelName="Email"
           placeholder="Введите email"
-          onChange={handleEmailChange}
-          error={emailError}
+          error={errors.email?.message}
         />
         <fieldset className={styles.password}>
-          {isRegForm ? (
-            <>
-              <PasswordInput
-                labelName="Пароль"
-                placeholder="Придумайте надежный пароль"
-                onChange={() => {}}
-                value={''}
-              />
-              <text className={styles.inscription}>Пароль должен содержать не менее 8 знаков</text>
-            </>
-          ) : (
-            <PasswordInput
-              labelName="Пароль"
-              placeholder="Введите пароль"
-              onChange={() => {}}
-              value={''}
-            />
-          )}
+          <PasswordInput
+            {...register('password')}
+            labelName="Пароль"
+            placeholder="Введите пароль"
+            error={errors.password?.message}
+          />
         </fieldset>
-        {isRegForm ? (
-          <>
-            <Buttons text="Далее" onClick={() => {}} variant="greenButton" size="extra-large" />
-            <button className={styles.enterButton}>Уже есть аккаунт? Войти</button>
-          </>
-        ) : (
-          <Buttons text="Войти" onClick={() => {}} variant="greenButton" size="extra-large" />
-        )}
+        <Buttons
+          type="submit"
+          text={isRegistry ? 'Далее' : 'Войти'}
+          variant="greenButton"
+          size="extra-large"
+        />
       </form>
+      {isRegistry && (
+        <Link className={styles.enterButton} to="/login">
+          Уже есть аккаунт? Войти
+        </Link>
+      )}
     </section>
   )
 }

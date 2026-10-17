@@ -4,9 +4,11 @@ import cross from '@assets/icon/cross.svg'
 import styles from './LoginPage.module.css'
 import { Banner } from '@widgets/Banner'
 import { useNavigate } from 'react-router-dom'
+import { WelcomeForm } from '@/widgets/WelcomeForm'
 
-export default function LoginPage({ isLogin }: { isLogin: boolean }) {
+export default function LoginPage() {
   const navigate = useNavigate()
+
   return (
     <main className={styles.container}>
       <div className={styles.header}>
@@ -22,14 +24,14 @@ export default function LoginPage({ isLogin }: { isLogin: boolean }) {
           position="right"
         />
       </div>
-      {isLogin && (
-        <div className={styles.spotlight}>
-          <h1>Вход</h1>
-          <div className={styles.main}>
-            <Banner type="welcome" />
-          </div>
+
+      <div className={styles.spotlight}>
+        <h1>Вход</h1>
+        <div className={styles.main}>
+          <WelcomeForm isRegistry={false} />
+          <Banner type="welcome" />
         </div>
-      )}
+      </div>
     </main>
   )
 }

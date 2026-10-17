@@ -1,3 +1,7 @@
+import { RegisterData } from '@/pages/RegisterPage/types'
+
 export type WelcomeFormProps = {
-  isRegForm: boolean;
+  isRegistry: boolean
+  setStepFn?: (data: { email: string; password: string }) => void
+  registerData?: RegisterData | null
 }

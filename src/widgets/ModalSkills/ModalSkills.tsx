@@ -1,41 +1,36 @@
+import { useAppSelector } from '@/store/hooks'
 import styles from './ModalSkills.module.css'
-import type { SkillCategory } from './types'
 
-import { useEffect, useState } from 'react'
+import { Skill } from '@/shared/types/apiTypes'
+import { ModalSkillsProps } from './types'
+import { useEffect, useRef } from 'react'
 
-export const ModalSkills = () => {
-  const [skills, setSkills] = useState<SkillCategory[]>([])
+export const ModalSkills = ({ onClose, triggerRef }: ModalSkillsProps) => {
+  const modalRef = useRef<HTMLDivElement>(null)
+  const skillState = useAppSelector((state) => state.skill)
+  const skillsData = skillState.data as Skill[]
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetch('http://localhost:5000/api/skills').then((data) => data)
+    const handleClose = (e: MouseEvent) => {
+      const target = e.target as Node
 
-        setSkills(await data.json())
-      } catch (e) {
-        console.log(e)
-      }
+      if (modalRef.current?.contains(target)) return
+      if (triggerRef?.current?.contains(target)) return
+
+      onClose()
     }
-
-    fetchData()
-  }, [])
-
-  const iconPathFixes: Record<string, string> = {
-    '/assets/skills/BuisnessAndCareerIcon.svg': '/assets/skills/BuinessAndCareerIcon.svg',
-
-    '/assets/skills/EducationIcon.svg': '/assets/skills/EdicationIcon.svg',
-  }
+    document.addEventListener('mousedown', handleClose)
+    return () => {
+      document.removeEventListener('mousedown', handleClose)
+    }
+  }, [onClose])
 
   return (
-    <div className={styles.modal}>
-      {skills.map((skill) => (
+    <div ref={modalRef} className={styles.modal}>
+      {skillsData.map((skill) => (
         <div key={skill.id} className={styles.skillWrap}>
           <div className={styles.titleWrap}>
-            <img
-              src={iconPathFixes[skill.icon_src] ?? skill.icon_src}
-              className={styles.iconSkill}
-              alt={skill.title}
-            />
+            <img src={skill.icon_src} className={styles.iconSkill} alt={skill.title} />
             <h2 className={styles.titleSkill}>{skill.title}</h2>
           </div>
           <ul className={styles.subskillsList}>
