@@ -12,12 +12,16 @@ import {
 import { ExchangeCard } from '@/widgets/ExchangeCard'
 import { fetchRecommendations } from '@/entities/userRecommendations/userRecommendationsSlice'
 import { API_URL } from '@/shared/config/api'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 export default function SkillPage() {
   const { id } = useParams<{ id: string }>()
   const dispatch = useAppDispatch()
   const currentUser = useAppSelector((state) => state.user.currentUser)
   const recommendations = useAppSelector((state) => state.recommendations.data)
+  const navigate = useNavigate()
+  const location = useLocation()
+  const isAuth = useAppSelector((state) => state.auth.isAuth)
   useEffect(() => {
     if (!id) return
     dispatch(fetchUser(id))
@@ -53,7 +57,13 @@ export default function SkillPage() {
             `${API_URL}/images/can_teach/${currentUser.canTeach[0].image_4!}`,
           ]}
           title={currentUser.canTeach[0].title}
-          onExchange={() => {}}
+          onExchange={() => {
+            if (!isAuth) {
+              navigate('/register', {
+                state: { from: location.pathname },
+              })
+            }
+          }}
           onLearnMore={() => {}}
           onLike={() => {}}
           onShare={() => {}}

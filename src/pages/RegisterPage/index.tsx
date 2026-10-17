@@ -15,9 +15,11 @@ import { Confirm } from '@/widgets/Confirm'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { RegisterUserData } from '@/entities/auth/types'
 import { registerUser } from '@/entities/auth/authSlice'
+import { useLocation } from 'react-router-dom'
 
 export default function RegisterPage() {
   const navigate = useNavigate()
+  const location = useLocation()
   const [step, setStep] = useState(1)
   const [registerData, setRegisterData] = useState<RegisterData>()
   const [showConfirm, setShowConfirm] = useState<boolean>(false)
@@ -88,7 +90,7 @@ export default function RegisterPage() {
         localStorage.setItem('accessToken', res.accessToken)
 
         setShowConfirm(false)
-        navigate('/')
+        navigate(location.state?.from || '/')
       }
     }
   }
