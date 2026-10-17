@@ -41,4 +41,5 @@ export type AuthUserState = {
   loading: boolean
   error: string | null
   isAuth: boolean
+  isAuthChecked: boolean
 }
