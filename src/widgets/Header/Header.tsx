@@ -10,16 +10,33 @@ import Logo from '@ui/Logo/Logo'
 import { ModalSkills } from '@widgets/ModalSkills'
 import { UserInfo } from '@ui/UserInfo'
 import { API_URL } from '@/shared/config/api'
+import { UserDropdown } from '../UserDropdown'
 
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAppSelector } from '@/store/hooks'
 
 export function Header() {
   const [isSkillsOpen, setIsSkillsOpen] = useState(false)
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
   const skillButtonRef = useRef<HTMLButtonElement>(null)
+  const userMenuRef = useRef<HTMLDivElement>(null)
   const { isAuth, data: user } = useAppSelector((state) => state.auth)
   const avatarUrl = user?.image_path ? `${API_URL}/images/users/${user.image_path}` : undefined
+
+  useEffect(() => {
+    if (!isUserMenuOpen) return
+    const handleClickOutside = (event: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setIsUserMenuOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isUserMenuOpen])
 
   return (
     <header className={styles.header}>
@@ -64,7 +81,19 @@ export function Header() {
           <>
             <img src={likeIcon} alt="Избранное" className={styles.headerIcon} />
             <img src={notificationIcon} alt="Уведомления" className={styles.headerIcon} />
-            <UserInfo name={user?.name || ''} avatarUrl={avatarUrl} />
+            <div ref={userMenuRef} className={styles.userMenuWrap}>
+              <UserInfo
+                name={user?.name || ''}
+                avatarUrl={avatarUrl}
+                onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+              />
+
+              {isUserMenuOpen && (
+                <div className={styles.userMenuPopup}>
+                  <UserDropdown onClose={() => setIsUserMenuOpen(false)} />
+                </div>
+              )}
+            </div>
           </>
         ) : (
           <>
