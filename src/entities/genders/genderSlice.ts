@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import axios from 'axios'
+import { api } from '@/shared/config/api'
+import { handleAxiosError } from '@/shared/lib/handleAxiosError.ts'
 import { GenderSliceState } from './types'
-import { API_URL } from '@/shared/config/api'
 import type { Genders } from '@/shared/types/apiTypes'
 
 const initialState: GenderSliceState = {
@@ -13,16 +15,12 @@ export const fetchGenders = createAsyncThunk<Genders[], void, { rejectValue: str
   'gender/getGenders',
   async (_, { signal, rejectWithValue }) => {
     try {
-      const res = await fetch(`${API_URL}/api/genders`, { signal })
-      if (!res.ok) {
-        return rejectWithValue(`HTTP ${res.status}`)
-      }
-      return await res.json()
+      const res = await api.get<Genders[]>(`/api/genders`, { signal })
+      return res.data
     } catch (e) {
-      if (e instanceof Error && e.name === 'AbortError') {
-        throw e
-      }
-      return rejectWithValue((e as Error).message)
+      if (axios.isCancel(e)) throw e
+
+      return rejectWithValue(handleAxiosError(e, 'Не удалось загрузить гендеры'))
     }
   },
 )
@@ -43,9 +41,9 @@ const genderSlice = createSlice({
     })
 
     builder.addCase(fetchGenders.rejected, (state, action) => {
-      if (action.error.name === 'AbortError') return
+      if (action.meta.aborted) return
       state.loading = false
-      state.error = action.error.message ?? 'ошибка: гендеры не загрузились'
+      state.error =action.payload ?? action.error.message ?? 'ошибка: гендеры не загрузились'
     })
   },
 })

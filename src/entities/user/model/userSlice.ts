@@ -1,7 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { UserSliceState } from './types'
-import { API_URL } from '@/shared/config/api'
 import type { CatalogUserResponse, SingleUser } from '@/shared/types/apiTypes'
+import axios from 'axios'
+import { api } from '@/shared/config/api'
+import { handleAxiosError } from '@/shared/lib/handleAxiosError.ts'
 
 const initialState: UserSliceState = {
   data: null,
@@ -14,18 +16,13 @@ export const fetchUsers = createAsyncThunk<CatalogUserResponse, void, { rejectVa
   'user/getUsers',
   async (_, { signal, rejectWithValue }) => {
     try {
-      const response = await fetch(`${API_URL}/api/users`, { signal })
+      const response = await api.get<CatalogUserResponse>(`/api/users`, { signal })
 
-      if (!response.ok) {
-        return rejectWithValue(`HTTP ${response.status}`)
-      }
-
-      return (await response.json()) as CatalogUserResponse
+      return response.data
     } catch (e) {
-      if (e instanceof Error && e.name === 'AbortError') {
-        throw e
-      }
-      return rejectWithValue((e as Error).message)
+      if (axios.isCancel(e)) throw e
+
+      return rejectWithValue(handleAxiosError(e, 'Не удалось загрузить пользователей'))
     }
   },
 )
@@ -34,18 +31,13 @@ export const fetchUser = createAsyncThunk<SingleUser, string, { rejectValue: str
   'user/getUser',
   async (id: string, { signal, rejectWithValue }) => {
     try {
-      const response = await fetch(`${API_URL}/api/users/${id}`, { signal })
+      const response = await api.get<SingleUser>(`/api/users/${id}`, { signal })
 
-      if (!response.ok) {
-        return rejectWithValue(`HTTP ${response.status}`)
-      }
-
-      return response.json()
+      return response.data
     } catch (e) {
-      if (e instanceof Error && e.name === 'AbortError') {
-        throw e
-      }
-      return rejectWithValue((e as Error).message)
+      if (axios.isCancel(e)) throw e
+
+      return rejectWithValue(handleAxiosError(e, 'Не удалось загрузить данные пользователя'))
     }
   },
 )
@@ -66,9 +58,9 @@ const userSlice = createSlice({
     })
 
     builder.addCase(fetchUsers.rejected, (state, action) => {
-      if (action.error.name === 'AbortError') return
+      if (action.meta.aborted) return
       state.loading = false
-      state.error = action.error.message ?? 'Ошибка загрузки пользователей'
+      state.error = action.payload ?? action.error.message ?? 'Ошибка загрузки пользователей'
     })
 
     builder.addCase(fetchUser.fulfilled, (state, action) => {

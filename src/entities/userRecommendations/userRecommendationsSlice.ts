@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RecommendationItem, RecommendationsSliceState } from './types'
-import { API_URL } from '@/shared/config/api'
+import axios from 'axios'
+import { api } from '@/shared/config/api'
+import { handleAxiosError } from '@/shared/lib/handleAxiosError.ts'
 
 const initialState: RecommendationsSliceState = {
   data: null,
@@ -14,16 +16,13 @@ export const fetchRecommendations = createAsyncThunk<
   { rejectValue: string }
 >('recommendations/getRecommendations', async (id: number, { signal, rejectWithValue }) => {
   try {
-    const res = await fetch(`${API_URL}/api/recommendations/${id}`, { signal })
-    if (!res.ok) {
-      return rejectWithValue(`HTTP ${res.status}`)
-    }
-    return (await res.json()) as RecommendationItem[]
+    const res = await api.get<RecommendationItem[]>(`/api/recommendations/${id}`, { signal })
+
+    return res.data
   } catch (e) {
-    if (e instanceof Error && e.name === 'AbortError') {
-      throw e
-    }
-    return rejectWithValue((e as Error).message)
+    if (axios.isCancel(e)) throw e
+
+    return rejectWithValue(handleAxiosError(e, 'Не удалось загрузить рекомендации'))
   }
 })
 
@@ -43,9 +42,9 @@ const recommendationsSlice = createSlice({
     })
 
     builder.addCase(fetchRecommendations.rejected, (state, action) => {
-      if (action.error.name === 'AbortError') return
+      if (action.meta.aborted) return
       state.loading = false
-      state.error = action.error.message ?? 'ошибка: рекоммендации не загрузились'
+      state.error = action.payload ?? action.error.message ?? 'ошибка: рекоммендации не загрузились'
     })
   },
 })

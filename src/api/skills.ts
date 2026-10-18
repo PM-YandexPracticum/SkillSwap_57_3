@@ -1,11 +1,9 @@
 import type { Skill } from '@/shared/types'
-
-const BASE_URL = '/db'
+import { api } from '@/shared/config/api'
 
 export async function fetchSkills(): Promise<Skill[]> {
-  const response = await fetch(`${BASE_URL}/skills.json`)
-  if (!response.ok) throw new Error('Failed to fetch skills')
-  return response.json()
+  const response = await api.get<Skill[]>(`/api/skills.json`)
+  return response.data
 }
 
 export async function fetchSkillById(id: string): Promise<Skill | undefined> {

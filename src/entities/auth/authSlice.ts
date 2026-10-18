@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { AuthUser, AuthUserState, RegisterUserData } from './types.ts'
-import { API_URL } from '@/shared/config/api.ts'
+import axios from 'axios'
+import { api, API_URL } from '@/shared/config/api'
+import { handleAxiosError } from '@/shared/lib/handleAxiosError.ts'
 
 const initialState: AuthUserState = {
   data: null,
@@ -48,7 +50,7 @@ export const registerUser = createAsyncThunk<AuthUser, RegisterUserData, { rejec
       if (e instanceof Error && e.name === 'AbortError') {
         throw e
       }
-      return rejectWithValue((e as Error).message)
+      return rejectWithValue(e instanceof Error ? e.message : 'Неизвестная ошибка')
     }
   },
 )
@@ -62,22 +64,17 @@ export const authUser = createAsyncThunk<
     const formData = new FormData()
     formData.append('email', authData.email)
     formData.append('password', authData.password)
-    const res = await fetch(`${API_URL}/api/users/auth`, {
-      method: 'POST',
-      body: formData,
-      credentials: 'include',
-      signal,
-    })
-    if (!res.ok) {
-      return rejectWithValue(`HTTP ${res.status}`)
-    }
 
-    return (await res.json()) as AuthUser
+    const res = await api.post<AuthUser>(`/api/users/auth`, formData, {
+      signal,
+      withCredentials: true,
+    })
+
+    return res.data
   } catch (e) {
-    if (e instanceof Error && e.name === 'AbortError') {
-      throw e
-    }
-    return rejectWithValue((e as Error).message)
+    if (axios.isCancel(e)) throw e
+
+    return rejectWithValue(handleAxiosError(e, 'Не удалось войти в аккаунт'))
   }
 })
 
@@ -103,9 +100,9 @@ const authUserSlice = createSlice({
     })
 
     builder.addCase(registerUser.rejected, (state, action) => {
-      if (action.error.name === 'AbortError') return
+      if (action.meta.aborted) return
       state.loading = false
-      state.error = action.error.message ?? 'ошибка: регистрация не удалась'
+      state.error = action.payload ?? action.error.message ?? 'ошибка: регистрация не удалась'
       state.isAuthChecked = true
     })
 
@@ -122,9 +119,9 @@ const authUserSlice = createSlice({
     })
 
     builder.addCase(authUser.rejected, (state, action) => {
-      if (action.error.name === 'AbortError') return
+      if (action.meta.aborted) return
       state.loading = false
-      state.error = action.error.message ?? 'ошибка: авторизация не удалась'
+      state.error = action.payload ?? action.error.message ?? 'ошибка: авторизация не удалась'
       state.isAuthChecked = true
     })
   },
