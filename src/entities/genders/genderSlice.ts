@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { GenderSliceState } from './types'
+import { API_URL } from '@/shared/config/api'
 import type { Genders } from '@/shared/types/apiTypes'
 
 const initialState: GenderSliceState = {
@@ -8,11 +9,14 @@ const initialState: GenderSliceState = {
   error: null,
 }
 
-export const fetchGenders = createAsyncThunk<Genders[]>(
+export const fetchGenders = createAsyncThunk<Genders[], void, { rejectValue: string }>(
   'gender/getGenders',
   async (_, { signal, rejectWithValue }) => {
     try {
-      const res = await fetch('http://localhost:5000/api/genders', { signal })
+      const res = await fetch(`${API_URL}/api/genders`, { signal })
+      if (!res.ok) {
+        return rejectWithValue(`HTTP ${res.status}`)
+      }
       return await res.json()
     } catch (e) {
       if (e instanceof Error && e.name === 'AbortError') {
@@ -24,7 +28,7 @@ export const fetchGenders = createAsyncThunk<Genders[]>(
 )
 
 const genderSlice = createSlice({
-  name: 'skills',
+  name: 'genders',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -39,6 +43,7 @@ const genderSlice = createSlice({
     })
 
     builder.addCase(fetchGenders.rejected, (state, action) => {
+      if (action.error.name === 'AbortError') return
       state.loading = false
       state.error = action.error.message ?? 'ошибка: гендеры не загрузились'
     })

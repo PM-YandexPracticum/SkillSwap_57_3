@@ -1,12 +1,13 @@
-export type ShareFormData = {
-  name: string;
-  category: string;
-  subcategory: string;
-  description: string;
-  images: File[];
-};
+import { RegisterData } from '@/pages/RegisterPage/types'
+import { Dispatch } from 'react'
+
+export type ShareFormValues = Pick<
+  RegisterData,
+  'canTeachSkillName' | 'canTeachSkill' | 'canTeachSubskill' | 'canTeachDescription' | 'skillFile'
+>
 
 export type ShareFormProps = {
-  onSubmit?: (data: ShareFormData) => void;
-  onBack?: () => void;
-};
+  setStepFn: (data: ShareFormValues) => void
+  setPreviousStep: Dispatch<React.SetStateAction<number>>
+  registerData: RegisterData | null
+}

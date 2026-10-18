@@ -24,7 +24,13 @@ export type Subskill = {
 }
 
 export type CanTeachItem = {
+  id: number
   title: string
+  description: string
+  image_1: string | null
+  image_2: string | null
+  image_3: string | null
+  image_4: string | null
   subskill: Subskill
 }
 
@@ -44,6 +50,18 @@ export type User = {
   image_path: string
   likes_count: number
   creation_date: string
+  age: number
+  city: City
+  canTeach: CanTeachItem[]
+  wantsToLearn: WantsToLearnItem[]
+}
+
+export type SingleUser = {
+  id: number
+  name: string
+  image_path: string | null
+  bio: string
+  age: number
   city: City
   canTeach: CanTeachItem[]
   wantsToLearn: WantsToLearnItem[]

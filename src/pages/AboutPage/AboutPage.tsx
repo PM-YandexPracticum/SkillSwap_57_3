@@ -27,6 +27,38 @@ const DEVELOPERS: DevInfoCardProps[] = [
       'Прохожу обучение на фронтенд-разработчика в Практикуме и участвую в командной разработке проекта SkillSwap.',
     githubUrl: 'https://github.com/knikulnikova',
   },
+  {
+    avatarUrl: 'https://github.com/nikolaevskidaniil19-ui.png',
+    name: 'Николаевский Даниил',
+    role: 'Рядовой разработчик',
+    about:
+      'Изучаю фронтенд-разработку в Яндекс Практикуме. В рамках обучения участвую в командной разработке SkillSwap.',
+    githubUrl: 'https://github.com/nikolaevskidaniil19-ui',
+  },
+  {
+    avatarUrl: 'https://github.com/DmitryPanin-1991.png',
+    name: 'Панин Дмитрий',
+    role: 'Рядовой разработчик',
+    about:
+      'Осваиваю профессию фронтенд-разработчика в Яндекс Практикуме. В настоящее время работаю конструктором упаковки. Вместе с женой воспитываем пуделя Бруно. Увлекаюсь видеоиграми, кино и современными технологиями.',
+    githubUrl: 'https://github.com/DmitryPanin-1991',
+  },
+  {
+    avatarUrl: 'https://avatars.githubusercontent.com/u/181559490?v=4',
+    name: 'Выгузова Наталья',
+    role: 'Рядовой разработчик',
+    about:
+      'Изучаю фронтенд-разработку в Яндекс Практикуме, участвую в командной разработке проекта SkillSwap.',
+    githubUrl: 'https://github.com/Nata0803',
+  },
+    {
+    avatarUrl: 'https://github.com/Lylelit.png',
+    name: 'Смирнова Елена',
+    role: 'Рядовой разработчик',
+    about:
+      'Изучаю фронтенд-разработку в Яндекс Практикуме. В SkillSwap получаю опыт командной разработки. Планирую применять полученные знания на текущей работе, чтобы оптимизировать процессы. В свободное время рисую и играю в геншин :)',
+    githubUrl: 'https://github.com/Lylelit',
+  },
 ]
 
 export function AboutPage() {

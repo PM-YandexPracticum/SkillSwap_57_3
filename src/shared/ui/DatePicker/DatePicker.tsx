@@ -29,12 +29,11 @@ const currentYear = new Date().getFullYear()
 
 const years = Array.from({ length: currentYear - minYear + 1 }, (_, index) => currentYear - index)
 
-export const DatePicker = ({ /*value,*/ onChange }: DatePickerProps) => {
+export const DatePicker = ({ onChange, onBlur, error }: DatePickerProps) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [tempDate, setTempDate] = useState<Date | null>(null)
   const [isOpen, setIsOpen] = useState(false)
   const [inputValue, setInputValue] = useState('')
-  const [error, setError] = useState('')
 
   const parseInputDate = (value: string) => {
     const parts = value.split('.')
@@ -129,7 +128,6 @@ export const DatePicker = ({ /*value,*/ onChange }: DatePickerProps) => {
     }
 
     setInputValue(formattedValue)
-    setError('')
 
     if (formattedValue.length === 10) {
       const parsedDate = parseInputDate(formattedValue)
@@ -144,15 +142,6 @@ export const DatePicker = ({ /*value,*/ onChange }: DatePickerProps) => {
     } else {
       onChange(null)
     }
-  }
-
-  const validateDate = () => {
-    if (!inputValue) {
-      setError('это поле обязательное')
-      return
-    }
-
-    setError('')
   }
 
   const handleOpen = () => {
@@ -182,7 +171,6 @@ export const DatePicker = ({ /*value,*/ onChange }: DatePickerProps) => {
     setSelectedDate(tempDate)
     onChange(tempDate)
     setInputValue(tempDate.toLocaleDateString('ru-RU'))
-    setError('')
     setIsOpen(false)
   }
 
@@ -195,7 +183,7 @@ export const DatePicker = ({ /*value,*/ onChange }: DatePickerProps) => {
           placeholder="дд.мм.гггг"
           value={inputValue}
           onChange={handleInputChange}
-          onBlur={validateDate}
+          onBlur={onBlur}
           maxLength={10}
         />
 

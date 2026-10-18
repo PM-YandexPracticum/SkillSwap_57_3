@@ -4,4 +4,5 @@ export type ButtonsProps = {
   variant: 'whiteButton' | 'greenButton'
   size: 'small' | 'semi-medium' | 'medium' | 'large' | 'full-width' | 'extra-large'
   type: 'button' | 'submit'
+  className?: string
 }

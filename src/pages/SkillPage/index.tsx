@@ -1,101 +1,78 @@
-import { UserCard } from '@widgets/UserCard';
-import styles from './SkillPage.module.css';
-
-const mockAuthor = {
-  avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200',
-  name: 'Иван',
-  location: 'Санкт-Петербург, 34 года',
-  about: 'Привет! Люблю ритм, кофе по утрам и людей, которые не боятся пробовать новое',
-  canTeach: [{ title: 'Английский язык', color: 'light_beige' as const }],
-  wantsToLearn: [
-    { title: 'Тайм менеджмент', color: 'light_lavender' as const },
-    { title: 'Медитация', color: 'pale_green' as const },
-  ],
-};
-
-const mockSimilar = [
-  {
-    avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200',
-    name: 'Илона',
-    location: 'Казань, 27 лет',
-    canTeach: [{ title: 'Английский язык', color: 'light_beige' as const }],
-    wantsToLearn: [
-      { title: 'Тайм менеджмент', color: 'light_lavender' as const },
-      { title: 'Медитация', color: 'pale_green' as const },
-      { title: 'Рисование', color: 'light_pink' as const },
-    ],
-  },
-  {
-    avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200',
-    name: 'Михаил',
-    location: 'Новосибирск, 29 лет',
-    canTeach: [{ title: 'Английский язык', color: 'light_beige' as const }],
-    wantsToLearn: [
-      { title: 'Тайм менеджмент', color: 'light_lavender' as const },
-      { title: 'Медитация', color: 'pale_green' as const },
-    ],
-  },
-  {
-    avatarUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200',
-    name: 'Мария',
-    location: 'Красноярск, 21 год',
-    canTeach: [{ title: 'Английский язык', color: 'light_beige' as const }],
-    wantsToLearn: [
-      { title: 'Тайм менеджмент', color: 'light_lavender' as const },
-      { title: 'Медитация', color: 'pale_green' as const },
-    ],
-  },
-  {
-    avatarUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200',
-    name: 'Виктория',
-    location: 'Кемерово, 38 лет',
-    canTeach: [{ title: 'Английский язык', color: 'light_beige' as const }],
-    wantsToLearn: [
-      { title: 'Тайм менеджмент', color: 'light_lavender' as const },
-      { title: 'Медитация', color: 'pale_green' as const },
-    ],
-  },
-];
+import { UserCard } from '@widgets/UserCard'
+import styles from './SkillPage.module.css'
+import { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { fetchUser } from '@/entities/user/model/userSlice'
+import {
+  mapCanTeachToCardSkills,
+  mapWantsToLearnToCardSkills,
+  pluralizeYears,
+} from '@/shared/lib/helpers'
+import { ExchangeCard } from '@/widgets/ExchangeCard'
+import { fetchRecommendations } from '@/entities/userRecommendations/userRecommendationsSlice'
+import { API_URL } from '@/shared/config/api'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { SkillCardCarousel } from '@widgets/SkillCardCarousel/index'
 
 export default function SkillPage() {
+  const { id } = useParams<{ id: string }>()
+  const dispatch = useAppDispatch()
+  const currentUser = useAppSelector((state) => state.user.currentUser)
+  const recommendations = useAppSelector((state) => state.recommendations.data)
+  const navigate = useNavigate()
+  const location = useLocation()
+  const isAuth = useAppSelector((state) => state.auth.isAuth)
+  useEffect(() => {
+    if (!id) return
+    dispatch(fetchUser(id))
+  }, [dispatch, id])
+
+  useEffect(() => {
+    if (!currentUser) return
+    const skillId = currentUser.canTeach[0]?.subskill.skill.id
+    if (!skillId) return
+    dispatch(fetchRecommendations(skillId))
+  }, [dispatch, currentUser])
+
+  if (!currentUser) return
   return (
     <main className={styles.page}>
-      <h1>SkillPage</h1>
-
-      <section className={styles.section}>
-        <h2>Автор навыка</h2>
-        <div>
-          <UserCard
-            variant="author"
-            avatarUrl={mockAuthor.avatarUrl}
-            name={mockAuthor.name}
-            location={mockAuthor.location}
-            about={mockAuthor.about}
-            canTeach={mockAuthor.canTeach}
-            wantsToLearn={mockAuthor.wantsToLearn}
-          />
-        </div>
+      <section className={styles.spotlight}>
+        <UserCard
+          variant="author"
+          avatarUrl={`${API_URL}/images/users/${currentUser.image_path}`}
+          name={currentUser.name}
+          location={`${currentUser.city.title}, ${pluralizeYears(currentUser.age)}`}
+          about={currentUser.bio}
+          canTeach={mapCanTeachToCardSkills(currentUser.canTeach)}
+          wantsToLearn={mapWantsToLearnToCardSkills(currentUser.wantsToLearn)}
+        />
+        <ExchangeCard
+          category={`${currentUser.canTeach[0].title} / ${currentUser.canTeach[0].subskill.title}`}
+          description={currentUser.canTeach[0].description}
+          images={[
+            `${API_URL}/images/can_teach/${currentUser.canTeach[0].image_1!}`,
+            `${API_URL}/images/can_teach/${currentUser.canTeach[0].image_2!}`,
+            `${API_URL}/images/can_teach/${currentUser.canTeach[0].image_3!}`,
+            `${API_URL}/images/can_teach/${currentUser.canTeach[0].image_4!}`,
+          ]}
+          title={currentUser.canTeach[0].title}
+          onExchange={() => {
+            if (!isAuth) {
+              navigate('/register', {
+                state: { from: location.pathname },
+              })
+            }
+          }}
+          onLearnMore={() => {}}
+          onLike={() => {}}
+          onShare={() => {}}
+          status="available"
+        />
       </section>
 
-      <section className={styles.section}>
-        <h2>Похожие предложения</h2>
-        <div className={styles.similar}>
-          {mockSimilar.map((user, index) => (
-            <UserCard
-              key={index}
-              variant="catalog"
-              avatarUrl={user.avatarUrl}
-              name={user.name}
-              location={user.location}
-              canTeach={user.canTeach}
-              wantsToLearn={user.wantsToLearn}
-              isLiked={false}
-              onLike={() => {}}
-              onDetails={() => {}}
-            />
-          ))}
-        </div>
-      </section>
+      <SkillCardCarousel recommendations={recommendations} />
     </main>
-  );
+  )
 }
