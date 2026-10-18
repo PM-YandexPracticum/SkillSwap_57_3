@@ -5,22 +5,22 @@ import { Buttons } from '@ui/Buttons/index'
 import styles from './WelcomeForm.module.css'
 import google from '@assets/icon/Google.svg'
 import apple from '@assets/icon/Apple.svg'
-import { schema, Values } from './schema'
+import { schema, Values, registrationSchema } from './schema'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Link } from 'react-router-dom'
 import { WelcomeFormProps } from './types.ts'
 
-export function WelcomeForm({ isRegistry, setStepFn }: WelcomeFormProps) {
+export function WelcomeForm({ isRegistry, setStepFn, registerData }: WelcomeFormProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Values>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(isRegistry ? registrationSchema : schema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: registerData?.email ?? '',
+      password: registerData?.password ?? '',
     },
     mode: 'onBlur',
     reValidateMode: 'onChange',

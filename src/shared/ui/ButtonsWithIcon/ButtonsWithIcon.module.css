@@ -43,6 +43,10 @@
   width: 436px;
 }
 
+.full-width {
+  width: 100%;
+}
+
 /* gap */
 
 .gapSmall {

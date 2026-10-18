@@ -8,6 +8,7 @@
   position: sticky;
   top: 0;
   z-index: 5;
+  gap: 32px;
 }
 
 .left {
@@ -26,13 +27,19 @@
   flex: 1;
   display: flex;
   justify-content: center;
-  max-width: 400px;
+  inline-size: 100%;
+  min-inline-size: 200px;
 }
 
 .right {
   display: flex;
   align-items: center;
   gap: 16px;
+}
+
+.headerIcon {
+  inline-size: 24px;
+  block-size: 24px;
 }
 
 .buttonAbout,

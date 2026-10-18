@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { SkillsSliceState } from './types'
+import { API_URL } from '@/shared/config/api'
 import type { Skill } from '@/shared/types/apiTypes'
 
 const initialState: SkillsSliceState = {
@@ -8,11 +9,14 @@ const initialState: SkillsSliceState = {
   error: null,
 }
 
-export const fetchSkills = createAsyncThunk<Skill[]>(
+export const fetchSkills = createAsyncThunk<Skill[], void, { rejectValue: string }>(
   'skill/getSkills',
   async (_, { signal, rejectWithValue }) => {
     try {
-      const res = await fetch('http://localhost:5000/api/skills', { signal })
+      const res = await fetch(`${API_URL}/api/skills`, { signal })
+      if (!res.ok) {
+        return rejectWithValue(`HTTP ${res.status}`)
+      }
       return await res.json()
     } catch (e) {
       if (e instanceof Error && e.name === 'AbortError') {
@@ -39,6 +43,7 @@ const skillsSlice = createSlice({
     })
 
     builder.addCase(fetchSkills.rejected, (state, action) => {
+      if (action.error.name === 'AbortError') return
       state.loading = false
       state.error = action.error.message ?? 'ошибка: категории навыков не загрузились'
     })

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { CitySliceState } from './types.ts'
+import { API_URL } from '@/shared/config/api.ts'
 import type { City } from '@/shared/types/apiTypes'
 
 const initialState: CitySliceState = {
@@ -8,11 +9,14 @@ const initialState: CitySliceState = {
   error: null,
 }
 
-export const fetchCities = createAsyncThunk<City[]>(
+export const fetchCities = createAsyncThunk<City[], void, { rejectValue: string }>(
   'city/getCities',
   async (_, { signal, rejectWithValue }) => {
     try {
-      const res = await fetch('http://localhost:5000/api/cities', { signal })
+      const res = await fetch(`${API_URL}/api/cities`, { signal })
+      if (!res.ok) {
+        return rejectWithValue(`HTTP ${res.status}`)
+      }
       return await res.json()
     } catch (e) {
       if (e instanceof Error && e.name === 'AbortError') {
@@ -24,7 +28,7 @@ export const fetchCities = createAsyncThunk<City[]>(
 )
 
 const citySlice = createSlice({
-  name: 'skills',
+  name: 'cities',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -39,6 +43,7 @@ const citySlice = createSlice({
     })
 
     builder.addCase(fetchCities.rejected, (state, action) => {
+      if (action.error.name === 'AbortError') return
       state.loading = false
       state.error = action.error.message ?? 'ошибка: города не загрузились'
     })
