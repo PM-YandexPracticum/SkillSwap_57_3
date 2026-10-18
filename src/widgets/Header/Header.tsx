@@ -62,7 +62,9 @@ export function Header() {
         <IconButton icon={moon} onClick={() => {}} ariaLabel="Изменить тему" />
         {isAuth ? (
           <>
-            <img src={likeIcon} alt="Избранное" className={styles.headerIcon} />
+            <Link to="/favorites">
+              <img src={likeIcon} alt="Избранное" className={styles.headerIcon} />
+            </Link>
             <img src={notificationIcon} alt="Уведомления" className={styles.headerIcon} />
             <UserInfo name={user?.name || ''} avatarUrl={avatarUrl} />
           </>

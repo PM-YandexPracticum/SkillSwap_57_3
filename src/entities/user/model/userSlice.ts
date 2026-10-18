@@ -25,14 +25,14 @@ export const fetchUsers = createAsyncThunk<CatalogUserResponse, void, { rejectVa
       if (e instanceof Error && e.name === 'AbortError') {
         throw e
       }
-      return rejectWithValue((e as Error).message)
+      return rejectWithValue(e instanceof Error ? e.message : 'Неизвестная ошибка')
     }
   },
 )
 
 export const fetchUser = createAsyncThunk<SingleUser, string, { rejectValue: string }>(
   'user/getUser',
-  async (id: string, { signal, rejectWithValue }) => {
+  async (id, { signal, rejectWithValue }) => {
     try {
       const response = await fetch(`${API_URL}/api/users/${id}`, { signal })
 
@@ -45,7 +45,7 @@ export const fetchUser = createAsyncThunk<SingleUser, string, { rejectValue: str
       if (e instanceof Error && e.name === 'AbortError') {
         throw e
       }
-      return rejectWithValue((e as Error).message)
+      return rejectWithValue(e instanceof Error ? e.message : 'Неизвестная ошибка')
     }
   },
 )

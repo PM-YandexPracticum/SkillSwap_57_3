@@ -12,7 +12,7 @@ export const fetchRecommendations = createAsyncThunk<
   RecommendationItem[],
   number,
   { rejectValue: string }
->('recommendations/getRecommendations', async (id: number, { signal, rejectWithValue }) => {
+>('recommendations/getRecommendations', async (id, { signal, rejectWithValue }) => {
   try {
     const res = await fetch(`${API_URL}/api/recommendations/${id}`, { signal })
     if (!res.ok) {
@@ -23,7 +23,7 @@ export const fetchRecommendations = createAsyncThunk<
     if (e instanceof Error && e.name === 'AbortError') {
       throw e
     }
-    return rejectWithValue((e as Error).message)
+    return rejectWithValue(e instanceof Error ? e.message : 'Неизвестная ошибка')
   }
 })
 

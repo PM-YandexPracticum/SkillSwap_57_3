@@ -48,7 +48,7 @@ export const registerUser = createAsyncThunk<AuthUser, RegisterUserData, { rejec
       if (e instanceof Error && e.name === 'AbortError') {
         throw e
       }
-      return rejectWithValue((e as Error).message)
+      return rejectWithValue(e instanceof Error ? e.message : 'Неизвестная ошибка')
     }
   },
 )
@@ -77,7 +77,7 @@ export const authUser = createAsyncThunk<
     if (e instanceof Error && e.name === 'AbortError') {
       throw e
     }
-    return rejectWithValue((e as Error).message)
+    return rejectWithValue(e instanceof Error ? e.message : 'Неизвестная ошибка')
   }
 })
 
