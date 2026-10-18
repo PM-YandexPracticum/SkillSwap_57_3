@@ -1,6 +1,6 @@
 import githubIcon from '@assets/icon/GitHub.svg';
 import type { DevInfoCardProps } from './types';
-import styles from './devInfoCard.module.css';
+import styles from './DevInfoCard.module.css';
 
 export function DevInfoCard({
   avatarUrl,

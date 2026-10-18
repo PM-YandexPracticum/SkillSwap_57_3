@@ -1,2 +1,2 @@
-export { ShareForm } from './shareForm';
+export { ShareForm } from './ShareForm';
 export type { ShareFormProps, ShareFormData } from './types';

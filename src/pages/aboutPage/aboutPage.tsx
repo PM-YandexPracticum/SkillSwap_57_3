@@ -1,5 +1,5 @@
-import { DevInfoCard } from '@widgets/devInfoCard'
-import type { DevInfoCardProps } from '@widgets/devInfoCard/types'
+import { DevInfoCard } from '@/widgets/DevInfoCard'
+import type { DevInfoCardProps } from '@/widgets/DevInfoCard/types'
 import styles from './aboutPage.module.css'
 
 const DEVELOPERS: DevInfoCardProps[] = [
