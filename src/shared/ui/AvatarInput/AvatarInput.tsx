@@ -1,18 +1,26 @@
-import { ChangeEvent, useMemo } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { AvatarInputProps } from './types'
 import styles from './AvatarInput.module.css'
 import avatarUpload from './Icon+Add.svg'
 
 export const AvatarInput = ({ value, onChange, error = '' }: AvatarInputProps) => {
-  const previewUrl = useMemo(() => (value ? URL.createObjectURL(value) : ''), [value])
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
 
-  // useEffect(() => {
-  //   return () => {
-  //     if (previewUrl) {
-  //       URL.revokeObjectURL(previewUrl)
-  //     }
-  //   }
-  // }, [previewUrl])
+  useEffect(() => {
+    if (!value) {
+      setPreviewUrl(null)
+      return
+    }
+
+    const url = URL.createObjectURL(value)
+    setPreviewUrl(url)
+
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl)
+      }
+    }
+  }, [value])
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
