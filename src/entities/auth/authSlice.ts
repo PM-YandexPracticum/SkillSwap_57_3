@@ -84,7 +84,14 @@ export const authUser = createAsyncThunk<
 const authUserSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state.loading = false
+      state.isAuth = false
+      state.data = null
+      state.error = null
+    },
+  },
   selectors: {
     getUserSelector: (state) => state.data,
     getIsAuthCheckedSelector: (state) => state.isAuthChecked,
@@ -133,3 +140,5 @@ const authUserSlice = createSlice({
 export default authUserSlice.reducer
 
 export const { getUserSelector, getIsAuthCheckedSelector } = authUserSlice.selectors
+
+export const { logout } = authUserSlice.actions
