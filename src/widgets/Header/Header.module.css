@@ -112,3 +112,14 @@
 .skillsWrap {
   position: relative;
 }
+
+.userMenuWrap {
+  position: relative;
+}
+
+.userMenuPopup {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  z-index: 3;
+}

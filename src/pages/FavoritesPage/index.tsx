@@ -55,9 +55,9 @@ export default function FavoritesPage() {
               }))}
               wantsToLearn={user.wantsToLearn.map((val) => ({
                 color: val.subskill.skill.color,
-                title: val.title,
+                title: val.subskill.title,
               }))}
-              isLiked={false}
+              isLiked={true}
               onLike={handleLike}
               onDislike={handleDislike}
               id={user.id}

@@ -102,8 +102,9 @@ export const Select = ({
           options={options}
           value={selectedOption}
           placeholder={placeholder}
+          noOptionsMessage={() => 'Ничего не найдено'}
           onChange={handleChange}
-          isSearchable={false}
+          isSearchable={true}
           styles={customStyles}
           onMenuOpen={() => setIsOpen(true)}
           onMenuClose={() => setIsOpen(false)}
