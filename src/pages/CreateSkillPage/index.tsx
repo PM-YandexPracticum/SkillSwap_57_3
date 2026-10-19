@@ -1,4 +1,4 @@
-import { ShareForm } from '@widgets/shareForm';
+import { ShareForm } from '@/widgets/ShareForm';
 
 export default function CreateSkillPage() {
   return (

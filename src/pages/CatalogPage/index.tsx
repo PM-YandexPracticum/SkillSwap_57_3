@@ -1,5 +1,5 @@
 import { UserCard } from '@widgets/UserCard/index'
-import styles from './styles.module.css'
+import styles from './CatalogPage.module.css'
 import { ButtonsWithIcon } from '@ui/ButtonsWithIcon'
 import { useEffect, useState, useRef, useCallback } from 'react'
 import { CatalogUserResponse, User } from '@/shared/types/apiTypes'

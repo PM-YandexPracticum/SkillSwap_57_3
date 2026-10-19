@@ -1,4 +1,4 @@
-import { UserMenu } from '@widgets/userMenu';
+import { UserMenu } from '@/widgets/UserMenu';
 import styles from './ProfilePage.module.css';
 
 export default function ProfilePage() {
