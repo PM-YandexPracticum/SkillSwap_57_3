@@ -14,7 +14,7 @@ export default function LoginPage() {
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useAppDispatch()
-  const [authData, setAuthData] = useState<Pick<RegisterData, 'email' | 'password'>>({
+  const [, setAuthData] = useState<Pick<RegisterData, 'email' | 'password'>>({
     email: '',
     password: '',
   })

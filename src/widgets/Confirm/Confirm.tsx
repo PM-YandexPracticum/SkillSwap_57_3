@@ -3,7 +3,7 @@ import { ConfirmProps } from './types'
 import { Carousel } from '@/shared/ui/Carousel'
 import { Buttons } from '@/shared/ui/Buttons'
 import { ButtonsWithIcon } from '@/shared/ui/ButtonsWithIcon'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export const Confirm = ({
   title,

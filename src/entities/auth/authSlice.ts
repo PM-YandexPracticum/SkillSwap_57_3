@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { AuthUser, AuthUserState, RegisterUserData } from './types.ts'
+import { AuthUserState, RegisterUserData } from './types.ts'
 import { API_URL } from '@/shared/config/api.ts'
+import { AuthUserResponse } from '@/shared/types/apiTypes.ts'
 
 const initialState: AuthUserState = {
   data: null,
@@ -10,51 +11,52 @@ const initialState: AuthUserState = {
   isAuthChecked: false,
 }
 
-export const registerUser = createAsyncThunk<AuthUser, RegisterUserData, { rejectValue: string }>(
-  'user/registerUser',
-  async (registerData, { signal, rejectWithValue }) => {
-    try {
-      const formData = new FormData()
-      formData.append('name', registerData.name)
-      formData.append('email', registerData.email)
-      formData.append('password', registerData.password)
-      formData.append('bio', registerData.bio)
-      formData.append('date_birth', registerData.date_birth.toISOString().split('T')[0])
-      formData.append('city_id', String(registerData.city.id))
-      formData.append('gender_id', String(registerData.gender.id))
-      formData.append('skillTitle', registerData.skillTitle)
-      formData.append('skillDescription', registerData.skillDescription)
-      formData.append('canTeachSkillId', registerData.canTeachSkillId)
-      formData.append('canTeachSubskillId', registerData.canTeachSubskillId)
-      formData.append('wantsToLearnSkillId', registerData.wantsToLearnSkillId)
-      formData.append('wantsToLearnSubskillId', registerData.wantsToLearnSubskillId)
-      formData.append('avatar', registerData.image_path)
-      formData.append('images', registerData.image_1)
-      formData.append('images', registerData.image_2)
-      formData.append('images', registerData.image_3)
-      formData.append('images', registerData.image_4)
+export const registerUser = createAsyncThunk<
+  AuthUserResponse,
+  RegisterUserData,
+  { rejectValue: string }
+>('user/registerUser', async (registerData, { signal, rejectWithValue }) => {
+  try {
+    const formData = new FormData()
+    formData.append('name', registerData.name)
+    formData.append('email', registerData.email)
+    formData.append('password', registerData.password)
+    formData.append('bio', registerData.bio)
+    formData.append('date_birth', registerData.date_birth.toISOString().split('T')[0])
+    formData.append('city_id', String(registerData.city.id))
+    formData.append('gender_id', String(registerData.gender.id))
+    formData.append('skillTitle', registerData.skillTitle)
+    formData.append('skillDescription', registerData.skillDescription)
+    formData.append('canTeachSkillId', registerData.canTeachSkillId)
+    formData.append('canTeachSubskillId', registerData.canTeachSubskillId)
+    formData.append('wantsToLearnSkillId', registerData.wantsToLearnSkillId)
+    formData.append('wantsToLearnSubskillId', registerData.wantsToLearnSubskillId)
+    formData.append('avatar', registerData.image_path)
+    formData.append('images', registerData.image_1)
+    formData.append('images', registerData.image_2)
+    formData.append('images', registerData.image_3)
+    formData.append('images', registerData.image_4)
 
-      const res = await fetch(`${API_URL}/api/users/register`, {
-        method: 'POST',
-        body: formData,
-        credentials: 'include',
-        signal,
-      })
-      if (!res.ok) {
-        return rejectWithValue(`HTTP ${res.status}`)
-      }
-      return (await res.json()) as AuthUser
-    } catch (e) {
-      if (e instanceof Error && e.name === 'AbortError') {
-        throw e
-      }
-      return rejectWithValue((e as Error).message)
+    const res = await fetch(`${API_URL}/api/users/register`, {
+      method: 'POST',
+      body: formData,
+      credentials: 'include',
+      signal,
+    })
+    if (!res.ok) {
+      return rejectWithValue(`HTTP ${res.status}`)
     }
-  },
-)
+    return (await res.json()) as AuthUserResponse
+  } catch (e) {
+    if (e instanceof Error && e.name === 'AbortError') {
+      throw e
+    }
+    return rejectWithValue(e instanceof Error ? e.message : 'Неизвестная ошибка')
+  }
+})
 
 export const authUser = createAsyncThunk<
-  AuthUser,
+  AuthUserResponse,
   Pick<RegisterUserData, 'email' | 'password'>,
   { rejectValue: string }
 >('user/authUser', async (authData, { signal, rejectWithValue }) => {
@@ -71,13 +73,12 @@ export const authUser = createAsyncThunk<
     if (!res.ok) {
       return rejectWithValue(`HTTP ${res.status}`)
     }
-
-    return (await res.json()) as AuthUser
+    return (await res.json()) as AuthUserResponse
   } catch (e) {
     if (e instanceof Error && e.name === 'AbortError') {
       throw e
     }
-    return rejectWithValue((e as Error).message)
+    return rejectWithValue(e instanceof Error ? e.message : 'Неизвестная ошибка')
   }
 })
 

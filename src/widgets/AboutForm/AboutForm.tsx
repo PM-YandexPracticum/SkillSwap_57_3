@@ -47,13 +47,13 @@ export function AboutForm({ setStepFn, setPreviousStep, registerData }: AboutFor
   const selectedSubskill = watch('subskill')
 
   const filteredSubskills = selectedSkill
-    ? subskills.filter((sub) => sub.skill.title === selectedSkill)
+    ? subskills.filter((sub) => sub.title === selectedSkill)
     : subskills
 
   useEffect(() => {
     if (selectedSkill && selectedSubskill) {
       const sub = subskills.find((s) => s.title === selectedSubskill)
-      if (sub?.skill.title !== selectedSkill) {
+      if (sub?.title !== selectedSkill) {
         setValue('subskill', '', { shouldValidate: false })
       }
     }
@@ -63,7 +63,7 @@ export function AboutForm({ setStepFn, setPreviousStep, registerData }: AboutFor
     if (selectedSubskill && !selectedSkill) {
       const sub = subskills.find((s) => s.title === selectedSubskill)
       if (sub) {
-        setValue('skill', sub.skill.title, { shouldValidate: false })
+        setValue('skill', sub.title, { shouldValidate: false })
       }
     }
   }, [selectedSubskill, selectedSkill, subskills, setValue])
