@@ -30,7 +30,7 @@ export default function FavoritesPage() {
   const handleDislike = async (id: number) => {
     dispatch(
       removeFromFavorites({
-        userId: authUser?.user.id,
+        userId: authUser?.user.id as number,
         likedUserId: id,
       }),
     )

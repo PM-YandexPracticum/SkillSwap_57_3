@@ -7,7 +7,3 @@ export type SkillsSliceState = {
   loading: boolean
   error: string | null
 }
-
-export type Filter = {
-  type: 'all' | 'canTeach' | 'wantsToLearn'
-}

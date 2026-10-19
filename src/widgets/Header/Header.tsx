@@ -22,7 +22,9 @@ export function Header() {
   const skillButtonRef = useRef<HTMLButtonElement>(null)
   const userMenuRef = useRef<HTMLDivElement>(null)
   const { isAuth, data: user } = useAppSelector((state) => state.auth)
-  const avatarUrl = user?.image_path ? `${API_URL}/images/users/${user.image_path}` : undefined
+  const avatarUrl = user?.user.image_path
+    ? `${API_URL}/images/users/${user.user.image_path}`
+    : undefined
 
   useEffect(() => {
     if (!isUserMenuOpen) return
@@ -85,7 +87,7 @@ export function Header() {
             <img src={notificationIcon} alt="Уведомления" className={styles.headerIcon} />
             <div ref={userMenuRef} className={styles.userMenuWrap}>
               <UserInfo
-                name={user?.name || ''}
+                name={user?.user.name || ''}
                 avatarUrl={avatarUrl}
                 onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
               />

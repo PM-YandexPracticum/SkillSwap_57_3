@@ -35,7 +35,6 @@ export function splitSkills(data: Skill[]) {
       subskills.push({
         id: sub.id,
         title: sub.title,
-        skill: skill,
       })
     }
   }
