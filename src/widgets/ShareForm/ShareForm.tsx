@@ -42,13 +42,13 @@ export function ShareForm({ setStepFn, setPreviousStep, registerData }: ShareFor
   const selectedSubskill = watch('canTeachSubskill')
 
   const filteredSubskills = selectedSkill
-    ? subskills.filter((sub) => sub.skill.title === selectedSkill)
+    ? subskills.filter((sub) => sub.title === selectedSkill)
     : subskills
 
   useEffect(() => {
     if (selectedSkill && selectedSubskill) {
       const sub = subskills.find((s) => s.title === selectedSubskill)
-      if (sub?.skill.title !== selectedSkill) {
+      if (sub?.title !== selectedSkill) {
         setValue('canTeachSubskill', '', { shouldValidate: false })
       }
     }
@@ -58,7 +58,7 @@ export function ShareForm({ setStepFn, setPreviousStep, registerData }: ShareFor
     if (selectedSubskill && !selectedSkill) {
       const sub = subskills.find((s) => s.title === selectedSubskill)
       if (sub) {
-        setValue('canTeachSkill', sub.skill.title, { shouldValidate: false })
+        setValue('canTeachSkill', sub.title, { shouldValidate: false })
       }
     }
   }, [selectedSubskill, selectedSkill, subskills, setValue])

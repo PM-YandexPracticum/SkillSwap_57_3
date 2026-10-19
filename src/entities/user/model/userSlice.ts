@@ -10,29 +10,30 @@ const initialState: UserSliceState = {
   currentUser: null,
 }
 
-export const fetchUsers = createAsyncThunk<CatalogUserResponse, void, { rejectValue: string }>(
-  'user/getUsers',
-  async (_, { signal, rejectWithValue }) => {
-    try {
-      const response = await fetch(`${API_URL}/api/users`, { signal })
+export const fetchUsers = createAsyncThunk<
+  CatalogUserResponse,
+  void | number,
+  { rejectValue: string }
+>('user/getUsers', async (id, { signal, rejectWithValue }) => {
+  try {
+    const response = await fetch(`${API_URL}/api/users${id ? `/?user_id=${id}` : ''}`, { signal })
 
-      if (!response.ok) {
-        return rejectWithValue(`HTTP ${response.status}`)
-      }
-
-      return (await response.json()) as CatalogUserResponse
-    } catch (e) {
-      if (e instanceof Error && e.name === 'AbortError') {
-        throw e
-      }
-      return rejectWithValue((e as Error).message)
+    if (!response.ok) {
+      return rejectWithValue(`HTTP ${response.status}`)
     }
-  },
-)
+
+    return (await response.json()) as CatalogUserResponse
+  } catch (e) {
+    if (e instanceof Error && e.name === 'AbortError') {
+      throw e
+    }
+    return rejectWithValue(e instanceof Error ? e.message : 'Неизвестная ошибка')
+  }
+})
 
 export const fetchUser = createAsyncThunk<SingleUser, string, { rejectValue: string }>(
   'user/getUser',
-  async (id: string, { signal, rejectWithValue }) => {
+  async (id, { signal, rejectWithValue }) => {
     try {
       const response = await fetch(`${API_URL}/api/users/${id}`, { signal })
 
@@ -45,7 +46,7 @@ export const fetchUser = createAsyncThunk<SingleUser, string, { rejectValue: str
       if (e instanceof Error && e.name === 'AbortError') {
         throw e
       }
-      return rejectWithValue((e as Error).message)
+      return rejectWithValue(e instanceof Error ? e.message : 'Неизвестная ошибка')
     }
   },
 )

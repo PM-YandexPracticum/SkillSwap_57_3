@@ -22,7 +22,7 @@ export const fetchCities = createAsyncThunk<City[], void, { rejectValue: string 
       if (e instanceof Error && e.name === 'AbortError') {
         throw e
       }
-      return rejectWithValue((e as Error).message)
+      return rejectWithValue(e instanceof Error ? e.message : 'Неизвестная ошибка')
     }
   },
 )

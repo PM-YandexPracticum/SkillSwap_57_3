@@ -17,13 +17,21 @@ export function UserCard({
   wantsToLearn,
   isLiked: initialLiked = false,
   onLike,
+  onDislike,
   onDetails,
+  id,
 }: UserCardProps) {
   const [isLiked, setIsLiked] = useState(initialLiked)
 
   const handleLike = () => {
+    const next = !isLiked
     setIsLiked((prev) => !prev)
-    onLike?.()
+
+    if (next) {
+      onLike?.(id)
+    } else {
+      onDislike?.(id)
+    }
   }
 
   return (

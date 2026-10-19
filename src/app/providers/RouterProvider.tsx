@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { lazy, Suspense, useEffect } from 'react'
 import { ROUTES } from '@/shared/lib/constants'
 import { MainLayout, AuthLayout } from '@/app/Layouts'
-import { useAppDispatch } from '@/store/hooks'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { fetchSkills } from '@/entities/skill/model/skillsSlice'
 import { fetchCities } from '@/entities/city/citySlice'
 import { fetchGenders } from '@/entities/genders/genderSlice'
@@ -26,8 +26,14 @@ const AboutPage = lazy(() => import('@/pages/AboutPage'))
 export function AppRouter() {
   const dispatch = useAppDispatch()
 
+  const userId = useAppSelector((state) => state.auth.data?.user.id)
+
   useEffect(() => {
     dispatch(fetchUsers())
+    // dispatch(fetchUsers(userId))
+  }, [dispatch, userId])
+
+  useEffect(() => {
     dispatch(fetchSkills())
     dispatch(fetchCities())
     dispatch(fetchGenders())

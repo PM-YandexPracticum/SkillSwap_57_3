@@ -1,19 +1,4 @@
-import { City, Genders } from '@/shared/types/apiTypes'
-
-export type AuthUser = {
-  id: number
-  name: string
-  email: string
-  date_birth: Date
-  gender: Genders
-  city: City
-  bio: string
-  image_path: string
-  likesCount: number
-  likedUsers: Array<string>
-  refreshToken: string
-  accessToken: string
-}
+import { AuthUserResponse, City, Genders } from '@/shared/types/apiTypes'
 
 export type RegisterUserData = {
   name: string
@@ -37,7 +22,7 @@ export type RegisterUserData = {
 }
 
 export type AuthUserState = {
-  data: AuthUser | null
+  data: AuthUserResponse | null
   loading: boolean
   error: string | null
   isAuth: boolean

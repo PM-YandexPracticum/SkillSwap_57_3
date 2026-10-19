@@ -51,6 +51,7 @@ export function SkillCardCarousel({ recommendations }: UserCarouselProps) {
         >
           {visibleCards.map((rec, index) => (
             <UserCard
+              id={rec.id}
               key={index}
               variant="catalog"
               avatarUrl={`${API_URL}/images/users/${rec.image_path}`}

@@ -40,6 +40,7 @@ export default function SkillPage() {
     <main className={styles.page}>
       <section className={styles.spotlight}>
         <UserCard
+          id={currentUser.id}
           variant="author"
           avatarUrl={`${API_URL}/images/users/${currentUser.image_path}`}
           name={currentUser.name}
