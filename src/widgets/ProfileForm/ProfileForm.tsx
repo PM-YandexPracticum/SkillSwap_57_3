@@ -18,10 +18,16 @@ import galleryEditIcon from './icons/gallery-edit.svg'
 import { schema, schemaWithPassword, Values } from './schema'
 import { ProfileFormProps } from './types'
 import styles from './ProfileForm.module.css'
+import { API_URL } from '@/shared/config/api'
 
 export function ProfileForm({ initialValues, onSave }: ProfileFormProps) {
   const cities = useAppSelector((state) => state.city.data)
   const genders = useAppSelector((state) => state.gender.data)
+
+  const defaultCity = cities.find((c) => String(c.id) === initialValues?.city)?.title
+  const defaultGender = genders.find((g) => String(g.id) === initialValues?.gender)?.title
+
+  const userAvatarUrl = useAppSelector((state) => state.auth.data?.user.image_path)
 
   const [isEditing, setIsEditing] = useState({
     email: false,
@@ -34,7 +40,8 @@ export function ProfileForm({ initialValues, onSave }: ProfileFormProps) {
 
   const [showPassword, setShowPassword] = useState(false)
   const [saveMessage, setSaveMessage] = useState('')
-  const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
+  const [avatarPreview, setAvatarPreview] = useState<string>(userAvatarUrl!)
+  const [isAvatarChanged, setIsAvatarChanged] = useState(false)
 
   const {
     register,
@@ -48,13 +55,13 @@ export function ProfileForm({ initialValues, onSave }: ProfileFormProps) {
   } = useForm<Values>({
     resolver: yupResolver(showPassword ? schemaWithPassword : schema),
     defaultValues: {
-      email: '',
-      name: '',
-      gender: '',
-      city: '',
-      about: '',
+      email: initialValues?.email ?? '',
+      name: initialValues?.name ?? '',
+      gender: defaultGender ?? '',
+      city: defaultCity ?? '',
+      about: initialValues?.about ?? '',
       password: '',
-      ...initialValues,
+      birthDate: initialValues?.birthDate,
     },
     mode: 'onBlur',
     reValidateMode: 'onChange',
@@ -71,6 +78,7 @@ export function ProfileForm({ initialValues, onSave }: ProfileFormProps) {
   const handleAvatarChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
+      if (!isAvatarChanged) setIsAvatarChanged(true)
       setAvatarPreview(URL.createObjectURL(file))
       setSaveMessage('')
     }
@@ -97,9 +105,10 @@ export function ProfileForm({ initialValues, onSave }: ProfileFormProps) {
     }
 
     try {
-      await onSave({
+      onSave({
         ...values,
-        password: showPassword ? values.password : undefined,
+        password: showPassword ? values.password : '',
+        image_path: avatarPreview,
       })
       reset({ ...values, password: '' })
       setIsEditing({
@@ -319,7 +328,11 @@ export function ProfileForm({ initialValues, onSave }: ProfileFormProps) {
               size="full-width"
             />
           </div>
-          {saveMessage && <p className={styles.saveMessage} role="status">{saveMessage}</p>}
+          {saveMessage && (
+            <p className={styles.saveMessage} role="status">
+              {saveMessage}
+            </p>
+          )}
         </form>
 
         <label className={styles.avatarLabel}>
@@ -331,7 +344,11 @@ export function ProfileForm({ initialValues, onSave }: ProfileFormProps) {
           />
           <div className={styles.avatar}>
             {avatarPreview ? (
-              <img src={avatarPreview} alt="Аватар пользователя" className={styles.avatarPreview} />
+              <img
+                src={isAvatarChanged ? avatarPreview : `${API_URL}/images/users/${avatarPreview}`}
+                alt="Аватар пользователя"
+                className={styles.avatarPreview}
+              />
             ) : (
               <img src={userIcon} alt="Аватар пользователя" className={styles.avatarIcon} />
             )}
