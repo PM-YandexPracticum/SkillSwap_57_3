@@ -44,6 +44,7 @@ export type User = {
   city: City
   canTeach: CanTeachItem[]
   wantsToLearn: WantsToLearnItem[]
+  gender: Genders
 }
 
 export type CanTeachItem = {
