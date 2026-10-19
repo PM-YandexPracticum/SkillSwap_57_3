@@ -21,7 +21,7 @@ const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'))
 const NotServerPage = lazy(() =>
   import('@/pages/NotServerPage').then((module) => ({ default: module.NotServerPage })),
 )
-const AboutPage = lazy(() => import('@/pages/aboutPage'))
+const AboutPage = lazy(() => import('@/pages/AboutPage'))
 
 export function AppRouter() {
   const dispatch = useAppDispatch()

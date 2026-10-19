@@ -1,0 +1,98 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  border-radius: 12px;
+  background-color: rgb(255 255 255);
+  width: 606px;
+  box-sizing: border-box;
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 100px;                
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.name {
+  font-family: Jost, sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 0;
+  color: rgb(26 26 26);
+}
+
+.role {
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+  color: rgb(107 107 107);
+  margin: 0;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.section:last-child {
+  margin-top: auto;
+  margin-bottom: 0;
+}
+
+.label {
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+  color: rgb(26 26 26);
+  margin: 0 0 8px;
+}
+
+.text {
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgb(58 58 58);
+  margin: 0;
+  white-space: normal;         
+  word-wrap: break-word;       
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+  color: rgb(42 108 240);
+  text-decoration: none;
+}
+
+.link:hover {
+  opacity: 0.7;
+}
+
+.githubIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
