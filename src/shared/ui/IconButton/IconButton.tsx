@@ -1,4 +1,4 @@
-import styles from './Icon-Button.module.css'
+import styles from './IconButton.module.css'
 import { IconButtonProps } from './types'
 
 export const IconButton = ({
