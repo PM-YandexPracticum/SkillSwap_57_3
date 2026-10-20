@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { AuthUserState, RegisterUserData } from './types.ts'
 import { API_URL } from '@/shared/config/api.ts'
 import { AuthUserResponse } from '@/shared/types/apiTypes.ts'
+import { Values } from '@/widgets/ProfileForm/schema.ts'
 
 const initialState: AuthUserState = {
   data: null,
@@ -82,6 +83,45 @@ export const authUser = createAsyncThunk<
   }
 })
 
+export const updateUser = createAsyncThunk<
+  AuthUserResponse,
+  Values & {
+    password?: string
+    image_path?: File | string
+    user_id: number
+  },
+  { rejectValue: string }
+>('user/updateUser', async (updateData, { signal, rejectWithValue }) => {
+  try {
+    const formData = new FormData()
+    formData.append('email', updateData.email)
+    formData.append('password', updateData.password ?? '')
+    formData.append('name', updateData.name)
+    formData.append('city', updateData.city)
+    formData.append('date_birth', String(updateData.birthDate))
+    formData.append('gender', updateData.gender)
+    formData.append('bio', updateData.about)
+    formData.append('image_path', updateData.image_path ?? '')
+    formData.append('user_id', String(updateData.user_id))
+
+    const res = await fetch(`${API_URL}/api/users/update`, {
+      method: 'POST',
+      body: formData,
+      credentials: 'include',
+      signal,
+    })
+    if (!res.ok) {
+      return rejectWithValue(`HTTP ${res.status}`)
+    }
+    return (await res.json()) as AuthUserResponse
+  } catch (e) {
+    if (e instanceof Error && e.name === 'AbortError') {
+      throw e
+    }
+    return rejectWithValue(e instanceof Error ? e.message : 'Неизвестная ошибка')
+  }
+})
+
 const authUserSlice = createSlice({
   name: 'auth',
   initialState,
@@ -123,6 +163,13 @@ const authUserSlice = createSlice({
     })
 
     builder.addCase(authUser.fulfilled, (state, action) => {
+      state.loading = false
+      state.data = action.payload
+      state.isAuth = true
+      state.isAuthChecked = true
+    })
+
+    builder.addCase(updateUser.fulfilled, (state, action) => {
       state.loading = false
       state.data = action.payload
       state.isAuth = true

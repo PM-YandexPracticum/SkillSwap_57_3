@@ -1,5 +1,5 @@
 import { UserCardSkill } from '@/widgets/UserCard/types'
-import { CanTeachItem, Skill, SkillStandalone, Subskill, WantsToLearnItem } from '../types/apiTypes'
+import { CanTeachItem, Skill, Subskill, WantsToLearnItem } from '../types/apiTypes'
 
 /** Форматирует дату в читаемый вид */
 export function formatDate(dateString: string): string {
@@ -22,13 +22,14 @@ export function generateId(): string {
 }
 
 export function splitSkills(data: Skill[]) {
-  const skills: SkillStandalone[] = []
+  const skills: Pick<Skill, 'title' | 'id' | 'subskills'>[] = []
   const subskills: Subskill[] = []
 
   for (const skill of data) {
     skills.push({
       id: skill.id,
       title: skill.title,
+      subskills: skill.subskills,
     })
 
     for (const sub of skill.subskills) {

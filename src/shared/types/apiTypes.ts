@@ -74,7 +74,7 @@ export type AuthUserResponse = {
   accessToken: string
   user: {
     bio: string
-    birth_data: string
+    birth_date: string
     city_id: number
     creation_date: string
     email: string
