@@ -12,24 +12,25 @@ const initialState: UserSliceState = {
   currentUser: null,
 }
 
-export const fetchUsers = createAsyncThunk<CatalogUserResponse, void, { rejectValue: string }>(
-  'user/getUsers',
-  async (_, { signal, rejectWithValue }) => {
-    try {
-      const response = await api.get<CatalogUserResponse>(`/api/users`, { signal })
+export const fetchUsers = createAsyncThunk<
+  CatalogUserResponse,
+  void | number,
+  { rejectValue: string }
+>('user/getUsers', async (id, { signal, rejectWithValue }) => {
+  try {
+    const response = await api.get<CatalogUserResponse>(`/api/users${id ? `/?user_id=${id}` : ''}`, { signal })
 
-      return response.data
-    } catch (e) {
-      if (axios.isCancel(e)) throw e
+    return response.data
+  } catch (e) {
+    if (axios.isCancel(e)) throw e
 
-      return rejectWithValue(handleAxiosError(e, 'Не удалось загрузить пользователей'))
-    }
-  },
-)
+    return rejectWithValue(handleAxiosError(e, 'Не удалось загрузить пользователей'))
+  }
+})
 
 export const fetchUser = createAsyncThunk<SingleUser, string, { rejectValue: string }>(
   'user/getUser',
-  async (id: string, { signal, rejectWithValue }) => {
+  async (id, { signal, rejectWithValue }) => {
     try {
       const response = await api.get<SingleUser>(`/api/users/${id}`, { signal })
 

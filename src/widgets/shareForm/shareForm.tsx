@@ -16,7 +16,7 @@ import { useAppSelector } from '@/store/hooks'
 
 export function ShareForm({ setStepFn, setPreviousStep, registerData }: ShareFormProps) {
   const skillsFromSelector = useAppSelector((state) => state.skill.data)
-  const { skills, subskills } = splitSkills(skillsFromSelector as Skill[])
+  const { skills } = splitSkills(skillsFromSelector as Skill[])
 
   const {
     register,
@@ -42,26 +42,31 @@ export function ShareForm({ setStepFn, setPreviousStep, registerData }: ShareFor
   const selectedSubskill = watch('canTeachSubskill')
 
   const filteredSubskills = selectedSkill
-    ? subskills.filter((sub) => sub.skill.title === selectedSkill)
-    : subskills
+    ? (skills.find((s) => s.title === selectedSkill)?.subskills ?? [])
+    : skills.flatMap((s) => s.subskills)
 
   useEffect(() => {
-    if (selectedSkill && selectedSubskill) {
-      const sub = subskills.find((s) => s.title === selectedSubskill)
-      if (sub?.skill.title !== selectedSkill) {
-        setValue('canTeachSubskill', '', { shouldValidate: false })
-      }
+    if (!selectedSkill || !selectedSubskill) return
+
+    const skill = skills.find((s) => s.title === selectedSkill)
+    const isValid = skill?.subskills.some((sub) => sub.title === selectedSubskill)
+
+    if (!isValid) {
+      setValue('canTeachSubskill', '', { shouldValidate: false })
     }
-  }, [selectedSkill, selectedSubskill, subskills, setValue])
+  }, [selectedSkill, selectedSubskill, skills, setValue])
 
   useEffect(() => {
-    if (selectedSubskill && !selectedSkill) {
-      const sub = subskills.find((s) => s.title === selectedSubskill)
-      if (sub) {
-        setValue('canTeachSkill', sub.skill.title, { shouldValidate: false })
-      }
+    if (!selectedSubskill || selectedSkill) return
+
+    const parentSkill = skills.find((skill) =>
+      skill.subskills.some((sub) => sub.title === selectedSubskill),
+    )
+
+    if (parentSkill) {
+      setValue('canTeachSkill', parentSkill.title, { shouldValidate: false })
     }
-  }, [selectedSubskill, selectedSkill, subskills, setValue])
+  }, [selectedSubskill, selectedSkill, skills, setValue])
 
   const onSubmit = async (data: Values) => {
     try {
@@ -143,7 +148,9 @@ export function ShareForm({ setStepFn, setPreviousStep, registerData }: ShareFor
           text="Назад"
           variant="whiteButton"
           size="medium"
-          onClick={() => setPreviousStep(2)}
+          onClick={() => {
+            if (setPreviousStep) setPreviousStep(2)
+          }}
         />
         <Buttons
           type="submit"

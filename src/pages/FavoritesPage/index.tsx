@@ -1,59 +1,77 @@
-import { useEffect, useState } from 'react'
 import { UserCard } from '@widgets/UserCard/index'
-import { CatalogUserResponse } from '@/shared/types/apiTypes'
 import styles from './FavoritesPage.module.css'
 import { API_URL } from '@/shared/config/api'
+import { useFavorites } from '@/shared/hooks/useFavorites'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { addToFavorites, removeFromFavorites } from '@/entities/favorites/favoriteSlice'
+import { useNavigate } from 'react-router-dom'
 
 export default function FavoritesPage() {
-  const [users, setUsers] = useState<CatalogUserResponse>({
-    byName: [],
-    newest: [],
-    topByLikes: [],
-  })
+  const { data, loading } = useFavorites()
+  const authUser = useAppSelector((state) => state.auth.data)
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch(`${API_URL}/api/users/`)
-        if (!res.ok) throw new Error('API недоступен')
-        const data = await res.json()
-        setUsers({
-          byName: data.byName ?? [],
-          newest: data.newest ?? [],
-          topByLikes: data.topByLikes ?? [],
-        })
-      } catch (e) {
-        console.log(e)
-      }
+  console.log(data)
+
+  const handleLike = async (id: number) => {
+    if (authUser) {
+      dispatch(
+        addToFavorites({
+          userId: authUser?.user.id,
+          likedUserId: id,
+        }),
+      )
+    } else {
+      navigate('/login')
     }
-    fetchData()
-  }, [])
+  }
+
+  const handleDislike = async (id: number) => {
+    dispatch(
+      removeFromFavorites({
+        userId: authUser?.user.id as number,
+        likedUserId: id,
+      }),
+    )
+  }
 
   return (
     <main className={styles.container}>
       <h1 className={styles.title}>Избранное</h1>
-      <div className={styles.user_cards}>
-        {users.byName.map((user) => (
-          <UserCard
-            key={user.id}
-            variant="catalog"
-            avatarUrl={`${API_URL}/images/users/${user.image_path}`}
-            name={user.name}
-            location={user.city.title}
-            canTeach={user.canTeach.map((val) => ({
-              color: val.subskill.skill.color,
-              title: val.title,
-            }))}
-            wantsToLearn={user.wantsToLearn.map((val) => ({
-              color: val.subskill.skill.color,
-              title: val.title,
-            }))}
-            isLiked={false}
-            onLike={() => {}}
-            onDetails={() => {}}
-          />
-        ))}
-      </div>
+      {loading && <div>Загрузка</div>}
+      {data && (
+        <div className={styles.user_cards}>
+          {data.map((user) => (
+            <UserCard
+              key={user.id}
+              variant="catalog"
+              avatarUrl={`${API_URL}/images/users/${user.image_path}`}
+              name={user.name}
+              location={user.city.title}
+              canTeach={user.canTeach.map((val) => ({
+                color: val.subskill.skill.color,
+                title: val.title,
+              }))}
+              wantsToLearn={user.wantsToLearn.map((val) => ({
+                color: val.subskill.skill.color,
+                title: val.subskill.title,
+              }))}
+              isLiked={true}
+              onLike={handleLike}
+              onDislike={handleDislike}
+              id={user.id}
+              onDetails={() => {}}
+            />
+          ))}
+        </div>
+      )}
+      {!data && (
+        <div className={styles.nodata}>
+          <h2>Здесь пока пусто :(</h2>
+          <h2>Лайкните кого-нибудь, чтобы данные обновились</h2>
+        </div>
+      )}
     </main>
   )
 }

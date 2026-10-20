@@ -1,8 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { AuthUser, AuthUserState, RegisterUserData } from './types.ts'
 import axios from 'axios'
 import { api } from '@/shared/config/api'
 import { handleAxiosError } from '@/shared/lib/handleAxiosError.ts'
+// AuthUser
+import { AuthUserState, RegisterUserData } from './types.ts'
+
+import { AuthUserResponse } from '@/shared/types/apiTypes.ts'
+import { Values } from '@/widgets/ProfileForm/schema.ts'
 
 const initialState: AuthUserState = {
   data: null,
@@ -12,44 +16,46 @@ const initialState: AuthUserState = {
   isAuthChecked: false,
 }
 
-export const registerUser = createAsyncThunk<AuthUser, RegisterUserData, { rejectValue: string }>(
-  'user/registerUser',
-  async (registerData, { signal, rejectWithValue }) => {
-    try {
-      const formData = new FormData()
-      formData.append('name', registerData.name)
-      formData.append('email', registerData.email)
-      formData.append('password', registerData.password)
-      formData.append('bio', registerData.bio)
-      formData.append('date_birth', registerData.date_birth.toISOString().split('T')[0])
-      formData.append('city_id', String(registerData.city.id))
-      formData.append('gender_id', String(registerData.gender.id))
-      formData.append('skillTitle', registerData.skillTitle)
-      formData.append('skillDescription', registerData.skillDescription)
-      formData.append('canTeachSkillId', registerData.canTeachSkillId)
-      formData.append('canTeachSubskillId', registerData.canTeachSubskillId)
-      formData.append('wantsToLearnSkillId', registerData.wantsToLearnSkillId)
-      formData.append('wantsToLearnSubskillId', registerData.wantsToLearnSubskillId)
-      formData.append('avatar', registerData.image_path)
-      formData.append('images', registerData.image_1)
-      formData.append('images', registerData.image_2)
-      formData.append('images', registerData.image_3)
-      formData.append('images', registerData.image_4)
+export const registerUser = createAsyncThunk<
+  AuthUserResponse,
+  RegisterUserData,
+  { rejectValue: string }
+>('user/registerUser', async (registerData, { signal, rejectWithValue }) => {
+  try {
+    const formData = new FormData()
+    formData.append('name', registerData.name)
+    formData.append('email', registerData.email)
+    formData.append('password', registerData.password)
+    formData.append('bio', registerData.bio)
+    formData.append('date_birth', registerData.date_birth.toISOString().split('T')[0])
+    formData.append('city_id', String(registerData.city.id))
+    formData.append('gender_id', String(registerData.gender.id))
+    formData.append('skillTitle', registerData.skillTitle)
+    formData.append('skillDescription', registerData.skillDescription)
+    formData.append('canTeachSkillId', registerData.canTeachSkillId)
+    formData.append('canTeachSubskillId', registerData.canTeachSubskillId)
+    formData.append('wantsToLearnSkillId', registerData.wantsToLearnSkillId)
+    formData.append('wantsToLearnSubskillId', registerData.wantsToLearnSubskillId)
+    formData.append('avatar', registerData.image_path)
+    formData.append('images', registerData.image_1)
+    formData.append('images', registerData.image_2)
+    formData.append('images', registerData.image_3)
+    formData.append('images', registerData.image_4)
 
-      const res = await api.post<AuthUser>(`/api/users/register`, formData, {
-        signal
-      });
+    const res = await api.post<AuthUserResponse>(`/api/users/register`, formData, {
+      signal,
+    })
 
-      return res.data;
-    } catch (e) {
-      if (axios.isCancel(e)) throw e
-      return rejectWithValue(handleAxiosError(e, 'Не удалось выполнить регистрацию'))
-    }
-  },
-)
+    return res.data
+  } catch (e) {
+    if (axios.isCancel(e)) throw e
+
+    return rejectWithValue(handleAxiosError(e, 'Не удалось зарегестрироваться'))
+  }
+})
 
 export const authUser = createAsyncThunk<
-  AuthUser,
+  AuthUserResponse,
   Pick<RegisterUserData, 'email' | 'password'>,
   { rejectValue: string }
 >('user/authUser', async (authData, { signal, rejectWithValue }) => {
@@ -58,9 +64,8 @@ export const authUser = createAsyncThunk<
     formData.append('email', authData.email)
     formData.append('password', authData.password)
 
-    const res = await api.post<AuthUser>(`/api/users/auth`, formData, {
+    const res = await api.post<AuthUserResponse>(`/api/users/auth`, formData, {
       signal,
-      withCredentials: true,
     })
 
     return res.data
@@ -71,10 +76,50 @@ export const authUser = createAsyncThunk<
   }
 })
 
+export const updateUser = createAsyncThunk<
+  AuthUserResponse,
+  Values & {
+    password?: string
+    image_path?: File | string
+    user_id: number
+  },
+  { rejectValue: string }
+>('user/updateUser', async (updateData, { signal, rejectWithValue }) => {
+  try {
+    const formData = new FormData()
+    formData.append('email', updateData.email)
+    formData.append('password', updateData.password ?? '')
+    formData.append('name', updateData.name)
+    formData.append('city', updateData.city)
+    formData.append('date_birth', String(updateData.birthDate))
+    formData.append('gender', updateData.gender)
+    formData.append('bio', updateData.about)
+    formData.append('image_path', updateData.image_path ?? '')
+    formData.append('user_id', String(updateData.user_id))
+
+    const res = await api.post<AuthUserResponse>(`/api/users/update`, formData, {
+      signal,
+    })
+
+    return res.data
+  } catch (e) {
+    if (axios.isCancel(e)) throw e
+
+    return rejectWithValue(handleAxiosError(e, 'Не удалось обновить пользователя'))
+  }
+})
+
 const authUserSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state.loading = false
+      state.isAuth = false
+      state.data = null
+      state.error = null
+    },
+  },
   selectors: {
     getUserSelector: (state) => state.data,
     getIsAuthCheckedSelector: (state) => state.isAuthChecked,
@@ -111,6 +156,13 @@ const authUserSlice = createSlice({
       state.isAuthChecked = true
     })
 
+    builder.addCase(updateUser.fulfilled, (state, action) => {
+      state.loading = false
+      state.data = action.payload
+      state.isAuth = true
+      state.isAuthChecked = true
+    })
+
     builder.addCase(authUser.rejected, (state, action) => {
       if (action.meta.aborted) return
       state.loading = false
@@ -123,3 +175,5 @@ const authUserSlice = createSlice({
 export default authUserSlice.reducer
 
 export const { getUserSelector, getIsAuthCheckedSelector } = authUserSlice.selectors
+
+export const { logout } = authUserSlice.actions

@@ -1,15 +1,5 @@
-import { Skill } from '@/shared/types/apiTypes'
-
-export type RecommendationItem = {
-  id: number
-  name: string
-  image_path: string
-  city: string
-  age: number
-  canTeach: Pick<Skill, 'title' | 'color'>[]
-  wantsToLearn: Pick<Skill, 'title' | 'color'>[]
-  isLiked: boolean
-}
+import { RecommendationItem } from '@/shared/types/apiTypes'
+export { type RecommendationItem } from '@/shared/types/apiTypes'
 
 export type RecommendationsSliceState = {
   data: RecommendationItem[] | null

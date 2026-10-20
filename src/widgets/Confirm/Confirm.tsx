@@ -3,7 +3,7 @@ import { ConfirmProps } from './types'
 import { Carousel } from '@/shared/ui/Carousel'
 import { Buttons } from '@/shared/ui/Buttons'
 import { ButtonsWithIcon } from '@/shared/ui/ButtonsWithIcon'
-import { useMemo } from 'react'
+import { useEffect, useState } from 'react'
 
 export const Confirm = ({
   title,
@@ -13,13 +13,23 @@ export const Confirm = ({
   onEdit,
   onConfirm,
 }: ConfirmProps) => {
-  const previewImages = useMemo(() => images.map((file) => URL.createObjectURL(file)), [images])
+  const [previewImages, setPreivewImages] = useState<Array<string> | null>(null)
 
-  // useEffect(() => {
-  //   return () => {
-  //     previewImages.forEach((url) => URL.revokeObjectURL(url))
-  //   }
-  // }, [previewImages])
+  useEffect(() => {
+    if (!images) {
+      setPreivewImages(null)
+      return
+    }
+
+    const urls = images.map((image) => URL.createObjectURL(image))
+    setPreivewImages(urls)
+
+    return () => {
+      if (previewImages) {
+        previewImages.forEach((url) => URL.revokeObjectURL(url))
+      }
+    }
+  }, [images])
 
   return (
     <div className={styles.overlay}>
@@ -56,12 +66,13 @@ export const Confirm = ({
               />
             </div>
           </div>
-
-          <Carousel>
-            {previewImages.map((image, index) => (
-              <img key={index} src={image} alt="Фотография навыка" />
-            ))}
-          </Carousel>
+          {previewImages && (
+            <Carousel>
+              {previewImages.map((image, index) => (
+                <img key={index} src={image} alt="Фотография навыка" />
+              ))}
+            </Carousel>
+          )}
         </div>
       </div>
     </div>

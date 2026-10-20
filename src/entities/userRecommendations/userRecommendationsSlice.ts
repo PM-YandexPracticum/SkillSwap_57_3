@@ -14,7 +14,7 @@ export const fetchRecommendations = createAsyncThunk<
   RecommendationItem[],
   number,
   { rejectValue: string }
->('recommendations/getRecommendations', async (id: number, { signal, rejectWithValue }) => {
+>('recommendations/getRecommendations', async (id, { signal, rejectWithValue }) => {
   try {
     const res = await api.get<RecommendationItem[]>(`/api/recommendations/${id}`, { signal })
 

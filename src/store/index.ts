@@ -7,6 +7,8 @@ import cityReducer from '@/entities/city/citySlice'
 import genderReducer from '@/entities/genders/genderSlice'
 import recommendationReducer from '@/entities/userRecommendations/userRecommendationsSlice'
 import authReducer from '@/entities/auth/authSlice'
+import favoriteReducer from '@/entities/favorites/favoriteSlice'
+import filterReducer from '@/entities/filters/filterSlice'
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +19,8 @@ export const store = configureStore({
     // auth: authReducer,
     user: userReducer,
     auth: authReducer,
+    favorite: favoriteReducer,
+    filter: filterReducer,
   },
 })
 

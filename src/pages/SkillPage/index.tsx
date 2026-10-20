@@ -36,10 +36,20 @@ export default function SkillPage() {
   }, [dispatch, currentUser])
 
   if (!currentUser) return
+
+  const handleExchange = async () => {
+    if (!isAuth) {
+      navigate('/register', {
+        state: { from: location.pathname },
+      })
+      return
+    }
+  }
   return (
     <main className={styles.page}>
       <section className={styles.spotlight}>
         <UserCard
+          id={currentUser.id}
           variant="author"
           avatarUrl={`${API_URL}/images/users/${currentUser.image_path}`}
           name={currentUser.name}
@@ -58,13 +68,7 @@ export default function SkillPage() {
             `${API_URL}/images/can_teach/${currentUser.canTeach[0].image_4!}`,
           ]}
           title={currentUser.canTeach[0].title}
-          onExchange={() => {
-            if (!isAuth) {
-              navigate('/register', {
-                state: { from: location.pathname },
-              })
-            }
-          }}
+          onExchange={handleExchange}
           onLearnMore={() => {}}
           onLike={() => {}}
           onShare={() => {}}

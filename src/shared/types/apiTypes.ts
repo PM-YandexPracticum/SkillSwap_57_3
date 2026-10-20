@@ -12,15 +12,39 @@ export type Skill = {
   subskills: Subskill[]
 }
 
-export type SkillStandalone = {
+export type Subskill = {
   id: number
   title: string
 }
 
-export type Subskill = {
+export type City = {
   id: number
   title: string
-  skill: Skill
+}
+
+export type Genders = {
+  id: number
+  title: string
+}
+
+export type CatalogUserResponse = {
+  topByLikes: User[]
+  newest: User[]
+  byName: User[]
+}
+
+export type User = {
+  id: number
+  name: string
+  image_path: string
+  likes_count: number
+  creation_date: string
+  age: number
+  isLiked: boolean
+  city: City
+  canTeach: CanTeachItem[]
+  wantsToLearn: WantsToLearnItem[]
+  gender: Genders
 }
 
 export type CanTeachItem = {
@@ -31,29 +55,51 @@ export type CanTeachItem = {
   image_2: string | null
   image_3: string | null
   image_4: string | null
-  subskill: Subskill
+  subskill: {
+    id: number
+    title: string
+    skill: Omit<Skill, 'subskills'>
+  }
 }
 
 export type WantsToLearnItem = {
-  title: string
-  subskill: Subskill
+  subskill: {
+    id: string
+    title: string
+    skill: Omit<Skill, 'subskills'>
+  }
 }
 
-export type City = {
-  id: number
-  title: string
+export type AuthUserResponse = {
+  accessToken: string
+  user: {
+    bio: string
+    birth_date: string
+    city_id: number
+    creation_date: string
+    email: string
+    gender_id: number
+    id: number
+    image_path: string
+    likes_count: number
+    name: string
+  }
 }
 
-export type User = {
+export type RecommendationItem = {
   id: number
   name: string
   image_path: string
-  likes_count: number
-  creation_date: string
+  city: string
   age: number
-  city: City
-  canTeach: CanTeachItem[]
-  wantsToLearn: WantsToLearnItem[]
+  canTeach: Pick<Skill, 'title' | 'color'>[]
+  wantsToLearn: Pick<Skill, 'title' | 'color'>[]
+  isLiked: boolean
+}
+
+export type SkillStandalone = {
+  id: number
+  title: string
 }
 
 export type SingleUser = {
@@ -65,15 +111,4 @@ export type SingleUser = {
   city: City
   canTeach: CanTeachItem[]
   wantsToLearn: WantsToLearnItem[]
-}
-
-export type CatalogUserResponse = {
-  topByLikes: User[]
-  newest: User[]
-  byName: User[]
-}
-
-export type Genders = {
-  id: number
-  title: string
 }
