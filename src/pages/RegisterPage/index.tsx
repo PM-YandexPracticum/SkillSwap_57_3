@@ -88,6 +88,7 @@ export default function RegisterPage() {
         const res = await dispatch(registerUser(apiRegisterData)).unwrap()
 
         localStorage.setItem('accessToken', res.accessToken)
+        sessionStorage.setItem('offerCreated', 'true')
 
         setShowConfirm(false)
         navigate(location.state?.from || '/')
