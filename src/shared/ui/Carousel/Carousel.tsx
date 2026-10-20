@@ -83,7 +83,7 @@ export const Carousel = ({ children }: CarouselProps) => {
             onClick={scrollPrev}
             aria-label="Предыдущее"
           >
-            <img src={navigationButton} alt="" className={`${styles.imgButton} ${styles.prevImg}`} />
+            <img src={navigationButton} alt="Предыдущий слайд" className={`${styles.imgButton} ${styles.prevImg}`} />
           </button>
           <button
             type="button"
@@ -91,7 +91,7 @@ export const Carousel = ({ children }: CarouselProps) => {
             onClick={scrollNext}
             aria-label="Следующее"
           >
-            <img src={navigationButton} alt="" className={styles.imgButton} />
+            <img src={navigationButton} alt="Следующий слайд" className={styles.imgButton} />
           </button>
         </>
       )}
