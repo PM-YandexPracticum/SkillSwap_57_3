@@ -37,7 +37,7 @@ export function UserCard({
   return (
     <div className={style.card}>
       <div className={style.card_spotlight}>
-        <img className={style.photo} src={avatarUrl} alt={name} />
+        <img className={style.photo} src={avatarUrl} alt={name} loading="lazy" />
 
         <div className={style.user_info}>
           <h3 className={style.name}>{name}</h3>
@@ -49,6 +49,7 @@ export function UserCard({
             className={style.like}
             icon={isLiked ? likeActive : likeDefault}
             onClick={handleLike}
+            ariaLabel={isLiked ? 'Убрать из избранного' : 'Добавить в избранное'}
           />
         )}
       </div>

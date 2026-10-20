@@ -16,7 +16,7 @@ export const IconButton = ({
       aria-label={ariaLabel}
       className={className ? `${styles.button} ${className}` : `${styles.button}`}
     >
-      <img src={isActive && activeIcon ? activeIcon : icon} className={styles.icon} />
+      <img src={isActive && activeIcon ? activeIcon : icon} className={styles.icon} alt="" />
     </button>
   )
 }

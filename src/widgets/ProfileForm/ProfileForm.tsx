@@ -159,7 +159,7 @@ export function ProfileForm({ initialValues, onSave }: ProfileFormProps) {
             </div>
 
             <div className={styles.passwordSection}>
-              <button type="button" className={styles.passwordButton} onClick={togglePassword}>
+              <button type="button" className={styles.passwordButton} onClick={togglePassword} aria-label={showPassword ? 'Отменить изменение пароля' : 'Изменить пароль'}>
                 {showPassword ? 'Отменить изменение пароля' : 'Изменить пароль'}
               </button>
               {showPassword && (

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import ReactDatePicker from 'react-datepicker'
-import { ru } from 'date-fns/locale'
+import { ru } from 'date-fns/locale/ru'
 import { Buttons } from '../Buttons/Buttons'
 import calendarIcon from '@assets/ButtonSvg/calendar.svg'
 

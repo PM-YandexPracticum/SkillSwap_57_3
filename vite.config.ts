@@ -6,6 +6,18 @@ import { resolve } from 'path'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), svgr()],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ['react', 'react-dom'],
+          redux: ['@reduxjs/toolkit', 'react-redux'],
+          forms: ['react-hook-form', 'yup', '@hookform/resolvers'],
+          date: ['date-fns', 'react-datepicker'],
+        }
+      }
+    }
+  },
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),
