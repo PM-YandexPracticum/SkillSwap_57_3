@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { AuthUser, AuthUserState, RegisterUserData } from './types.ts'
 import axios from 'axios'
-import { api, API_URL } from '@/shared/config/api'
+import { api } from '@/shared/config/api'
 import { handleAxiosError } from '@/shared/lib/handleAxiosError.ts'
 
 const initialState: AuthUserState = {
@@ -36,21 +36,14 @@ export const registerUser = createAsyncThunk<AuthUser, RegisterUserData, { rejec
       formData.append('images', registerData.image_3)
       formData.append('images', registerData.image_4)
 
-      const res = await fetch(`${API_URL}/api/users/register`, {
-        method: 'POST',
-        body: formData,
-        credentials: 'include',
-        signal,
-      })
-      if (!res.ok) {
-        return rejectWithValue(`HTTP ${res.status}`)
-      }
-      return (await res.json()) as AuthUser
+      const res = await api.post<AuthUser>(`/api/users/register`, formData, {
+        signal
+      });
+
+      return res.data;
     } catch (e) {
-      if (e instanceof Error && e.name === 'AbortError') {
-        throw e
-      }
-      return rejectWithValue(e instanceof Error ? e.message : 'Неизвестная ошибка')
+      if (axios.isCancel(e)) throw e
+      return rejectWithValue(handleAxiosError(e, 'Не удалось выполнить регистрацию'))
     }
   },
 )
