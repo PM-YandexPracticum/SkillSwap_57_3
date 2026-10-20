@@ -1,4 +1,3 @@
-import { RegisterUserData } from '@/entities/auth/types'
 import { Values } from './schema'
 
 export type ProfileFormProps = {

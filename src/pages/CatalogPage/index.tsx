@@ -2,7 +2,7 @@ import { UserCard } from '@widgets/UserCard/index'
 import styles from './styles.module.css'
 import { ButtonsWithIcon } from '@ui/ButtonsWithIcon'
 import { useEffect, useState, useRef, useCallback } from 'react'
-import { CatalogUserResponse, User } from '@/shared/types/apiTypes'
+import { CatalogUserResponse } from '@/shared/types/apiTypes'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { useNavigate } from 'react-router-dom'
 import { pluralizeYears } from '@/shared/lib/helpers'
@@ -31,7 +31,7 @@ export default function CatalogPage() {
   const [popularOpen, setPopularOpen] = useState(false)
   const [newOpen, setNewOpen] = useState(false)
 
-  const [filteredData, setFilteredData] = useState<User | null>(null)
+  // const [filteredData, setFilteredData] = useState<User | null>(null)
 
   const authUser = useAppSelector((state) => state.auth.data)
 

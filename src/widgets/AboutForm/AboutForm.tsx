@@ -19,7 +19,7 @@ export function AboutForm({ setStepFn, setPreviousStep, registerData }: AboutFor
   const genders = useAppSelector((state) => state.gender.data)
   const skillsFromSelector = useAppSelector((state) => state.skill.data)
 
-  const { skills, subskills } = splitSkills(skillsFromSelector as Skill[])
+  const { skills } = splitSkills(skillsFromSelector as Skill[])
 
   const {
     register,

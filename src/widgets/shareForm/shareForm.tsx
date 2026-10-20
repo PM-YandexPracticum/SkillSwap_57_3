@@ -16,7 +16,7 @@ import { useAppSelector } from '@/store/hooks'
 
 export function ShareForm({ setStepFn, setPreviousStep, registerData }: ShareFormProps) {
   const skillsFromSelector = useAppSelector((state) => state.skill.data)
-  const { skills, subskills } = splitSkills(skillsFromSelector as Skill[])
+  const { skills } = splitSkills(skillsFromSelector as Skill[])
 
   const {
     register,
@@ -148,7 +148,9 @@ export function ShareForm({ setStepFn, setPreviousStep, registerData }: ShareFor
           text="Назад"
           variant="whiteButton"
           size="medium"
-          onClick={() => setPreviousStep(2)}
+          onClick={() => {
+            if (setPreviousStep) setPreviousStep(2)
+          }}
         />
         <Buttons
           type="submit"

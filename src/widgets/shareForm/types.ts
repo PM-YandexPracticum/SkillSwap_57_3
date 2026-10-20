@@ -7,7 +7,7 @@ export type ShareFormValues = Pick<
 >
 
 export type ShareFormProps = {
-  setStepFn: (data: ShareFormValues) => void
-  setPreviousStep: Dispatch<React.SetStateAction<number>>
-  registerData: RegisterData | null
+  setStepFn?: (data: ShareFormValues) => void
+  setPreviousStep?: Dispatch<React.SetStateAction<number>>
+  registerData?: RegisterData | null
 }

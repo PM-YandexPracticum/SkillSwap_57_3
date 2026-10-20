@@ -7,7 +7,7 @@ import { PasswordInput } from '@ui/PasswordInput'
 import { Select } from '@ui/Select'
 import { Buttons } from '@ui/Buttons'
 import { IconButton } from '@ui/IconButton'
-import { DatePicker } from '@ui/DatePicker/DatePicker'
+import { DatePicker } from '@/shared/ui/DatePicker/DatePicker'
 import { useAppSelector } from '@/store/hooks'
 
 import userIcon from '@assets/icon/User.svg'

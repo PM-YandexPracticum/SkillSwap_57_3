@@ -27,8 +27,7 @@ export default function ProfilePage() {
     },
   ) => {
     try {
-      console.log('onSave')
-      const res = await dispatch(updateUser({ ...values, user_id: authUserData!.id }))
+      await dispatch(updateUser({ ...values, user_id: authUserData!.id }))
     } catch (e) {
       console.log(e)
     }
