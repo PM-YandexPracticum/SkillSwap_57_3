@@ -31,7 +31,7 @@ export default function CatalogPage() {
   const [popularOpen, setPopularOpen] = useState(false)
   const [newOpen, setNewOpen] = useState(false)
 
-  const [filteredData, setFilteredData] = useState<User | null>(null)
+  // const [filteredData, setFilteredData] = useState<User | null>(null)
 
   const authUser = useAppSelector((state) => state.auth.data)
 
