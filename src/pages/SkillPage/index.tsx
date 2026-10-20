@@ -14,6 +14,7 @@ import { fetchRecommendations } from '@/entities/userRecommendations/userRecomme
 import { API_URL } from '@/shared/config/api'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { SkillCardCarousel } from '@widgets/SkillCardCarousel/index'
+import { sendExchange } from '@/entities/exchange/exchangeSlice'
 
 export default function SkillPage() {
   const { id } = useParams<{ id: string }>()
@@ -23,6 +24,11 @@ export default function SkillPage() {
   const navigate = useNavigate()
   const location = useLocation()
   const isAuth = useAppSelector((state) => state.auth.isAuth)
+  const authedUser = useAppSelector((state) => state.auth.data?.user)
+
+  const exchanges = useAppSelector((state) => state.auth.data?.exchanges)
+  const exchangeStatus = exchanges?.find((ex) => ex.receiver.id === currentUser?.id)?.status
+
   useEffect(() => {
     if (!id) return
     dispatch(fetchUser(id))
@@ -43,6 +49,14 @@ export default function SkillPage() {
         state: { from: location.pathname },
       })
       return
+    }
+    if (authedUser) {
+      const res = await dispatch(
+        sendExchange({
+          initiator_id: authedUser.id,
+          receiver_id: currentUser.id,
+        }),
+      )
     }
   }
   return (
@@ -72,7 +86,7 @@ export default function SkillPage() {
           onLearnMore={() => {}}
           onLike={() => {}}
           onShare={() => {}}
-          status="available"
+          status={exchangeStatus ? exchangeStatus : 'available'}
         />
       </section>
 

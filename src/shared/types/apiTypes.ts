@@ -1,3 +1,5 @@
+import { ExchangeItem } from '@/entities/exchange/types'
+
 export type Skill = {
   id: number
   title: string
@@ -84,6 +86,7 @@ export type AuthUserResponse = {
     likes_count: number
     name: string
   }
+  exchanges: ExchangeItem[]
 }
 
 export type RecommendationItem = {
@@ -111,4 +114,13 @@ export type SingleUser = {
   city: City
   canTeach: CanTeachItem[]
   wantsToLearn: WantsToLearnItem[]
+}
+
+export type ExchangeRequest = {
+  initiator_id: number
+  receiver_id: number
+}
+
+export type ExchangeResponse = {
+  data: ExchangeItem[]
 }

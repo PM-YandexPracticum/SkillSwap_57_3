@@ -34,6 +34,7 @@ export default function CatalogPage() {
   // const [filteredData, setFilteredData] = useState<User | null>(null)
 
   const authUser = useAppSelector((state) => state.auth.data)
+  console.log(authUser)
 
   const loadMoreCards = useCallback(
     (entries: IntersectionObserverEntry[]) => {
@@ -117,6 +118,9 @@ export default function CatalogPage() {
               : (popularOpen ? userSelector.topByLikes : userSelector.topByLikes.slice(0, 3)).map(
                   (user) => (
                     <UserCard
+                      exchange={Boolean(
+                        authUser?.exchanges?.find((ex) => ex.receiver.id === user.id),
+                      )}
                       key={user.id}
                       id={user.id}
                       variant="catalog"

@@ -6,6 +6,8 @@ import likeDefault from '@assets/icon/LikeDefault.svg'
 import likeActive from '@assets/icon/LikeActive.svg'
 import style from './UserCard.module.css'
 import type { UserCardProps } from './types'
+import { ButtonsWithIcon } from '@/shared/ui/ButtonsWithIcon'
+import watch from '@assets/icon/Watch.svg'
 
 export function UserCard({
   variant = 'catalog',
@@ -20,6 +22,7 @@ export function UserCard({
   onDislike,
   onDetails,
   id,
+  exchange,
 }: UserCardProps) {
   const [isLiked, setIsLiked] = useState(initialLiked)
 
@@ -79,7 +82,19 @@ export function UserCard({
         </div>
       </div>
 
-      {variant === 'catalog' && (
+      {variant === 'catalog' && exchange && (
+        <ButtonsWithIcon
+          iconSrc={watch}
+          onClick={onDetails ?? (() => {})}
+          size="full-width"
+          greenBorder
+          gap="gapLarge"
+          position="left"
+          text="Обмен предложен"
+        />
+      )}
+
+      {variant === 'catalog' && !exchange && (
         <Buttons
           type="button"
           size="large"

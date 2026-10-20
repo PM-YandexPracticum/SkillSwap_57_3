@@ -1,3 +1,5 @@
+import { ExchangeItem } from '@/entities/exchange/types'
+
 export type UserCardSkill = {
   title: string
   color:
@@ -24,4 +26,5 @@ export type UserCardProps = {
   onDislike?: (id: number) => void
   onDetails?: () => void
   id: number
+  exchange?: boolean
 }
