@@ -165,8 +165,11 @@ export default function CatalogPage() {
               ? Array.from({ length: 3 }, (_, index) => <UserCardSkeleton key={index} />)
               : (newOpen ? userSelector.newest : userSelector.newest.slice(0, 3)).map((user) => (
                   <UserCard
-                    id={user.id}
+                    exchange={Boolean(
+                      authUser?.exchanges?.find((ex) => ex.receiver.id === user.id),
+                    )}
                     key={user.id}
+                    id={user.id}
                     variant="catalog"
                     avatarUrl={`${API_URL}/images/users/${user.image_path}`}
                     name={user.name}
@@ -180,8 +183,9 @@ export default function CatalogPage() {
                       color: val.subskill.skill.color,
                     }))}
                     isLiked={user.isLiked}
-                    onLike={() => {}}
-                    onDetails={() => {}}
+                    onDislike={handleDislike}
+                    onLike={handleLike}
+                    onDetails={() => handleDetails(user.id)}
                   />
                 ))}
           </div>
@@ -197,23 +201,27 @@ export default function CatalogPage() {
               ? Array.from({ length: 3 }, (_, index) => <UserCardSkeleton key={index} />)
               : userSelector.byName.slice(0, cardVisibleCount).map((user) => (
                   <UserCard
-                    id={user.id}
+                    exchange={Boolean(
+                      authUser?.exchanges?.find((ex) => ex.receiver.id === user.id),
+                    )}
                     key={user.id}
+                    id={user.id}
                     variant="catalog"
                     avatarUrl={`${API_URL}/images/users/${user.image_path}`}
                     name={user.name}
                     location={`${user.city.title}, ${pluralizeYears(user.age)}`}
                     canTeach={user.canTeach.map((val) => ({
-                      color: val.subskill.skill.color,
                       title: val.title,
+                      color: val.subskill.skill.color,
                     }))}
                     wantsToLearn={user.wantsToLearn.map((val) => ({
                       title: val.subskill.title,
                       color: val.subskill.skill.color,
                     }))}
                     isLiked={user.isLiked}
-                    onLike={() => {}}
-                    onDetails={() => {}}
+                    onDislike={handleDislike}
+                    onLike={handleLike}
+                    onDetails={() => handleDetails(user.id)}
                   />
                 ))}
           </div>

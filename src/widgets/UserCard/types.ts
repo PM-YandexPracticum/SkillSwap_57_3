@@ -1,5 +1,3 @@
-import { ExchangeItem } from '@/entities/exchange/types'
-
 export type UserCardSkill = {
   title: string
   color:

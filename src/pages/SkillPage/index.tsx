@@ -1,9 +1,9 @@
 import { UserCard } from '@widgets/UserCard'
 import styles from './SkillPage.module.css'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { fetchUser } from '@/entities/user/model/userSlice'
+import { fetchUser, fetchUsers } from '@/entities/user/model/userSlice'
 import {
   mapCanTeachToCardSkills,
   mapWantsToLearnToCardSkills,
@@ -25,14 +25,22 @@ export default function SkillPage() {
   const location = useLocation()
   const isAuth = useAppSelector((state) => state.auth.isAuth)
   const authedUser = useAppSelector((state) => state.auth.data?.user)
-
-  const exchanges = useAppSelector((state) => state.auth.data?.exchanges)
-  const exchangeStatus = exchanges?.find((ex) => ex.receiver.id === currentUser?.id)?.status
+  const exchanges = useAppSelector((state) => state.exchange.data)
 
   useEffect(() => {
     if (!id) return
     dispatch(fetchUser(id))
   }, [dispatch, id])
+
+  const exchangeStatus = useMemo(() => {
+    if (!exchanges || !authedUser || !currentUser) return null
+
+    const exchange = exchanges.find(
+      (ex) => ex.initiator.id === authedUser.id && ex.receiver.id === currentUser.id,
+    )
+
+    return exchange?.status ?? null
+  }, [exchanges, authedUser, currentUser])
 
   useEffect(() => {
     if (!currentUser) return
@@ -51,7 +59,7 @@ export default function SkillPage() {
       return
     }
     if (authedUser) {
-      const res = await dispatch(
+      await dispatch(
         sendExchange({
           initiator_id: authedUser.id,
           receiver_id: currentUser.id,
