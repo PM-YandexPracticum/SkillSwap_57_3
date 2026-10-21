@@ -1,0 +1,89 @@
+.sidebar {
+  max-inline-size: 324px;
+  inline-size: 100%;
+  border-radius: 12px;
+  background-color: #fff;
+  padding: 20px;
+  font-family: Roboto, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #253017;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.title {
+  font-family: Jost, sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 28px;
+}
+
+.resetButton {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #508826;
+}
+
+.cross {
+  inline-size: 25px;
+  block-size: 25px;
+}
+
+.section {
+  margin-bottom: 32px;
+}
+
+.subtitle {
+  font-family: Jost, sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  padding-bottom: 20px;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skillRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.arrow {
+  inline-size: 25px;
+  block-size: 25px;
+  transition: transform 0.2s ease;
+}
+
+.arrowUp {
+  transform: rotate(180deg);
+}
+
+.subskills {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px 0 5px 35px;
+}
+
+.showMoreButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #508826;
+  margin-top: 12px;
+}
+
+.showMoreButton:hover {
+  color: #326c1b;
+}

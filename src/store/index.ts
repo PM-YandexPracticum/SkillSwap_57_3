@@ -20,7 +20,7 @@ export const store = configureStore({
     user: userReducer,
     auth: authReducer,
     favorite: favoriteReducer,
-    filter: filterReducer,
+    filters: filterReducer,
   },
 })
 
