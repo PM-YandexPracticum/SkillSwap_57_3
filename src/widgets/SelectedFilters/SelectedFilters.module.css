@@ -1,0 +1,22 @@
+.filters {
+  display: flex;
+  gap: 12px;
+  padding-top: 12px;
+  flex-wrap: wrap;
+}
+
+.selectedFilter {
+  display: flex;
+  gap: 8px;
+  padding: 12px 24px;
+  background-color: #fff;
+  border-radius: 12px;
+}
+
+.filterName {
+  font-family: Roboto, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #253017;
+}

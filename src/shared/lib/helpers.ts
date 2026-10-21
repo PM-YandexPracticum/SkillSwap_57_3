@@ -23,7 +23,9 @@ export function generateId(): string {
 
 export function splitSkills(data: Skill[]) {
   const skills: Pick<Skill, 'title' | 'id' | 'subskills'>[] = []
-  const subskills: Subskill[] = []
+  const subskills: (Subskill & {
+    skillId: number
+  })[] = []
 
   for (const skill of data) {
     skills.push({
@@ -36,6 +38,7 @@ export function splitSkills(data: Skill[]) {
       subskills.push({
         id: sub.id,
         title: sub.title,
+        skillId: skill.id,
       })
     }
   }

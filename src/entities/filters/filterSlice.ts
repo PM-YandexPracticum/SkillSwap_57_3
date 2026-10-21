@@ -17,17 +17,30 @@ const filtersSlice = createSlice({
     setSearch: (state, action: PayloadAction<string>) => {
       state.users.search = action.payload
     },
-    toggleSkill: (state, action: PayloadAction<number>) => {
-      const id = action.payload
+    toggleSkill: (state, action: PayloadAction<{ id: number; subskillIds: number[] }>) => {
+      const { id, subskillIds } = action.payload
       const list = state.users.skillIds
-      state.users.skillIds = list.includes(id) ? list.filter((x) => x !== id) : [...list, id]
+      const isSelected = list.includes(id)
 
-      state.users.subskillIds = []
+      if (isSelected) {
+        state.users.skillIds = list.filter((x) => x !== id)
+        state.users.subskillIds = state.users.subskillIds.filter(
+          (subskillId) => !subskillIds.includes(subskillId),
+        )
+      } else {
+        list.push(id)
+      }
     },
     toggleSubskill: (state, action: PayloadAction<number>) => {
       const id = action.payload
       const list = state.users.subskillIds
       state.users.subskillIds = list.includes(id) ? list.filter((x) => x !== id) : [...list, id]
+    },
+    selectParentCategory: (state, action: PayloadAction<number>) => {
+      const id = action.payload
+      if (!state.users.skillIds.includes(id)) {
+        state.users.skillIds.push(id)
+      }
     },
     toggleCity: (state, action: PayloadAction<number>) => {
       const id = action.payload
@@ -56,6 +69,7 @@ export const {
   setSearch,
   toggleSkill,
   toggleSubskill,
+  selectParentCategory,
   toggleCity,
   toggleGender,
   setSortBy,

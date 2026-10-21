@@ -15,7 +15,7 @@ export function useFavorites() {
     if (!data || isStale) {
       dispatch(fetchFavorites(id))
     }
-  }, [dispatch, data, lastFetched])
+  }, [dispatch, data, lastFetched, id])
 
   return { data, loading }
 }

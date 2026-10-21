@@ -1,9 +1,15 @@
-.container {
+.favorites {
+  display: flex;
   background-color: rgb(249 250 247);
   padding: 32px 36px 60px;
+  gap: 25px;
+}
+
+.container {
   display: flex;
   flex-direction: column;
   gap: 32px;
+  max-width: 1020px;
 }
 
 .title {
@@ -27,5 +33,4 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
-  max-width: 1020px;
 }
