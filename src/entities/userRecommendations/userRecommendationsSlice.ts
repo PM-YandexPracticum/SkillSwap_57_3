@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RecommendationItem, RecommendationsSliceState } from './types'
 import { API_URL } from '@/shared/config/api'
 
-const initialState: RecommendationsSliceState = {
+export const initialState: RecommendationsSliceState = {
   data: null,
   loading: false,
   error: null,
