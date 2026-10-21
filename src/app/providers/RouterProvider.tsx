@@ -29,8 +29,7 @@ export function AppRouter() {
   const userId = useAppSelector((state) => state.auth.data?.user.id)
 
   useEffect(() => {
-    dispatch(fetchUsers())
-    // dispatch(fetchUsers(userId))
+    dispatch(fetchUsers(userId))
   }, [dispatch, userId])
 
   useEffect(() => {
