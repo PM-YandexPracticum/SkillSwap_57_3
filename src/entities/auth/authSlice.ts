@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import axios from 'axios'
+import { api } from '@/shared/config/api'
+import { handleAxiosError } from '@/shared/lib/handleAxiosError.ts'
+// AuthUser
 import { AuthUserState, RegisterUserData } from './types.ts'
-import { API_URL } from '@/shared/config/api.ts'
+
 import { AuthUserResponse } from '@/shared/types/apiTypes.ts'
 import { Values } from '@/widgets/ProfileForm/schema.ts'
 
@@ -38,21 +42,15 @@ export const registerUser = createAsyncThunk<
     formData.append('images', registerData.image_3)
     formData.append('images', registerData.image_4)
 
-    const res = await fetch(`${API_URL}/api/users/register`, {
-      method: 'POST',
-      body: formData,
-      credentials: 'include',
+    const res = await api.post<AuthUserResponse>(`/api/users/register`, formData, {
       signal,
     })
-    if (!res.ok) {
-      return rejectWithValue(`HTTP ${res.status}`)
-    }
-    return (await res.json()) as AuthUserResponse
+
+    return res.data
   } catch (e) {
-    if (e instanceof Error && e.name === 'AbortError') {
-      throw e
-    }
-    return rejectWithValue(e instanceof Error ? e.message : 'Неизвестная ошибка')
+    if (axios.isCancel(e)) throw e
+
+    return rejectWithValue(handleAxiosError(e, 'Не удалось зарегестрироваться'))
   }
 })
 
@@ -65,21 +63,16 @@ export const authUser = createAsyncThunk<
     const formData = new FormData()
     formData.append('email', authData.email)
     formData.append('password', authData.password)
-    const res = await fetch(`${API_URL}/api/users/auth`, {
-      method: 'POST',
-      body: formData,
-      credentials: 'include',
+
+    const res = await api.post<AuthUserResponse>(`/api/users/auth`, formData, {
       signal,
     })
-    if (!res.ok) {
-      return rejectWithValue(`HTTP ${res.status}`)
-    }
-    return (await res.json()) as AuthUserResponse
+
+    return res.data
   } catch (e) {
-    if (e instanceof Error && e.name === 'AbortError') {
-      throw e
-    }
-    return rejectWithValue(e instanceof Error ? e.message : 'Неизвестная ошибка')
+    if (axios.isCancel(e)) throw e
+
+    return rejectWithValue(handleAxiosError(e, 'Не удалось войти в аккаунт'))
   }
 })
 
@@ -104,21 +97,15 @@ export const updateUser = createAsyncThunk<
     formData.append('image_path', updateData.image_path ?? '')
     formData.append('user_id', String(updateData.user_id))
 
-    const res = await fetch(`${API_URL}/api/users/update`, {
-      method: 'POST',
-      body: formData,
-      credentials: 'include',
+    const res = await api.post<AuthUserResponse>(`/api/users/update`, formData, {
       signal,
     })
-    if (!res.ok) {
-      return rejectWithValue(`HTTP ${res.status}`)
-    }
-    return (await res.json()) as AuthUserResponse
+
+    return res.data
   } catch (e) {
-    if (e instanceof Error && e.name === 'AbortError') {
-      throw e
-    }
-    return rejectWithValue(e instanceof Error ? e.message : 'Неизвестная ошибка')
+    if (axios.isCancel(e)) throw e
+
+    return rejectWithValue(handleAxiosError(e, 'Не удалось обновить пользователя'))
   }
 })
 
@@ -151,9 +138,9 @@ const authUserSlice = createSlice({
     })
 
     builder.addCase(registerUser.rejected, (state, action) => {
-      if (action.error.name === 'AbortError') return
+      if (action.meta.aborted) return
       state.loading = false
-      state.error = action.error.message ?? 'ошибка: регистрация не удалась'
+      state.error = action.payload ?? action.error.message ?? 'ошибка: регистрация не удалась'
       state.isAuthChecked = true
     })
 
@@ -177,9 +164,9 @@ const authUserSlice = createSlice({
     })
 
     builder.addCase(authUser.rejected, (state, action) => {
-      if (action.error.name === 'AbortError') return
+      if (action.meta.aborted) return
       state.loading = false
-      state.error = action.error.message ?? 'ошибка: авторизация не удалась'
+      state.error = action.payload ?? action.error.message ?? 'ошибка: авторизация не удалась'
       state.isAuthChecked = true
     })
   },

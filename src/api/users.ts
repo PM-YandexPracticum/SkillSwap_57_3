@@ -1,11 +1,9 @@
 import type { User } from '@/shared/types'
-
-const BASE_URL = '/db'
+import { api } from '@/shared/config/api'
 
 export async function fetchUsers(): Promise<User[]> {
-  const response = await fetch(`${BASE_URL}/users.json`)
-  if (!response.ok) throw new Error('Failed to fetch users')
-  return response.json()
+  const response = await api.get<User[]>(`/api/users.json`)
+  return response.data
 }
 
 export async function fetchUserById(id: string): Promise<User | undefined> {

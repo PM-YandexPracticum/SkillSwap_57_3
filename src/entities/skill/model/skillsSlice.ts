@@ -1,7 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { SkillsSliceState } from './types'
-import { API_URL } from '@/shared/config/api'
 import type { Skill } from '@/shared/types/apiTypes'
+import axios from 'axios'
+import { api } from '@/shared/config/api'
+import { handleAxiosError } from '@/shared/lib/handleAxiosError.ts'
 
 const initialState: SkillsSliceState = {
   data: null,
@@ -13,16 +15,12 @@ export const fetchSkills = createAsyncThunk<Skill[], void, { rejectValue: string
   'skill/getSkills',
   async (_, { signal, rejectWithValue }) => {
     try {
-      const res = await fetch(`${API_URL}/api/skills`, { signal })
-      if (!res.ok) {
-        return rejectWithValue(`HTTP ${res.status}`)
-      }
-      return await res.json()
+      const res = await api.get<Skill[]>(`/api/skills`, { signal })
+      return res.data
     } catch (e) {
-      if (e instanceof Error && e.name === 'AbortError') {
-        throw e
-      }
-      return rejectWithValue(e instanceof Error ? e.message : 'Неизвестная ошибка')
+      if (axios.isCancel(e)) throw e
+
+      return rejectWithValue(handleAxiosError(e, 'Не удалось загрузить скиллы'))
     }
   },
 )
@@ -43,9 +41,9 @@ const skillsSlice = createSlice({
     })
 
     builder.addCase(fetchSkills.rejected, (state, action) => {
-      if (action.error.name === 'AbortError') return
+      if (action.meta.aborted) return
       state.loading = false
-      state.error = action.error.message ?? 'ошибка: категории навыков не загрузились'
+      state.error = action.payload ?? action.error.message ?? 'ошибка: категории навыков не загрузились'
     })
   },
 })

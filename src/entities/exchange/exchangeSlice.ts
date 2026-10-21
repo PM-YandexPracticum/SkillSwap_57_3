@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { API_URL } from '@/shared/config/api.ts'
+import { api } from '@/shared/config/api.ts'
+import { City } from '@/shared/types/apiTypes'
+import { CitySliceState } from './types'
+import axios from 'axios'
+import { handleAxiosError } from '@/shared/lib/handleAxiosError'
 
 const initialState: CitySliceState = {
   data: [],
@@ -11,16 +15,13 @@ export const fetchCities = createAsyncThunk<City[], void, { rejectValue: string 
   'city/getCities',
   async (_, { signal, rejectWithValue }) => {
     try {
-      const res = await fetch(`${API_URL}/api/cities`, { signal })
-      if (!res.ok) {
-        return rejectWithValue(`HTTP ${res.status}`)
-      }
-      return await res.json()
+      const res = await api.get(`/api/cities`, { signal })
+
+      return res.data
     } catch (e) {
-      if (e instanceof Error && e.name === 'AbortError') {
-        throw e
-      }
-      return rejectWithValue(e instanceof Error ? e.message : 'Неизвестная ошибка')
+      if (axios.isCancel(e)) throw e
+
+      return rejectWithValue(handleAxiosError(e, 'Не удалось загрузить города'))
     }
   },
 )
@@ -41,9 +42,9 @@ const citySlice = createSlice({
     })
 
     builder.addCase(fetchCities.rejected, (state, action) => {
-      if (action.error.name === 'AbortError') return
+      if (action.meta.aborted) return
       state.loading = false
-      state.error = action.error.message ?? 'ошибка: города не загрузились'
+      state.error = action.payload ?? action.error.message ?? 'ошибка: города не загрузились'
     })
   },
 })
