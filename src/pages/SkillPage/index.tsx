@@ -23,6 +23,7 @@ export default function SkillPage() {
   const navigate = useNavigate()
   const location = useLocation()
   const isAuth = useAppSelector((state) => state.auth.isAuth)
+
   useEffect(() => {
     if (!id) return
     dispatch(fetchUser(id))
@@ -36,6 +37,21 @@ export default function SkillPage() {
   }, [dispatch, currentUser])
 
   if (!currentUser) return
+
+  const handleShare = async () => {
+    const shareUrl = window.location.href
+
+    try {
+      await navigator.clipboard.writeText(shareUrl)
+    } catch {
+      const textarea = document.createElement('textarea')
+      textarea.value = shareUrl
+      document.body.appendChild(textarea)
+      textarea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textarea)
+    }
+  }
 
   const handleExchange = async () => {
     if (!isAuth) {
@@ -71,7 +87,7 @@ export default function SkillPage() {
           onExchange={handleExchange}
           onLearnMore={() => {}}
           onLike={() => {}}
-          onShare={() => {}}
+          onShare={handleShare}
           status="available"
         />
       </section>
