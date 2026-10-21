@@ -18,9 +18,9 @@ const makeState = (overrides:Partial<UserFilters> = {}) => ({
   users: {...initialUserFilters, ...overrides},
 })
 
-describe('FiltersSloce', () => {
+describe('FiltersSlice', () => {
   it('возвращает начальное состояние', () => {
-    expect(reducer(undefined, {type: 'unknown'})).toEqual({
+    expect(reducer(undefined, { type: 'unknown'})).toEqual({
       users: initialUserFilters,
     })
   })
