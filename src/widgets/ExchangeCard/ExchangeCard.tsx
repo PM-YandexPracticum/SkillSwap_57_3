@@ -26,6 +26,7 @@ export const ExchangeCard = ({
 }: ExchangeCardProps) => {
   const [isLiked, setIsLiked] = useState(initialLiked)
 
+  console.log(status)
   const handleLike = () => {
     setIsLiked((prev) => !prev)
     onLike()
@@ -50,7 +51,7 @@ export const ExchangeCard = ({
           <span className={styles.category}>{category}</span>
           <p className={styles.description}>{description}</p>
           <div className={styles.button}>
-            {status === 'pending' ? (
+            {status === 'PENDING' ? (
               <ButtonsWithIcon
                 text="Обмен предложен"
                 iconSrc={clock}
@@ -67,12 +68,12 @@ export const ExchangeCard = ({
                 text={
                   status === 'available'
                     ? 'Предложить обмен'
-                    : status === 'accepted'
+                    : status === 'ACCEPTED'
                       ? 'Обмен принят'
                       : 'Обмен отклонен'
                 }
                 onClick={status === 'available' ? onExchange : () => {}}
-                variant={status === 'rejected' ? 'whiteButton' : 'greenButton'}
+                variant={status === 'REJECTED' ? 'whiteButton' : 'greenButton'}
                 size="full-width"
               />
             )}

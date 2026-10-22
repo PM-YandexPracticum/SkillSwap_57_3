@@ -9,6 +9,7 @@ import recommendationReducer from '@/entities/userRecommendations/userRecommenda
 import authReducer from '@/entities/auth/authSlice'
 import favoriteReducer from '@/entities/favorites/favoriteSlice'
 import filterReducer from '@/entities/filters/filterSlice'
+import exchangeReducer from '@/entities/exchange/exchangeSlice'
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +21,8 @@ export const store = configureStore({
     user: userReducer,
     auth: authReducer,
     favorite: favoriteReducer,
+    filter: filterReducer,
+    exchange: exchangeReducer,
     filters: filterReducer,
   },
 })

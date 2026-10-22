@@ -1,9 +1,9 @@
 import { UserCard } from '@widgets/UserCard'
 import styles from './SkillPage.module.css'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { fetchUser } from '@/entities/user/model/userSlice'
+import { fetchUser, fetchUsers } from '@/entities/user/model/userSlice'
 import {
   mapCanTeachToCardSkills,
   mapWantsToLearnToCardSkills,
@@ -14,6 +14,7 @@ import { fetchRecommendations } from '@/entities/userRecommendations/userRecomme
 import { API_URL } from '@/shared/config/api'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { SkillCardCarousel } from '@widgets/SkillCardCarousel/index'
+import { fetchExchanges, sendExchange } from '@/entities/exchange/exchangeSlice'
 
 export default function SkillPage() {
   const { id } = useParams<{ id: string }>()
@@ -23,11 +24,24 @@ export default function SkillPage() {
   const navigate = useNavigate()
   const location = useLocation()
   const isAuth = useAppSelector((state) => state.auth.isAuth)
+  const authedUser = useAppSelector((state) => state.auth.data?.user)
+  const exchanges = useAppSelector((state) => state.exchange.data)
+  console.log(exchanges)
 
   useEffect(() => {
     if (!id) return
     dispatch(fetchUser(id))
   }, [dispatch, id])
+
+  const exchangeStatus = useMemo(() => {
+    if (!exchanges || !authedUser || !currentUser) return null
+
+    const exchange = exchanges?.initiator_exchanges?.find(
+      (ex) => ex.initiator.id === authedUser.id && ex.receiver.id === currentUser.id,
+    )
+
+    return exchange?.status ?? null
+  }, [exchanges, authedUser, currentUser])
 
   useEffect(() => {
     if (!currentUser) return
@@ -60,6 +74,15 @@ export default function SkillPage() {
       })
       return
     }
+    if (authedUser) {
+      await dispatch(
+        sendExchange({
+          initiator_id: authedUser.id,
+          receiver_id: currentUser.id,
+        }),
+      )
+      await dispatch(fetchExchanges(authedUser.id))
+    }
   }
   return (
     <main className={styles.page}>
@@ -87,6 +110,8 @@ export default function SkillPage() {
           onExchange={handleExchange}
           onLearnMore={() => {}}
           onLike={() => {}}
+          onShare={() => {}}
+          status={exchangeStatus ? exchangeStatus : 'available'}
           onShare={handleShare}
           status="available"
         />

@@ -1,3 +1,5 @@
+import { ExchangeItem } from '@/entities/exchange/types'
+
 export type Skill = {
   id: number
   title: string
@@ -111,4 +113,16 @@ export type SingleUser = {
   city: City
   canTeach: CanTeachItem[]
   wantsToLearn: WantsToLearnItem[]
+}
+
+export type ExchangeRequest = {
+  initiator_id: number
+  receiver_id: number
+}
+
+export type fetchExchangesResponse = {
+  data: {
+    initiator_exchanges: ExchangeItem[]
+    receiver_exchanges: ExchangeItem[]
+  } | null
 }

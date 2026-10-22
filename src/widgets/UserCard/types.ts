@@ -24,4 +24,5 @@ export type UserCardProps = {
   onDislike?: (id: number) => void
   onDetails?: () => void
   id: number
+  exchange?: boolean
 }

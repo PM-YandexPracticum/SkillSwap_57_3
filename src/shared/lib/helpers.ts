@@ -1,5 +1,6 @@
 import { UserCardSkill } from '@/widgets/UserCard/types'
 import { CanTeachItem, Skill, Subskill, WantsToLearnItem } from '../types/apiTypes'
+import { STORAGE_KEY } from './constants'
 
 /** Форматирует дату в читаемый вид */
 export function formatDate(dateString: string): string {
@@ -72,4 +73,67 @@ export function mapWantsToLearnToCardSkills(items: WantsToLearnItem[]): UserCard
     title: item.subskill.title,
     color: item.subskill.skill.color as UserCardSkill['color'],
   }))
+}
+
+export function formatRelativeDate(dateInput: string | Date): string {
+  const date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput
+
+  if (Number.isNaN(date.getTime())) {
+    return '—'
+  }
+
+  const now = new Date()
+
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  const target = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+
+  const diffDays = Math.floor((today.getTime() - target.getTime()) / (1000 * 60 * 60 * 24))
+
+  if (diffDays === 0) return 'сегодня'
+  if (diffDays === 1) return 'вчера'
+
+  if (date.getFullYear() === now.getFullYear()) {
+    return date.toLocaleDateString('ru-RU', {
+      day: 'numeric',
+      month: 'long',
+    })
+  }
+
+  // другой год — "20.10.2023"
+  return date.toLocaleDateString('ru-RU', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  })
+}
+
+export function getReadIds(): Set<number> {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (!raw) return new Set()
+    const ids = JSON.parse(raw) as number[]
+    return new Set(ids)
+  } catch {
+    return new Set()
+  }
+}
+
+export function saveReadIds(ids: Iterable<number>) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([...ids]))
+  } catch {
+    console.log('Что-то пошло не так((')
+  }
+}
+
+export function markAsRead(id: number) {
+  const ids = getReadIds()
+  ids.add(id)
+  saveReadIds(ids)
+}
+
+export function markAllAsRead(ids: number[]) {
+  const current = getReadIds()
+  ids.forEach((id) => current.add(id))
+  saveReadIds(current)
 }

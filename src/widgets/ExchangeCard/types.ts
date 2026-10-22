@@ -1,4 +1,4 @@
-export type ExchangeStatus = 'available' | 'pending' | 'accepted' | 'rejected'
+export type ExchangeStatus = 'available' | 'PENDING' | 'ACCEPTED' | 'REJECTED'
 
 export type ExchangeCardProps = {
   title: string
