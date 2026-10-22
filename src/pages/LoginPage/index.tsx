@@ -23,8 +23,6 @@ export default function LoginPage() {
     setAuthData((prev) => ({ ...(prev ?? {}), ...data }) as RegisterData)
     const res = await dispatch(authUser(data)).unwrap()
 
-    console.log(res)
-
     localStorage.setItem('accessToken', res.accessToken)
 
     navigate(location.state?.from || '/')

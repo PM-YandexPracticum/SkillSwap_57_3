@@ -21,22 +21,18 @@ import chevronDown from '@assets/icon/ChevronDown.svg'
 
 export function Filters() {
   const dispatch = useAppDispatch()
-  // текущие фильтры
   const filters = useAppSelector((state) => state.filters.users)
-  // категории фильтров
   const cities = useAppSelector((state) => state.city.data)
   const genders = useAppSelector((state) => state.gender.data)
-  const skillsFromSelector = useAppSelector((state) => state.skill.data)
+  const skillsFromSelector = useAppSelector((state) => state.skill.data ?? [])
   const { skills, subskills } = splitSkills(skillsFromSelector as Skill[])
 
-  // состояния для кнопок отображения всех категорий
   const [showAllSkills, setShowAllSkills] = useState(false)
   const [showAllCities, setShowAllCities] = useState(false)
 
   const visibleSkills = showAllSkills ? skills : skills.slice(0, 5)
   const visibleCities = showAllCities ? cities : cities.slice(0, 5)
 
-  // навыки, которые сейчас в меню раскрыты полностью
   const [openedSkills, setOpenedSkills] = useState<number[]>([])
 
   const toggleOpenedSkill = (id: number) => {
@@ -44,7 +40,7 @@ export function Filters() {
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
     )
   }
-  // количество выбранных фильтров
+
   const selectedCount =
     filters.skillIds.length +
     filters.subskillIds.length +
@@ -52,7 +48,6 @@ export function Filters() {
     filters.genderIds.length +
     (filters.mode !== 'all' ? 1 : 0)
 
-  // варианты режима фильтрации
   const modeOptions = [
     { value: 'all', label: 'Всё' },
     { value: 'wantsToLearn', label: 'Хочу научиться' },

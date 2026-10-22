@@ -1,7 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-// Импортируй свои slice'ы здесь по мере их создания:
 import skillsReducer from '@/entities/skill/model/skillsSlice'
-// import authReducer from '@/features/auth/model/authSlice'
 import userReducer from '@/entities/user/model/userSlice'
 import cityReducer from '@/entities/city/citySlice'
 import genderReducer from '@/entities/genders/genderSlice'
@@ -17,11 +15,9 @@ export const store = configureStore({
     city: cityReducer,
     gender: genderReducer,
     recommendations: recommendationReducer,
-    // auth: authReducer,
     user: userReducer,
     auth: authReducer,
     favorite: favoriteReducer,
-    filter: filterReducer,
     exchange: exchangeReducer,
     filters: filterReducer,
   },

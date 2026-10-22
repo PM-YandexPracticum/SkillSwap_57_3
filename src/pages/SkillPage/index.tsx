@@ -3,7 +3,7 @@ import styles from './SkillPage.module.css'
 import { useEffect, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { fetchUser, fetchUsers } from '@/entities/user/model/userSlice'
+import { fetchUser } from '@/entities/user/model/userSlice'
 import {
   mapCanTeachToCardSkills,
   mapWantsToLearnToCardSkills,
@@ -26,7 +26,6 @@ export default function SkillPage() {
   const isAuth = useAppSelector((state) => state.auth.isAuth)
   const authedUser = useAppSelector((state) => state.auth.data?.user)
   const exchanges = useAppSelector((state) => state.exchange.data)
-  console.log(exchanges)
 
   useEffect(() => {
     if (!id) return
@@ -110,10 +109,8 @@ export default function SkillPage() {
           onExchange={handleExchange}
           onLearnMore={() => {}}
           onLike={() => {}}
-          onShare={() => {}}
           status={exchangeStatus ? exchangeStatus : 'available'}
           onShare={handleShare}
-          status="available"
         />
       </section>
 

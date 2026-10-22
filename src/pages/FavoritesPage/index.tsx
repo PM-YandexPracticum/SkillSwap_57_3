@@ -16,6 +16,7 @@ export default function FavoritesPage() {
   const authUser = useAppSelector((state) => state.auth.data)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const exchanges = useAppSelector((state) => state.exchange.data)
 
   // получаем активные фильтры
   const filters = useAppSelector((state) => state.filters.users)
@@ -75,23 +76,26 @@ export default function FavoritesPage() {
           <div className={styles.user_cards}>
             {visibleUsers.map((user) => (
               <UserCard
+                exchange={Boolean(
+                  exchanges?.initiator_exchanges?.find((ex) => ex.receiver.id === user.id),
+                )}
                 key={user.id}
+                id={user.id}
                 variant="catalog"
                 avatarUrl={`${API_URL}/images/users/${user.image_path}`}
                 name={user.name}
                 location={`${user.city.title}, ${pluralizeYears(user.age)}`}
                 canTeach={user.canTeach.map((val) => ({
-                  color: val.subskill.skill.color,
                   title: val.title,
+                  color: val.subskill.skill.color,
                 }))}
                 wantsToLearn={user.wantsToLearn.map((val) => ({
-                  color: val.subskill.skill.color,
                   title: val.subskill.title,
+                  color: val.subskill.skill.color,
                 }))}
                 isLiked={true}
-                onLike={handleLike}
                 onDislike={handleDislike}
-                id={user.id}
+                onLike={handleLike}
                 onDetails={() => handleDetails(user.id)}
               />
             ))}

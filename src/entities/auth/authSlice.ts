@@ -164,7 +164,6 @@ const authUserSlice = createSlice({
 
     builder.addCase(authUser.fulfilled, (state, action) => {
       state.loading = false
-      console.log(action.payload)
       state.data = action.payload
       state.isAuth = true
       state.isAuthChecked = true

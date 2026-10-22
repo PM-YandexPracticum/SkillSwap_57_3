@@ -69,7 +69,6 @@ const exchangeSlice = createSlice({
     })
 
     builder.addCase(sendExchange.fulfilled, (state, action) => {
-      console.log(action.payload)
       state.loading = false
       state.data = action.payload.data
     })

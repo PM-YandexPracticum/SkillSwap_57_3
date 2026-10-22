@@ -9,8 +9,6 @@ export default function ProfilePage() {
   const dispatch = useAppDispatch()
   const authUserData = useAppSelector((state) => state.auth.data?.user)
 
-  console.log(authUserData)
-
   const initialValues = {
     email: authUserData?.email,
     name: authUserData?.name,

@@ -120,137 +120,6 @@ export default function CatalogPage() {
       <Filters />
 
       <div className={styles.categories}>
-        <section className={styles.spotlight}>
-          <div className={styles.section_header}>
-            <h2>Популярное</h2>
-
-            <ButtonsWithIcon
-              gap="gapSmall"
-              iconSrc="./src/assets/ButtonSvg/chevron-right.svg"
-              onClick={() => setPopularOpen(!popularOpen)}
-              text={popularOpen ? 'Свернуть' : 'Смотреть все'}
-              size="small"
-              position="right"
-              rotate={popularOpen}
-            />
-          </div>
-
-          <div className={styles.user_cards}>
-            {isLoading
-              ? Array.from({ length: 3 }, (_, index) => <UserCardSkeleton key={index} />)
-              : (popularOpen ? userSelector.topByLikes : userSelector.topByLikes.slice(0, 3)).map(
-                  (user) => (
-                    <UserCard
-                      exchange={Boolean(
-                        exchanges?.initiator_exchanges?.find((ex) => ex.receiver.id === user.id),
-                      )}
-                      key={user.id}
-                      id={user.id}
-                      variant="catalog"
-                      avatarUrl={`${API_URL}/images/users/${user.image_path}`}
-                      name={user.name}
-                      location={`${user.city.title}, ${pluralizeYears(user.age)}`}
-                      canTeach={user.canTeach.map((val) => ({
-                        title: val.title,
-                        color: val.subskill.skill.color,
-                      }))}
-                      wantsToLearn={user.wantsToLearn.map((val) => ({
-                        title: val.subskill.title,
-                        color: val.subskill.skill.color,
-                      }))}
-                      isLiked={user.isLiked}
-                      onDislike={handleDislike}
-                      onLike={handleLike}
-                      onDetails={() => handleDetails(user.id)}
-                    />
-                  ),
-                )}
-          </div>
-        </section>
-
-        <section className={styles.spotlight}>
-          <div className={styles.section_header}>
-            <h2>Новое</h2>
-
-            <ButtonsWithIcon
-              gap="gapSmall"
-              iconSrc="./src/assets/ButtonSvg/chevron-right.svg"
-              onClick={() => setNewOpen(!newOpen)}
-              text={newOpen ? 'Свернуть' : 'Смотреть все'}
-              size="small"
-              position="right"
-              rotate={newOpen}
-            />
-          </div>
-
-          <div className={styles.user_cards}>
-            {isLoading
-              ? Array.from({ length: 3 }, (_, index) => <UserCardSkeleton key={index} />)
-              : (newOpen ? userSelector.newest : userSelector.newest.slice(0, 3)).map((user) => (
-                  <UserCard
-                    exchange={Boolean(
-                      exchanges?.initiator_exchanges?.find((ex) => ex.receiver.id === user.id),
-                    )}
-                    key={user.id}
-                    id={user.id}
-                    variant="catalog"
-                    avatarUrl={`${API_URL}/images/users/${user.image_path}`}
-                    name={user.name}
-                    location={`${user.city.title}, ${pluralizeYears(user.age)}`}
-                    canTeach={user.canTeach.map((val) => ({
-                      title: val.title,
-                      color: val.subskill.skill.color,
-                    }))}
-                    wantsToLearn={user.wantsToLearn.map((val) => ({
-                      title: val.subskill.title,
-                      color: val.subskill.skill.color,
-                    }))}
-                    isLiked={user.isLiked}
-                    onDislike={handleDislike}
-                    onLike={handleLike}
-                    onDetails={() => handleDetails(user.id)}
-                  />
-                ))}
-          </div>
-        </section>
-
-        <section className={styles.spotlight}>
-          <div className={styles.section_header}>
-            <h2>Рекомендуем</h2>
-          </div>
-
-          <div className={styles.user_cards}>
-            {isLoading
-              ? Array.from({ length: 3 }, (_, index) => <UserCardSkeleton key={index} />)
-              : userSelector.byName.slice(0, cardVisibleCount).map((user) => (
-                  <UserCard
-                    exchange={Boolean(
-                      exchanges?.initiator_exchanges?.find((ex) => ex.receiver.id === user.id),
-                    )}
-                    key={user.id}
-                    id={user.id}
-                    variant="catalog"
-                    avatarUrl={`${API_URL}/images/users/${user.image_path}`}
-                    name={user.name}
-                    location={`${user.city.title}, ${pluralizeYears(user.age)}`}
-                    canTeach={user.canTeach.map((val) => ({
-                      title: val.title,
-                      color: val.subskill.skill.color,
-                    }))}
-                    wantsToLearn={user.wantsToLearn.map((val) => ({
-                      title: val.subskill.title,
-                      color: val.subskill.skill.color,
-                    }))}
-                    isLiked={user.isLiked}
-                    onDislike={handleDislike}
-                    onLike={handleLike}
-                    onDetails={() => handleDetails(user.id)}
-                  />
-                ))}
-          </div>
-
-          <div ref={observerTarget}></div>
-        </section>
         {hasActiveFilters ? (
           <section className={styles.spotlight}>
             <SelectedFilters />
@@ -283,15 +152,18 @@ export default function CatalogPage() {
             <div className={styles.user_cards}>
               {filteredData.slice(0, cardVisibleCount).map((user) => (
                 <UserCard
-                  id={user.id}
+                  exchange={Boolean(
+                    exchanges?.initiator_exchanges?.find((ex) => ex.receiver.id === user.id),
+                  )}
                   key={user.id}
+                  id={user.id}
                   variant="catalog"
                   avatarUrl={`${API_URL}/images/users/${user.image_path}`}
                   name={user.name}
                   location={`${user.city.title}, ${pluralizeYears(user.age)}`}
                   canTeach={user.canTeach.map((val) => ({
-                    color: val.subskill.skill.color,
                     title: val.title,
+                    color: val.subskill.skill.color,
                   }))}
                   wantsToLearn={user.wantsToLearn.map((val) => ({
                     title: val.subskill.title,
@@ -332,6 +204,9 @@ export default function CatalogPage() {
                       : userSelector.topByLikes.slice(0, 3)
                     ).map((user) => (
                       <UserCard
+                        exchange={Boolean(
+                          exchanges?.initiator_exchanges?.find((ex) => ex.receiver.id === user.id),
+                        )}
                         key={user.id}
                         id={user.id}
                         variant="catalog"
@@ -376,8 +251,13 @@ export default function CatalogPage() {
                   : (newOpen ? userSelector.newest : userSelector.newest.slice(0, 3)).map(
                       (user) => (
                         <UserCard
-                          id={user.id}
+                          exchange={Boolean(
+                            exchanges?.initiator_exchanges?.find(
+                              (ex) => ex.receiver.id === user.id,
+                            ),
+                          )}
                           key={user.id}
+                          id={user.id}
                           variant="catalog"
                           avatarUrl={`${API_URL}/images/users/${user.image_path}`}
                           name={user.name}
