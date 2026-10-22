@@ -26,6 +26,7 @@ export const ExchangeCard = ({
 }: ExchangeCardProps) => {
   const [isLiked, setIsLiked] = useState(initialLiked)
 
+  console.log(status)
   const handleLike = () => {
     setIsLiked((prev) => !prev)
     onLike()

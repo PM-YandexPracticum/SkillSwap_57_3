@@ -14,7 +14,7 @@ import { fetchRecommendations } from '@/entities/userRecommendations/userRecomme
 import { API_URL } from '@/shared/config/api'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { SkillCardCarousel } from '@widgets/SkillCardCarousel/index'
-import { sendExchange } from '@/entities/exchange/exchangeSlice'
+import { fetchExchanges, sendExchange } from '@/entities/exchange/exchangeSlice'
 
 export default function SkillPage() {
   const { id } = useParams<{ id: string }>()
@@ -26,6 +26,7 @@ export default function SkillPage() {
   const isAuth = useAppSelector((state) => state.auth.isAuth)
   const authedUser = useAppSelector((state) => state.auth.data?.user)
   const exchanges = useAppSelector((state) => state.exchange.data)
+  console.log(exchanges)
 
   useEffect(() => {
     if (!id) return
@@ -35,7 +36,7 @@ export default function SkillPage() {
   const exchangeStatus = useMemo(() => {
     if (!exchanges || !authedUser || !currentUser) return null
 
-    const exchange = exchanges.find(
+    const exchange = exchanges?.initiator_exchanges?.find(
       (ex) => ex.initiator.id === authedUser.id && ex.receiver.id === currentUser.id,
     )
 
@@ -65,6 +66,7 @@ export default function SkillPage() {
           receiver_id: currentUser.id,
         }),
       )
+      await dispatch(fetchExchanges(authedUser.id))
     }
   }
   return (

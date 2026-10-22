@@ -4,6 +4,20 @@
   border-radius: 12px;
   background-color: #fff;
   box-shadow: 0 4px 16px rgb(37 48 23 / 12%);
+  position: absolute;
+  left: -100%;
+  top: 100%;
+}
+
+.header_block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.button {
+  color: rgb(80 136 38);
 }
 
 .list {

@@ -1,7 +1,7 @@
 export type ExchangeItem = {
-  initiator_id: number
-  receiver_id: number
+  id: number
   status: 'PENDING' | 'ACCEPTED' | 'REJECTED'
+  createdAt: Date
   initiator: {
     id: number
     name: string
@@ -13,7 +13,10 @@ export type ExchangeItem = {
 }
 
 export type ExchangeSliceState = {
-  data: ExchangeItem[] | []
+  data: {
+    initiator_exchanges: ExchangeItem[]
+    receiver_exchanges: ExchangeItem[]
+  } | null
   loading: boolean
   error: string | null
 }

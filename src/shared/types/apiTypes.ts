@@ -86,7 +86,6 @@ export type AuthUserResponse = {
     likes_count: number
     name: string
   }
-  exchanges: ExchangeItem[]
 }
 
 export type RecommendationItem = {
@@ -121,6 +120,9 @@ export type ExchangeRequest = {
   receiver_id: number
 }
 
-export type ExchangeResponse = {
-  data: ExchangeItem[]
+export type fetchExchangesResponse = {
+  data: {
+    initiator_exchanges: ExchangeItem[]
+    receiver_exchanges: ExchangeItem[]
+  } | null
 }

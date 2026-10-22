@@ -27,3 +27,5 @@ export const LOCAL_STORAGE_KEYS = {
   REQUESTS: 'skillswap_requests',
   THEME: 'skillswap_theme',
 } as const
+
+export const STORAGE_KEY = 'read_notifications'

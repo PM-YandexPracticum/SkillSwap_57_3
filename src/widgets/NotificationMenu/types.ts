@@ -1,5 +1,5 @@
-import type { NotificationItemProps } from '@ui/NotificationItem/types'
+import { ExchangeItem } from '@/entities/exchange/types'
 
 export type NotificationMenuProps = {
-  notifications: (NotificationItemProps & { id: string })[]
+  notifications: ExchangeItem[]
 }

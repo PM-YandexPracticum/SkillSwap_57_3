@@ -31,10 +31,8 @@ export default function CatalogPage() {
   const [popularOpen, setPopularOpen] = useState(false)
   const [newOpen, setNewOpen] = useState(false)
 
-  // const [filteredData, setFilteredData] = useState<User | null>(null)
-
   const authUser = useAppSelector((state) => state.auth.data)
-  console.log(authUser)
+  const exchanges = useAppSelector((state) => state.exchange.data)
 
   const loadMoreCards = useCallback(
     (entries: IntersectionObserverEntry[]) => {
@@ -119,7 +117,7 @@ export default function CatalogPage() {
                   (user) => (
                     <UserCard
                       exchange={Boolean(
-                        authUser?.exchanges?.find((ex) => ex.receiver.id === user.id),
+                        exchanges?.initiator_exchanges?.find((ex) => ex.receiver.id === user.id),
                       )}
                       key={user.id}
                       id={user.id}
@@ -166,7 +164,7 @@ export default function CatalogPage() {
               : (newOpen ? userSelector.newest : userSelector.newest.slice(0, 3)).map((user) => (
                   <UserCard
                     exchange={Boolean(
-                      authUser?.exchanges?.find((ex) => ex.receiver.id === user.id),
+                      exchanges?.initiator_exchanges?.find((ex) => ex.receiver.id === user.id),
                     )}
                     key={user.id}
                     id={user.id}
@@ -202,7 +200,7 @@ export default function CatalogPage() {
               : userSelector.byName.slice(0, cardVisibleCount).map((user) => (
                   <UserCard
                     exchange={Boolean(
-                      authUser?.exchanges?.find((ex) => ex.receiver.id === user.id),
+                      exchanges?.initiator_exchanges?.find((ex) => ex.receiver.id === user.id),
                     )}
                     key={user.id}
                     id={user.id}

@@ -8,6 +8,7 @@ import { fetchCities } from '@/entities/city/citySlice'
 import { fetchGenders } from '@/entities/genders/genderSlice'
 import { fetchUsers } from '@/entities/user/model/userSlice'
 import { PrivateRoute } from '@/app/routes'
+import { fetchExchanges } from '@/entities/exchange/exchangeSlice'
 
 // Lazy-загрузка страниц — каждая страница грузится только при переходе на неё
 const CatalogPage = lazy(() => import('@/pages/CatalogPage'))
@@ -27,12 +28,12 @@ export function AppRouter() {
   const dispatch = useAppDispatch()
 
   const userId = useAppSelector((state) => state.auth.data?.user.id)
-  const user = useAppSelector((state) => state.auth.data?.user)
-
-  console.log(user)
 
   useEffect(() => {
     dispatch(fetchUsers(userId))
+    if (userId) {
+      dispatch(fetchExchanges(userId))
+    }
   }, [dispatch, userId])
 
   useEffect(() => {
