@@ -52,6 +52,21 @@ export default function SkillPage() {
 
   if (!currentUser) return
 
+  const handleShare = async () => {
+    const shareUrl = window.location.href
+
+    try {
+      await navigator.clipboard.writeText(shareUrl)
+    } catch {
+      const textarea = document.createElement('textarea')
+      textarea.value = shareUrl
+      document.body.appendChild(textarea)
+      textarea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textarea)
+    }
+  }
+
   const handleExchange = async () => {
     if (!isAuth) {
       navigate('/register', {
@@ -97,6 +112,8 @@ export default function SkillPage() {
           onLike={() => {}}
           onShare={() => {}}
           status={exchangeStatus ? exchangeStatus : 'available'}
+          onShare={handleShare}
+          status="available"
         />
       </section>
 

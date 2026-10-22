@@ -23,6 +23,7 @@ export const store = configureStore({
     favorite: favoriteReducer,
     filter: filterReducer,
     exchange: exchangeReducer,
+    filters: filterReducer,
   },
 })
 

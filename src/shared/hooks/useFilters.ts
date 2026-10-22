@@ -35,14 +35,32 @@ function getUserSkills(
 }
 
 export function useFilter(users: User[]): User[] {
-  const filters = useAppSelector((state) => state.filter.users)
+  const filters = useAppSelector((state) => state.filters.users)
+
+  const allSkills = useAppSelector((state) => state.skill.data)
 
   return useMemo(() => {
     let result = [...users]
 
     const search = filters.search.trim().toLowerCase()
     if (search) {
-      result = result.filter((u) => u.name.toLowerCase().includes(search))
+      result = result.filter((u) => {
+        const searchableParts = [u.name]
+
+        if (filters.mode === 'all' || filters.mode === 'canTeach') {
+          u.canTeach.forEach((item) => {
+            searchableParts.push(item.title, item.subskill.skill.title, item.subskill.title)
+          })
+        }
+
+        if (filters.mode === 'all' || filters.mode === 'wantsToLearn') {
+          u.wantsToLearn.forEach((item) => {
+            searchableParts.push(item.subskill.skill.title, item.subskill.title)
+          })
+        }
+
+        return searchableParts.some((value) => value.toLowerCase().includes(search))
+      })
     }
 
     if (filters.cityIds.length > 0) {
@@ -57,21 +75,23 @@ export function useFilter(users: User[]): User[] {
       result = result.filter((u) => {
         const skills = getUserSkills(u, filters.mode)
 
-        if (
-          filters.skillIds.length > 0 &&
-          !skills.some((s) => filters.skillIds.includes(s.skillId))
-        ) {
-          return false
-        }
+        const skillsWithSelectedSubskills = new Set(
+          allSkills
+            ?.filter((skill) =>
+              // проверям, что навык содержит хотя бы один поднавык выбранный в фильтрах
+              skill.subskills.some((subskill) => filters.subskillIds.includes(subskill.id)),
+            )
+            .map((skill) => skill.id),
+        )
 
-        if (
-          filters.subskillIds.length > 0 &&
-          !skills.some((s) => filters.subskillIds.includes(s.subskillId))
-        ) {
-          return false
-        }
+        const matchesSkills = filters.skillIds.some(
+          (skillId) =>
+            !skillsWithSelectedSubskills.has(skillId) && skills.some((s) => s.skillId === skillId),
+        )
 
-        return true
+        const matchesSubskill = skills.some((s) => filters.subskillIds.includes(s.subskillId))
+
+        return matchesSkills || matchesSubskill
       })
     }
 
@@ -93,5 +113,5 @@ export function useFilter(users: User[]): User[] {
     })
 
     return result
-  }, [users, filters])
+  }, [users, filters, allSkills])
 }

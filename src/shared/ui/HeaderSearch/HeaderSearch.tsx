@@ -1,25 +1,31 @@
-import { useState, useEffect } from 'react';
-import  searchIcon from '@assets/icon/Search.svg';
+import { useState, useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import searchIcon from '@assets/icon/Search.svg'
 import styles from './HeaderSearch.module.css'
 import { useDebounce } from '@hooks/useDebounce'
-
+import { setSearch } from '@/entities/filters/filterSlice'
 
 export const HeaderSearch = () => {
-  const [query, setQuery] = useState('');
+  const dispatch = useAppDispatch()
+  const search = useAppSelector((state) => state.filters.users.search)
 
-  const debouncedQuery = useDebounce(query, 600);
+  const [query, setQuery] = useState('')
+
+  const debouncedQuery = useDebounce(query, 600)
 
   useEffect(() => {
-    if (debouncedQuery.trim() === '') return;
-  }, [debouncedQuery])
+    dispatch(setSearch(debouncedQuery.trim()))
+  }, [debouncedQuery, dispatch])
+
+  useEffect(() => {
+    if (search === '') {
+      setQuery('')
+    }
+  }, [search])
 
   return (
     <label className={styles.search}>
-      <img
-      src={searchIcon}
-      alt="Searc logo"
-      className={styles.icon}
-      />
+      <img src={searchIcon} alt="Searc logo" className={styles.icon} />
       <input
         type="text"
         value={query}
@@ -28,5 +34,5 @@ export const HeaderSearch = () => {
         className={styles.input}
       />
     </label>
-  );
-};
+  )
+}
